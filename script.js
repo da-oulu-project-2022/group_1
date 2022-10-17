@@ -91,3 +91,35 @@ function currentTime() {
   }
   
   currentTime();
+
+
+// load current chart package
+google.charts.load("current", {
+    packages: ["corechart", "line"]
+    });
+// set callback function when api loaded
+google.charts.setOnLoadCallback(drawChart);
+
+
+function drawChart() {
+    // create data object with default value
+    var data = google.visualization.arrayToDataTable([
+    ['Time', 'CPU Usage', 'RAM'],
+    [0, 0, 0],
+    ]);
+    // create options object with titles, colors, etc.
+    var options = {
+    title: "CPU Usage",
+    hAxis: {
+        textPosition: 'none',
+    },
+    vAxis: {
+        title: "Usage"
+    }
+    };
+    // draw chart on load
+    var chart = new google.visualization.LineChart(
+    document.getElementById("chart_div")
+    );
+    chart.draw(data, options);
+}
