@@ -1,20 +1,100 @@
-#connectButton {
-    cursor: not-allowed ;
-    width: 15vw;
+* {
+    margin: 0px;
+    font-family: 'Montserrat', sans-serif;
 }
-#heartSprite {
-    width : 256px ;
-    height : 256px ;
-}
+
 p {
     width: 256px;
     text-align: center;
     font-size: 2em;
 }
-div {
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
+hr {
+    margin: 1rem 0;
+    border-top: 0.2rem solid black;
+}
+
+/* Header */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 20%;
+}
+
+.battery {
+    width: 10%;
+}
+
+#connectButton {
+    cursor: not-allowed;
+    width: 15vw;
+    background-color: white;
+    font-size: 20px;
+    border: 0px;
+}
+
+
+
+/* Status Container */
+
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.small-column {
+    width: 25%;
+}
+
+#heartSprite {
+    width : 256px;
+    height : 256px;
+}
+
+.data {
+    text-align: center;
+}
+
+.dataText {
+    font-size: 3.5rem;
+    color: red;
+    font-weight: 400;
+}
+
+.dataUnit {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.time {
+    text-align: center;
+    font-size: 3rem;
+}
+
+
+/* Graph Container */
+
+.graph-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.big-column {
+    width: 42%;
+}
+
+.graph {
+    margin: 3%;
+}
+
+.graph-name {
+    color: red;
+    font-size: 2rem;
 }
