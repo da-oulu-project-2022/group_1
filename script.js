@@ -98,10 +98,10 @@ google.charts.load("current", {
     packages: ["corechart", "line"]
     });
 // set callback function when api loaded
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawPPG);
+google.charts.setOnLoadCallback(drawECG);
 
-
-function drawChart() {
+function drawECG() {
     // create data object with default value
     var data = google.visualization.arrayToDataTable([
     ['Time', 'CPU Usage', 'RAM'],
@@ -119,7 +119,30 @@ function drawChart() {
     };
     // draw chart on load
     var chart = new google.visualization.LineChart(
-    document.getElementById("chart_div")
+    document.getElementById("chart_div_1")
+    );
+    chart.draw(data, options);
+}
+
+function drawPPG() {
+    // create data object with default value
+    var data = google.visualization.arrayToDataTable([
+    ['Time', 'CPU Usage', 'RAM'],
+    [0, 0, 0],
+    ]);
+    // create options object with titles, colors, etc.
+    var options = {
+    title: "CPU Usage",
+    hAxis: {
+        textPosition: 'none',
+    },
+    vAxis: {
+        title: "Usage"
+    }
+    };
+    // draw chart on load
+    var chart = new google.visualization.LineChart(
+    document.getElementById("chart_div_2")
     );
     chart.draw(data, options);
 }
