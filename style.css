@@ -23,7 +23,8 @@ hr {
 }
 
 .logo {
-    width: 20%;
+    max-width: 20%;
+    max-height: 20vh;
 }
 
 .battery {
@@ -33,11 +34,14 @@ hr {
 #connectButton {
     cursor: not-allowed;
     width: 15vw;
-    background-color: white;
-    font-size: 20px;
-    border: 0px;
+    margin: 2%;
+    padding: 1rem 0.5rem;
+    background-color: red;
+    color: white;
+    font-size: 1.5rem;
+    border: 0;
+    border-radius: 15px;
 }
-
 
 
 /* Status Container */
@@ -46,6 +50,7 @@ hr {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin: 2.5rem 0;
 }
 
 .small-column {
@@ -57,19 +62,24 @@ hr {
     height : 256px;
 }
 
+#clock {
+    color: red;
+    font-size: 3rem;
+}
+
 .data {
     text-align: center;
 }
 
 .dataText {
-    font-size: 3.5rem;
+    font-size: 4rem;
     color: red;
     font-weight: 400;
 }
 
 .dataUnit {
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 400;
 }
 
 .clock {
@@ -84,14 +94,17 @@ hr {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin: 4rem 0;
 }
 
 .big-column {
-    width: 42%;
+    width: 45%;
 }
 
 .graph {
-    margin: 3%;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    margin-bottom: 1rem;
 }
 
 .graph-name {

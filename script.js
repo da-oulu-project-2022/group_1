@@ -104,22 +104,22 @@ google.charts.setOnLoadCallback(drawECG);
 function drawECG() {
     // create data object with default value
     var data = google.visualization.arrayToDataTable([
-    ['Time', 'CPU Usage', 'RAM'],
-    [0, 0, 0],
+        ['Time', 'ECG', 'ECG'],
+        [0, 0, 0],
     ]);
     // create options object with titles, colors, etc.
     var options = {
-    title: "CPU Usage",
-    hAxis: {
-        textPosition: 'none',
-    },
-    vAxis: {
-        title: "Usage"
-    }
+        hAxis: {
+            textPosition: 'none',
+            title: "Time (ms)"
+        },
+        vAxis: {
+            title: "Time (mV)"
+        }
     };
     // draw chart on load
     var chart = new google.visualization.LineChart(
-    document.getElementById("chart_div_1")
+        document.getElementById("chart_div_1")
     );
     chart.draw(data, options);
 }
@@ -127,22 +127,21 @@ function drawECG() {
 function drawPPG() {
     // create data object with default value
     var data = google.visualization.arrayToDataTable([
-    ['Time', 'CPU Usage', 'RAM'],
-    [0, 0, 0],
+        ['Time', 'PPG', 'PPG'],
+        [0, 0, 0],
     ]);
     // create options object with titles, colors, etc.
     var options = {
-    title: "CPU Usage",
-    hAxis: {
-        textPosition: 'none',
-    },
-    vAxis: {
-        title: "Usage"
-    }
+        hAxis: {
+            textPosition: 'none',
+        },
+        vAxis: {
+            title: "Usage"
+        }
     };
     // draw chart on load
     var chart = new google.visualization.LineChart(
-    document.getElementById("chart_div_2")
+        document.getElementById("chart_div_2")
     );
     chart.draw(data, options);
 }
