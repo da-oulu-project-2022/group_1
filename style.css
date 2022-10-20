@@ -65,6 +65,7 @@ hr {
 #clock {
     color: red;
     font-size: 3rem;
+    text-align: center;
 }
 
 .data {
@@ -82,10 +83,6 @@ hr {
     font-weight: 400;
 }
 
-.clock {
-    text-align: center;
-    font-size: 3rem;
-}
 
 
 /* Graph Container */
