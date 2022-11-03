@@ -17,6 +17,7 @@ p.textContent = "Web bluetooth is not supported";
 else {
 let button = document.getElementById("connectButton");
 button.style.cursor = "pointer";
+
 handleCharacteristicValueChanged = (event) => {
     heart.hidden = false;
     let value = event.target.value; // a dataviewer object is provided by the object event
@@ -24,48 +25,196 @@ handleCharacteristicValueChanged = (event) => {
     p.textContent = heartrate + " BPM"; // and display it
     BPM = heartrate;
 }
-onClickEvent = () => {
-    navigator.bluetooth.requestDevice({
-        filters: [
-          {
-            manufacturerData: [{ companyIdentifier: 0x006b }] // Filtering devices with company indentifier, showing only devices made by Polar
-          }
-        ],
-        acceptAllDevices: false
-    }) 
-    .then(device => device.gatt.connect()) // after the user select a device, we return the selected one
-    .then(function (server) {
-            connected_server = server;
-            discoverServicesAndCharacteristics();
-    })
-    /* server.getPrimaryService('heart_rate')) // we get the service
-    .then(service => service.getCharacteristic('heart_rate_measurement')) // then the characteristics
-    .then(characteristic => characteristic.startNotifications())
-    .then(characteristic => {
-        characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicValueChanged); // then we subscribe to the characteristic notifications
-    })                                                                                                    // and set the callback function
-    .catch(error => { console.error(error); }); // we display the errors on the console*/
+
+let options = {
+  filters: [
+    {
+      manufacturerData: [{ companyIdentifier: 0x006b }] // Filtering devices with company indentifier, showing only devices made by Polar
+    },
+    {
+      services: ["heart_rate"]
+    }
+  ],
+  acceptAllDevices: false,
+  optionalServices: [
+    "0000180a-0000-1000-8000-00805f9b34fb",
+    "0000180f-0000-1000-8000-00805f9b34fb",
+    "fb005c80-02e7-f387-1cad-8acd2d8df0c8"
+  ]
 }
 
-function discoverServicesAndCharacteristics() {
-    connected_server.getPrimaryServices() // Calling getPrimaryServices method which returns promise array containing all the services the device advertises 
-        .then(services => {
-            service_count = services.length;
-            console.log("Got " + service_count + " services");
-            services.forEach(service => {
-                console.log(service.uuid);
-                console.log(service.getCharacteristics());
-            })
-/*             services.forEach(service => {
-                if (service.uuid == "e95d0753-251d-470a-a062-fa1922dfa9a8") {
-                    has_accelerometer_service = true;
-                    console.log(has_accelerometer_service);
-                } 
-                else {
-                    console.log("No accelerometer service");
-                }
-            }) */
+onClickEvent = () => {
+    navigator.bluetooth.requestDevice(options) 
+    .then(device => device.gatt.connect()) // after the user select a device, we return the selected one
+/*     .then(function (server) {
+            connected_server = server;
+            discoverServicesAndCharacteristics();
+    }) */
+    .then(server => {
+        /* server.getPrimaryService('0000180a-0000-1000-8000-00805f9b34fb'); */
+        return server.getPrimaryServices();
+    }) // we get the service
+    .then(services => {
+        let queue = Promise.resolve();
+        services.forEach(service => {
+            switch (service.uuid) {
+              case "0000180a-0000-1000-8000-00805f9b34fb":
+                queue = queue.then(_ => service.getCharacteristics()).then(characteristics => {
+                  deviceInformationService(characteristics);
+                })
+
+                break;
+              case "0000180f-0000-1000-8000-00805f9b34fb":
+                service.getCharacteristic("battery_level")
+                .then(characteristic => {
+                  return characteristic.readValue();
+                })
+                .then(value => {
+                  let battery_level = value.getUint8(0);
+                  console.log("Battery level is " + battery_level + "%")
+                })
+                break;
+              case "fb005c80-02e7-f387-1cad-8acd2d8df0c8":
+                service.getCharacteristic("fb005c81-02e7-f387-1cad-8acd2d8df0c8").then(characteristic => {
+                  return characteristic.readValue();
+                })
+                .then(value => {
+/*                   let some_value_1 = value.getUint8(0);
+                  let some_value_2 = value.getUint8(1);
+                  let some_value_3 = value.getUint8(2); */
+                  console.log(value);
+                })
+                break;
+              case "heart_rate":
+                
+                break;
+              default:
+
+                break;  
+            }
+            /* if (service.uuid == "0000180a-0000-1000-8000-00805f9b34fb") {
+                queue = queue.then(_ => service.getCharacteristics()).then(characteristics => {
+                  deviceInformationService(characteristics);
+                })
+            } else if (service.uuid == "0000180f-0000-1000-8000-00805f9b34fb") {
+                  service.getCharacteristic("battery_level")
+                  .then(characteristic => {
+                    return characteristic.readValue();
+                  })
+                  .then(value => {
+                    let battery_level = value.getUint8(0);
+                    console.log("Battery level is " + battery_level + "%")
+                  })
+
+            } */
         })
+    })
+    .catch(error => {
+        console.log('Argh! ' + error);
+    });
+ //   .then(service => service.getCharacteristic('fb005c21-02e7-f387-1cad-8acd2d8df0c8')) // then the characteristics
+ //   .then(characteristic => characteristic.startNotifications())
+ //   .then(characteristic => {
+ //       return characteristic.readValue();
+        /* characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicValueChanged); */ // then we subscribe to the characteristic notifications
+ //   })
+ //   .then(value => {
+ //       console.log(value);
+ //   })                                                                                                    // and set the callback function
+ //   .catch(error => { console.error(error);
+ //   }); // we display the errors on the console 
+}
+
+
+function deviceInformationService(characteristics) {
+    let queue = Promise.resolve();
+    let decoder = new TextDecoder('utf-8');
+    characteristics.forEach(characteristic => {
+      switch (characteristic.uuid) {
+
+        case BluetoothUUID.getCharacteristic('manufacturer_name_string'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            console.log('> Manufacturer Name String: ' + decoder.decode(value));
+          });
+          break;
+
+/*         case BluetoothUUID.getCharacteristic('model_number_string'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            console.log('> Model Number String: ' + decoder.decode(value));
+          });
+          break;
+
+        case BluetoothUUID.getCharacteristic('hardware_revision_string'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            console.log('> Hardware Revision String: ' + decoder.decode(value));
+          });
+          break;
+
+        case BluetoothUUID.getCharacteristic('firmware_revision_string'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            console.log('> Firmware Revision String: ' + decoder.decode(value));
+          });
+          break;
+
+        case BluetoothUUID.getCharacteristic('software_revision_string'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            console.log('> Software Revision String: ' + decoder.decode(value));
+          });
+          break;
+
+        case BluetoothUUID.getCharacteristic('system_id'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            console.log('> System ID: ');
+            console.log('  > Manufacturer Identifier: ' +
+                padHex(value.getUint8(4)) + padHex(value.getUint8(3)) +
+                padHex(value.getUint8(2)) + padHex(value.getUint8(1)) +
+                padHex(value.getUint8(0)));
+            console.log('  > Organizationally Unique Identifier: ' +
+                padHex(value.getUint8(7)) + padHex(value.getUint8(6)) +
+                padHex(value.getUint8(5)));
+          });
+          break;
+
+        case BluetoothUUID.getCharacteristic('ieee_11073-20601_regulatory_certification_data_list'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            console.log('> IEEE 11073-20601 Regulatory Certification Data List: ' +
+                decoder.decode(value));
+          });
+          break;
+
+        case BluetoothUUID.getCharacteristic('pnp_id'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            console.log('> PnP ID:');
+            console.log('  > Vendor ID Source: ' +
+                (value.getUint8(0) === 1 ? 'Bluetooth' : 'USB'));
+            if (value.getUint8(0) === 1) {
+              console.log('  > Vendor ID: ' +
+                  (value.getUint8(1) | value.getUint8(2) << 8));
+            } else {
+              console.log('  > Vendor ID: ' +
+                  getUsbVendorName(value.getUint8(1) | value.getUint8(2) << 8));
+            }
+            console.log('  > Product ID: ' +
+                (value.getUint8(3) | value.getUint8(4) << 8));
+            console.log('  > Product Version: ' +
+                (value.getUint8(5) | value.getUint8(6) << 8));
+          });
+          break; */
+
+        default: console.log('> Unknown Characteristic: ' + characteristic.uuid);
+      }
+    });
+    return queue;
+}
+
+function padHex(value) {
+    return ('00' + value.toString(16).toUpperCase()).slice(-2);
+}
+
+function getUsbVendorName(value) {
+    // Check out page source to see what valueToUsbVendorName object is.
+    return value +
+        (value in valueToUsbVendorName ? ' (' + valueToUsbVendorName[value] + ')' : '');
 }
 
 button.addEventListener('click', onClickEvent);
@@ -102,3 +251,4 @@ updateHeartSize = () => {
 };
 let globalID = requestAnimationFrame(updateHeartSize);
 }
+
