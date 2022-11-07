@@ -19,11 +19,18 @@ let button = document.getElementById("connectButton");
 button.style.cursor = "pointer";
 
 handleCharacteristicValueChanged = (event) => {
+    console.log("value changed");
     heart.hidden = false;
     let value = event.target.value; // a dataviewer object is provided by the object event
     let heartrate = value.getUint8(1); // we select the eight bytes that contain the heartrate informations
     p.textContent = heartrate + " BPM"; // and display it
     BPM = heartrate;
+}
+
+function accHandler(event) {
+  let value = event.target.value;
+  let acc = value.getUint8(1);
+  console.log(acc);
 }
 
 let options = {
@@ -57,7 +64,7 @@ onClickEvent = () => {
     .then(services => {
         let queue = Promise.resolve();
         services.forEach(service => {
-            switch (service.uuid) {
+            switch (service.uuid) { 
               case "0000180a-0000-1000-8000-00805f9b34fb":
                 queue = queue.then(_ => service.getCharacteristics()).then(characteristics => {
                   deviceInformationService(characteristics);
@@ -74,19 +81,36 @@ onClickEvent = () => {
                   console.log("Battery level is " + battery_level + "%")
                 })
                 break;
-              case "fb005c80-02e7-f387-1cad-8acd2d8df0c8":
-                service.getCharacteristic("fb005c81-02e7-f387-1cad-8acd2d8df0c8").then(characteristic => {
-                  return characteristic.readValue();
+/*               case "fb005c80-02e7-f387-1cad-8acd2d8df0c8":
+                service.getCharacteristic("fb005c81-02e7-f387-1cad-8acd2d8df0c8")
+                .then(characteristic => { 
+                  characteristic.writeValueWithResponse(new Uint8Array([0x02, 0x03]));
                 })
-                .then(value => {
-/*                   let some_value_1 = value.getUint8(0);
-                  let some_value_2 = value.getUint8(1);
-                  let some_value_3 = value.getUint8(2); */
-                  console.log(value);
-                })
-                break;
-              case "heart_rate":
-                
+                .then(_ => {
+                  console.log("ACC requested");
+                });
+                service.getCharacteristic("fb005c82-02e7-f387-1cad-8acd2d8df0c8")
+                .then(characteristic => {
+                  characteristic.startNotifications()
+                  .then(_ => {
+                    console.log("notifications started");
+                    characteristic.addEventListener("accValueChanged", accHandler);
+                  })
+                  .catch(error => {
+                    console.log("Error: " + error);
+                    return;
+                  });
+                });
+                break; */
+              case "0000180d-0000-1000-8000-00805f9b34fb":
+                service.getCharacteristic("00002a37-0000-1000-8000-00805f9b34fb")
+                .then(characteristic => {
+                  characteristic.startNotifications()
+                  .then(_ => {
+                    console.log("notifications started");
+                    characteristic.addEventListener("bpmChanged", handleCharacteristicValueChanged);
+                  });
+                });
                 break;
               default:
 
@@ -138,7 +162,7 @@ function deviceInformationService(characteristics) {
           });
           break;
 
-/*         case BluetoothUUID.getCharacteristic('model_number_string'):
+        case BluetoothUUID.getCharacteristic('model_number_string'):
           queue = queue.then(_ => characteristic.readValue()).then(value => {
             console.log('> Model Number String: ' + decoder.decode(value));
           });
@@ -199,7 +223,7 @@ function deviceInformationService(characteristics) {
             console.log('  > Product Version: ' +
                 (value.getUint8(5) | value.getUint8(6) << 8));
           });
-          break; */
+          break;
 
         default: console.log('> Unknown Characteristic: ' + characteristic.uuid);
       }
