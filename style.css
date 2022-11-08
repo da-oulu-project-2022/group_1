@@ -15,19 +15,18 @@ hr {
 }
 
 
-
 /* Header */
 
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 1rem;
+    margin: 1rem 1rem 1rem 2.5rem;
 }
 
 .logo {
     max-width: 30%;
-    max-height: 10vh;
+    max-height: 8vh;
 }
 
 .battery {

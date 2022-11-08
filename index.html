@@ -9,7 +9,7 @@
         <link href="./style.css" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     </head>
     <body>
@@ -25,7 +25,7 @@
                 <div class="data dataUnit">Lowest BPM</div>
             </div>
             <div class="small-column">
-                <div class="data dataText">15:15</div>
+                <div id="clock" class="data dataText" onload="currentTime()">15:15</div>
                 <div class="data dataUnit">Current Time</div>
             </div>
             <div class="small-column">
@@ -36,17 +36,20 @@
         <hr/>
         <div class="stats-container">
             <div class="small-column">
-                <div class="data dataText">5</div>
+                <div class="data dataText">0</div>
                 <div class="data dataUnit">khm/h</div>
             </div>
             <div class="small-column">
-                <img id = "heartSprite" src = "./heart.png" hidden="true"/>
+                <img id="heartSprite" src = "./heart.png" hidden="true"/>
                 <div>
-                    <p id = "dataText" class="dataText"></p>
+                    <div id="dataText" class="dataText">0</div>
                     <div class="dataUnit">BPM</div>
                 </div>
             </div>
-            <div id="clock" class="small-column" onload="currentTime()"></div>
+            <div class="small-column">
+                <div class="data dataText">0</div>
+                <div class="data dataUnit">BPM</div>
+            </div>
         </div>
         <hr/>
         <div class="graph-container">
