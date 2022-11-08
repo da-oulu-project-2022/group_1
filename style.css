@@ -1,18 +1,20 @@
 * {
     margin: 0px;
     font-family: 'Montserrat', sans-serif;
+    background: #f6f6f6;
 }
 
 p {
     width: 256px;
     text-align: center;
-    font-size: 2em;
+    font-size: 2rem;
 }
 
 hr {
-    margin: 1rem 0;
-    border-top: 0.2rem solid black;
+    margin: 0.5rem 0;
 }
+
+
 
 /* Header */
 
@@ -20,11 +22,12 @@ hr {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 1rem;
 }
 
 .logo {
-    max-width: 20%;
-    max-height: 20vh;
+    max-width: 30%;
+    max-height: 10vh;
 }
 
 .battery {
@@ -33,15 +36,16 @@ hr {
 
 #connectButton {
     cursor: not-allowed;
-    width: 15vw;
+    max-width: 20%;
     margin: 2%;
-    padding: 1rem 0.5rem;
+    padding: 1rem 2rem;
     background-color: red;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1rem;
     border: 0;
-    border-radius: 15px;
+    border-radius: 28px;
 }
+
 
 
 /* Status Container */
@@ -50,7 +54,7 @@ hr {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 2.5rem 0;
+    margin: 2rem 2.5rem;
 }
 
 .small-column {
@@ -73,14 +77,15 @@ hr {
 }
 
 .dataText {
-    font-size: 4rem;
+    font-size: 3rem;
     color: red;
-    font-weight: 400;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
 }
 
 .dataUnit {
     font-size: 1.5rem;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 
