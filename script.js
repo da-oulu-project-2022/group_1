@@ -12,7 +12,7 @@ else {
         heart.hidden = false;
         let value = event.target.value ; // a dataviewer object is provided by the object event
         let heartrate = value.getUint8(1) ; // we select the eight bytes that contain the heartrate informations
-        p.textContent = heartrate + " BPM" ; // and display it
+        p.textContent = heartrate; // and display it
         BPM = heartrate ;
     }
     onClickEvent = () => {
