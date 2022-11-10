@@ -13,8 +13,10 @@
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     </head>
     <body>
+    <div class="back">
+
         <div class="header">
-            <img class="logo" src="./polar-logo.png"/>
+            <img class="logo" src="./polar (2).png"/>
             <button id = "connectButton">Connect device</button>
             <!-- <img class="battery" src="./battery.png"/> -->
         </div>
@@ -26,7 +28,7 @@
             </div>
             <div class="small-column">
                 <div id="clock" class="data dataText" onload="currentTime()">15:15</div>
-                <div class="data dataUnit">Current Time</div>
+                
             </div>
             <div class="small-column">
                 <div class="data dataText">0</div>
@@ -40,10 +42,10 @@
                 <div class="data dataUnit">Lowest BPM</div>
             </div>
             <div class="small-column">
-               <img id="heartSprite" src = "./heart.png" hidden="true"/>
                 <div>
-                    <div id="dataText" class="dataText">0</div>
-                    <div class="dataUnit">BPM</div>
+               <img id="heartSprite" src = "./heart.png" hidden="true"/>
+               <div id="dataText" class="dataText">0</div>
+               <div class="dataUnit">BPM</div>
                 </div>
             </div>
             <div class="small-column">
@@ -55,7 +57,7 @@
         <div class="graph-container">
             <div class="big-column">
                 <div id="chart_div_1" class="graph"></div>
-                <div class="graph-name">ECG</div>
+                <div class="graph-name2">ECG</div>
             </div>
             <div class="big-column">
                 <div id="chart_div_2" class="graph"></div>
@@ -63,5 +65,6 @@
             </div>
         </div>
         <script src = "./script.js"></script>
+    </div>
     </body>
 </html>

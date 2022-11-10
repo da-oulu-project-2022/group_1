@@ -1,7 +1,7 @@
 * {
     margin: 0px;
     font-family: 'Montserrat', sans-serif;
-    background: #f6f6f6;
+    
 }
 
 p {
@@ -14,7 +14,13 @@ hr {
     margin: 0.5rem 0;
 }
 
+.back {
 
+    background-image: url('POLARISTIST.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
 /* Header */
 
 .header {
@@ -63,6 +69,8 @@ hr {
 #heartSprite {
     width : 100px;
     height : 100px;
+    margin-bottom: 0.5rem;
+   align-items: baseline;
 }
 
 #clock {
@@ -113,4 +121,9 @@ hr {
 .graph-name {
     color: red;
     font-size: 2rem;
+}
+
+.graph-name2 {
+    color: black;
+    font-size: 2rem ;
 }

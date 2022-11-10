@@ -93,8 +93,8 @@ google.charts.setOnLoadCallback(drawECG);
 function drawECG() {
     // create data object with default value
     var data = google.visualization.arrayToDataTable([
-        ['Time', 'ECG', 'ECG'],
-        [0, 0, 0],
+        ['Time', 'ECG'],
+        [0, 0],
     ]);
     // create options object with titles, colors, etc.
     var options = {
@@ -111,13 +111,30 @@ function drawECG() {
         document.getElementById("chart_div_1")
     );
     chart.draw(data, options);
+
+        // max amount of data rows that should be displayed
+let maxData = 50;
+// interval for adding new data every 250ms
+let index = 0;
+setInterval(function () {
+  // instead of this random, you can make an ajax call for the current cpu usage or what ever data you want to display
+  let randomCP = Math.random() * 20;
+  
+  if (data.getNumberOfRows() > maxData) {
+    data.removeRows(0, data.getNumberOfRows() - maxData);
+  }
+  data.addRow([index, randomCP]);
+  chart.draw(data, options);
+  index++;
+}, 100);
 }
+
 
 function drawPPG() {
     // create data object with default value
     var data = google.visualization.arrayToDataTable([
-        ['Time', 'PPG', 'PPG'],
-        [0, 0, 0],
+        ['Time', 'PPG'],
+        [0, 0],
     ]);
     // create options object with titles, colors, etc.
     var options = {
@@ -133,20 +150,21 @@ function drawPPG() {
         document.getElementById("chart_div_2")
     );
     chart.draw(data, options);
-}
 
-// max amount of data rows that should be displayed
+    // max amount of data rows that should be displayed
 let maxDatas = 50;
 // interval for adding new data every 250ms
 let index = 0;
 setInterval(function () {
   // instead of this random, you can make an ajax call for the current cpu usage or what ever data you want to display
   let randomCPU = Math.random() * 20;
-  let randomRAM = Math.random() * 50 + 20;
+  
   if (data.getNumberOfRows() > maxDatas) {
     data.removeRows(0, data.getNumberOfRows() - maxDatas);
   }
-  data.addRow([index, randomCPU, randomRAM]);
+  data.addRow([index, randomCPU]);
   chart.draw(data, options);
   index++;
 }, 100);
+}
+
