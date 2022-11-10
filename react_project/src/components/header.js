@@ -1,17 +1,23 @@
 import React from 'react';
-import styles from './header.module.css';
+import styles from './modules/Header.module.css';
 
-export default function Header(){
+class Header extends React.Component {
+    constructor(props) {
+        super(props)      
+        this.state = {
 
-    
-    return(
-        <div className={styles.background}> 
-            <header className={styles.brand}>
-                Polar
-            </header>
-        </div>
-    )
+        };
+    }
+
+    render() {
+        return (
+            <div className={styles.background}> 
+                <header className={styles.brand}>
+                    Polar
+                </header>
+            </div>
+        )
+    }
 }
 
-
-
+export default Header;
