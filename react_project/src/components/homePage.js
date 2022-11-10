@@ -1,11 +1,13 @@
 import React from 'react'
 
+
+
 export default function homePage() {
     return(
         <div class="back">
 
         <div class="header">
-            <img class="logo" src="./polar (2).png"/>
+            <img class="logo" src="./public/polarLogo.png"/>
             <button id = "connectButton">Connect device</button>
         </div>
         <hr/>
