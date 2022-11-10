@@ -55,7 +55,7 @@ hr {
 
 .back {
 
-  background-image: url('POLARISTIST.png');
+  background-image: url('../public/POLARISTIST.png');
   background-repeat: no-repeat;
   background-size: cover;
 
