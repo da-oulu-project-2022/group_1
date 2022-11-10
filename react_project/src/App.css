@@ -36,3 +36,133 @@
     transform: rotate(360deg);
   }
 }
+
+* {
+  margin: 0px;
+  font-family: 'Montserrat', sans-serif;
+  
+}
+
+p {
+  width: 256px;
+  text-align: center;
+  font-size: 2rem;
+}
+
+hr {
+  margin: 0.5rem 0;
+}
+
+.back {
+
+  background-image: url('POLARISTIST.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+/* Header */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 1rem 1rem 2.5rem;
+}
+
+.logo {
+  max-width: 50%;
+  max-height: 20vh;
+}
+
+.battery {
+  width: 10%;
+}
+
+#connectButton {
+  cursor: not-allowed;
+  max-width: 20%;
+  margin: 2%;
+  padding: 1rem 2rem;
+  background-color: red;
+  color: white;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 28px;
+}
+
+
+
+/* Status Container */
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 2rem 2.5rem;
+}
+
+.small-column {
+  width: 25%;
+}
+
+#heartSprite {
+  width : 100px;
+  height : 100px;
+  margin-bottom: 0.5rem;
+ align-items: baseline;
+}
+
+#clock {
+  color: red;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.data {
+  text-align: center;
+}
+
+.dataText {
+  font-size: 3rem;
+  color: red;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.dataUnit {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+
+
+/* Graph Container */
+
+.graph-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 4rem 0;
+}
+
+.big-column {
+  width: 45%;
+}
+
+.graph {
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  margin-bottom: 1rem;
+}
+
+.graph-name {
+  color: red;
+  font-size: 2rem;
+}
+
+.graph-name2 {
+  color: black;
+  font-size: 2rem ;
+}

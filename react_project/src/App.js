@@ -1,6 +1,5 @@
 import './App.css';
 import './bluetooth';
-import Header from './components/header';
 import React, { useState, useEffect } from 'react';   
 
 function App() {
@@ -64,58 +63,57 @@ function App() {
   }
 
 const onClickEvent = () => {
-    navigator.bluetooth.requestDevice(options)
-        .then(device => device.gatt.connect())
-        .then(server => {
-            return server.getPrimaryServices();
-        })
-        .then(services => {
-            console.log(services);
-            let queue = Promise.resolve();
-            services.forEach(service => {
-                switch (service.uuid) {
-                    case "fb005c80-02e7-f387-1cad-8acd2d8df0c8":
-                        service.getCharacteristic("fb005c82-02e7-f387-1cad-8acd2d8df0c8").then(dataCharacteristic => {
-                            dataCharacteristic.startNotifications().then( value =>{
-                                console.log(value);
-                            });
-                            return dataCharacteristic;
-                        }).then(dataCharacteristic => {
-                            console.log(dataCharacteristic);
-                            console.log("notification started");
-                            dataCharacteristic.addEventListener('characteristicvaluechanged', test);
-                            console.log("added EventListener");
+  navigator.bluetooth.requestDevice(options)
+    .then(device => device.gatt.connect())
+    .then(server => {
+        return server.getPrimaryServices();
+    })
+    .then(services => {
+        console.log(services);
+        let queue = Promise.resolve();
+        services.forEach(service => {
+            switch (service.uuid) {
+                case "fb005c80-02e7-f387-1cad-8acd2d8df0c8":
+                    service.getCharacteristic("fb005c82-02e7-f387-1cad-8acd2d8df0c8").then(dataCharacteristic => {
+                        dataCharacteristic.startNotifications().then( value =>{
+                            console.log(value);
+                        });
+                        return dataCharacteristic;
+                    }).then(dataCharacteristic => {
+                        console.log(dataCharacteristic);
+                        console.log("notification started");
+                        dataCharacteristic.addEventListener('characteristicvaluechanged', test);
+                        console.log("added EventListener");
 
 
 
-                        }).then (_ => {
-                            service.getCharacteristic("fb005c81-02e7-f387-1cad-8acd2d8df0c8").then(controlCharacteristic => {
-                                console.log(controlCharacteristic);
-                                console.log("writing value to device");
-                                controlCharacteristic.writeValueWithoutResponse(new Uint8Array([0x00, 0x03]))
+                      }).then (_ => {
+                          service.getCharacteristic("fb005c81-02e7-f387-1cad-8acd2d8df0c8").then(controlCharacteristic => {
+                              console.log(controlCharacteristic);
+                              console.log("writing value to device");
+                              controlCharacteristic.writeValueWithoutResponse(new Uint8Array([0x00, 0x03]))
 
 
-                            })
-                        })
+                          })
+                      })
 
 
-                        break;
+                      break;
 
-                    default:
+                  default:
 
-                        break;
-                }
-            })
-        })
-        .catch(error => {
-            console.log('Argh! ' + error);
-        });
+                      break;
+              }
+          })
+      })
+      .catch(error => {
+          console.log('Argh! ' + error);
+      });
 
-
-    function test(event) {
-        let commandValue = event.target.value.getUint8(0);
-        console.log(event);
-    }
+  function test(event) {
+      let commandValue = event.target.value.getUint8(0);
+      console.log(event);
+  }
 }
 
   const connectToDeviceAndSubscribeToUpdates = async () => {
@@ -171,24 +169,55 @@ const onClickEvent = () => {
   };
 
   return (
-    <div className="App">
-      <Header/>
-      <h1>Get Device Battery Info Over Bluetooth</h1>
-      {supportsBluetooth && !isDisconnected &&
-        <p>Battery level: {batteryLevel}</p>
-      }
-      {supportsBluetooth && isDisconnected &&
-        <button onClick={onClickEvent}>Connect to a Bluetooth device</button>
-      }
-      {!supportsBluetooth &&
-        <p>This browser doesn't support the Web Bluetooth API</p>
-      }
-      <div>
-        acceleration: {acceleration}
-      </div>
-      <div>
-        ecg: {ecg}
-      </div>
+    <div class="back">
+        <div class="header">
+            <img class="logo" src="./polar (2).png"/>
+            <button id = "connectButton">Connect device</button>
+        </div>
+        <hr/>
+        <div class="stats-container">
+            <div class="small-column">
+                <div class="data dataText">0</div>
+                <div class="data dataUnit">khm/h</div>
+            </div>
+            <div class="small-column">
+                <div id="clock" class="data dataText" onload="currentTime()">15:15</div>
+                
+            </div>
+            <div class="small-column">
+                <div class="data dataText">0</div>
+                <div class="data dataUnit">BPM</div>
+            </div>
+        </div>
+        <hr/>
+        <div class="stats-container">
+            <div class="small-column">
+                <div class="data dataText">60</div>
+                <div class="data dataUnit">Lowest BPM</div>
+            </div>
+            <div class="small-column">
+                <div>
+            <img id="heartSprite" src = "./heart.png" hidden="true"/>
+            <div id="dataText" class="dataText">0</div>
+            <div class="dataUnit">BPM</div>
+                </div>
+            </div>
+            <div class="small-column">
+                <div class="data dataText">120</div>
+                <div class="data dataUnit">Highest BPM</div>
+            </div>
+        </div>
+        <hr/>
+        <div class="graph-container">
+            <div class="big-column">
+                <div id="chart_div_1" class="graph"></div>
+                <div class="graph-name2">ECG</div>
+            </div>
+            <div class="big-column">
+                <div id="chart_div_2" class="graph"></div>
+                <div class="graph-name">PPG</div>
+            </div>
+        </div>
     </div>
   );
 }
