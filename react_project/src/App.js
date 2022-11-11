@@ -180,7 +180,7 @@ const onClickEvent = () => {
 
 <div class="header">
     <img class="logo" src="/polarLogo.png"/>
-    <button id = "connectButton">Connect device</button>
+    <button onClick={onClickEvent} id="connectButton">Connect device</button>
 </div>
 <hr/>
 <div class="stats-container">
