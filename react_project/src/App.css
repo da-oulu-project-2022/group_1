@@ -55,7 +55,7 @@ hr {
 
 .back {
 
-  background-image: url('../public/POLARISTIST.png');
+  background-image: url('./images/POLARISTIST.png');
   background-repeat: no-repeat;
   flex: 1;
   background-size: cover;
@@ -80,6 +80,18 @@ hr {
 }
 
 #connectButton {
+  cursor: not-allowed;
+  max-width: 20%;
+  margin: 2%;
+  padding: 1rem 2rem;
+  background-color: red;
+  color: white;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 28px;
+}
+
+.disConnectButton {
   cursor: not-allowed;
   max-width: 20%;
   margin: 2%;

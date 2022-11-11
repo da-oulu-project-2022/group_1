@@ -7,10 +7,10 @@ import React, { useState, useEffect } from 'react';
 
 function App() {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
-  const [isDisconnected, setIsDisconnected] = useState(true);
   const [batteryLevel, setBatteryLevel] = useState(null);
   const [acceleration, setAcceleration] = useState(null);
   const [ecg, setEcg] = useState(null);
+  const [device, setDevice] = useState(null);
 
   // When the component mounts, check that the browser supports Bluetooth
   useEffect(() => {
@@ -22,9 +22,11 @@ function App() {
   /**
    * Let the user know when their device has been disconnected.
    */
-  const onDisconnected = (event) => {
-    alert(`The device ${event.target} is disconnected`);
-    setIsDisconnected(true);
+  const onDisconnectedButtonClick = () => {
+    if (device.gatt.connected) {
+      device.gatt.disconnect();
+      alert("Bluetooth device disconnected");
+    }
   }
 
   /**
@@ -67,7 +69,10 @@ function App() {
 
 const onClickEvent = () => {
   navigator.bluetooth.requestDevice(options)
-    .then(device => device.gatt.connect())
+    .then(device => {
+      setDevice(device);
+      return device.gatt.connect();
+    })
     .then(server => {
         return server.getPrimaryServices();
     })
@@ -143,7 +148,7 @@ const onClickEvent = () => {
   }
 }
 
-  const connectToDeviceAndSubscribeToUpdates = async () => {
+/*   const connectToDeviceAndSubscribeToUpdates = async () => {
     try {
       // Search for Bluetooth devices that advertise a battery service
       const device = await navigator.bluetooth
@@ -180,8 +185,8 @@ const onClickEvent = () => {
       characteristic.startNotifications();
 
       // When the battery level changes, call a function
-/*       characteristic.addEventListener('characteristicvaluechanged',
-        handleCharacteristicValueChanged); */
+      characteristic.addEventListener('characteristicvaluechanged',
+        handleCharacteristicValueChanged); 
 
       // Read the battery level value
       const reading = await characteristic.readValue();
@@ -193,7 +198,7 @@ const onClickEvent = () => {
     } catch (error) {
       console.log(`There was an error: ${error}`);
     }
-  };
+  }; */
 
 
   
@@ -205,6 +210,7 @@ const onClickEvent = () => {
 <div class="header">
     <img class="logo" src="/polarLogo.png"/>
     <button onClick={onClickEvent} id="connectButton">Connect device</button>
+    <button onClick={onDisconnectedButtonClick} class="disConnectButton">Disconnect device</button>
 </div>
 <hr/>
 <div class="stats-container">
