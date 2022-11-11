@@ -1,49 +1,66 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, LineSeries } from '@syncfusion/ej2-react-charts';
+import React from "react";
+import { Line } from "react-chartjs-2";
+import Chart, { registry } from "chart.js/auto";
+import 'chartjs-adapter-luxon';
+import registerables, { StreamingPlugin, RealTimeScale } from "chartjs-plugin-streaming";
+Chart.register(StreamingPlugin, RealTimeScale);
 
+export const IotChart = () => {
 
-class App extends React.Component {
-    constructor(props, chart) {
-        super(props);
-        this.series1 = [];
-        this.value = 10;
-        this.setTimeoutValue = 100;
-        this.i = 0;
-        for (; this.i < 50; this.i++) {
-            if (Math.random() > .5) {
-                this.value += Math.random() * 2.0;
-            }
-            this.series1[this.i] = { x: this.i, y: this.value };
-        }
-        this.chart = chart;
+/*  
+const data = {
+  
+  datasets: [{
+    label: 'My First Dataset',
+    data: [65, 59, 80, 81, 56, 55, 40],
+    fill: false,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1
+  }]
+};*/
+  const data = {
+    datasets: [
+
+      
+      {
+        label: "Dataset 1",
+        data: [Math.random() * 100],
+
+        fill: false,
+        backgroundColor: 'rgb(255,255,255)',
+        lineTension: 0.1,
+        borderColor: "#f44336",
+        borderJoinStyle: "miter",
+        pointRadius: 0,
+        showLine: true,
+        
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      x: {
+        type: "realtime",
+        realtime: {
+          onRefresh: function() {
+            data.datasets[0].data.push({
+              x: Date.now(),
+              y: Math.random() * 100,
+            });
+          },
+          delay: 300,
+          refresh: 300,
+        },
+      },
     }
-    ;
-    loaded(args) {
-        this.intervalId = setTimeout(() => {
-            if (this.chart === null) {
-                clearInterval(this.intervalId);
-            }
-            else {
-                if (Math.random() > .5) {
-                    this.value += Math.random() * 2.0;
-                }
-                this.i++;
-                this.series1.push({ x: this.i, y: this.value });
-                this.series1.shift();
-                args.chart.series[0].dataSource = this.series1;
-            }
-        }, this.setTimeoutValue);
-    }
-    render() {
-        return <ChartComponent id='charts' loaded={this.loaded.bind(this)}>
-      <Inject services={[LineSeries]}/>
-      <SeriesCollectionDirective>
-        <SeriesDirective dataSource={this.series1} xName='x' yName='y' type='Line'>
-        </SeriesDirective>
-      </SeriesCollectionDirective>
-    </ChartComponent>;
-    }
-}
-;
-ReactDOM.render(<App />, document.getElementById('charts'));
+  }
+
+  return (
+    <div>
+      <div>
+        <Line data={data} options={options} width={400} height={200}/>
+      </div>
+    </div>
+  );
+};

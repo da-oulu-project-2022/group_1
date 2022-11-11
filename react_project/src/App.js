@@ -1,6 +1,7 @@
 import './App.css';
 import './bluetooth';
 import Clock from './components/clock';
+import BarChart, { IotChart } from './components/chart';
 
 import React, { useState, useEffect } from 'react';   
 
@@ -217,11 +218,11 @@ const onClickEvent = () => {
 <hr/>
 <div class="graph-container">
     <div class="big-column">
-        <div id="chart_div_1" class="graph"></div>
+        <IotChart/>
         <div class="graph-name2">ECG</div>
     </div>
     <div class="big-column">
-        <div id="chart_div_2" class="graph"></div>
+        <IotChart/>
         <div class="graph-name">PPG</div>
     </div>
 </div>

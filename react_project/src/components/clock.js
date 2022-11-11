@@ -12,14 +12,16 @@ function Clock() {
 		}, 30000);
 	}, []);
 	return (
-		<div className={styles.data}>
+		<div>
+			
 		
-			<p >
+			<p>
+			<h1 className={styles.dataText}>
 				{dateState.toLocaleString('en-US', {
 					hour: 'numeric',
 					minute: 'numeric',
 					hour12: false,
-				})}
+				})}</h1>
 			</p>
 		</div>
 	);
