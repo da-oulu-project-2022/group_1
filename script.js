@@ -48,6 +48,7 @@ else {
     }
 
     onClickEvent = () => {
+
         navigator.bluetooth.requestDevice(options)
             .then(device => device.gatt.connect()) // after the user select a device, we return the selected one
             /*     .then(function (server) {
@@ -55,6 +56,7 @@ else {
                         discoverServicesAndCharacteristics();
                 }) */
             .then(server => {
+
                 /* server.getPrimaryService('0000180a-0000-1000-8000-00805f9b34fb'); */
                 return server.getPrimaryServices();
             }) // we get the service
@@ -81,7 +83,7 @@ else {
                                 service.getCharacteristic("fb005c81-02e7-f387-1cad-8acd2d8df0c8").then(controlCharacteristic => {
                                     console.log(controlCharacteristic);
                                     console.log("writing value to device");
-                                    controlCharacteristic.writeValueWithResponse(new Uint8Array([0x02, 0x02, 0x02, 1, 8, 0, 0, 1, 0xc8, 0,1,1,0x10,0]))
+                                    controlCharacteristic.writeValueWithResponse(new Uint8Array([0x02, 0x02, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2,1,8,0, 4, 1, 3]))
 
 
                                 })
