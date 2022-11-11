@@ -1,3 +1,5 @@
+//live chart with dummy data
+
 import React from "react";
 import { Line } from "react-chartjs-2";
 import Chart, { registry } from "chart.js/auto";

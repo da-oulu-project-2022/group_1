@@ -17,6 +17,7 @@ function Clock() {
 		
 			<p>
 			<h1 className={styles.dataText}>
+				
 				{dateState.toLocaleString('en-US', {
 					hour: 'numeric',
 					minute: 'numeric',
