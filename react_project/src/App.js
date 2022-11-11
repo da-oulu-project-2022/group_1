@@ -75,37 +75,55 @@ const onClickEvent = () => {
         console.log(services);
         let queue = Promise.resolve();
         services.forEach(service => {
+          //console.log(service)
             switch (service.uuid) {
-                case "fb005c80-02e7-f387-1cad-8acd2d8df0c8":
-                    service.getCharacteristic("fb005c82-02e7-f387-1cad-8acd2d8df0c8").then(dataCharacteristic => {
-                        dataCharacteristic.startNotifications().then( value =>{
-                            console.log(value);
-                        });
-                        return dataCharacteristic;
-                    }).then(dataCharacteristic => {
-                        console.log(dataCharacteristic);
-                        console.log("notification started");
-                        dataCharacteristic.addEventListener('characteristicvaluechanged', test);
-                        console.log("added EventListener");
+              case "0000180f-0000-1000-8000-00805f9b34fb":
+                //batterylevel
+                service.getCharacteristic("00002a19-0000-1000-8000-00805f9b34fb").then( value =>{
+                  value.addEventListener('characteristicvaluechanged', batteryLevelChanged);
+                    console.log(value);
+                });
+                  
+                break;
+              case "0000180d-0000-1000-8000-00805f9b34fb":
+                //heartrate
+                service.getCharacteristic("00002a37-0000-1000-8000-00805f9b34fb").then( value =>{
+                  value.addEventListener('characteristicvaluechanged', heartRateChanged);
+                  console.log(value);
+              });
+                break;
+              case "0000180a-0000-1000-8000-00805f9b34fb":
+                break;
+              case "fb005c80-02e7-f387-1cad-8acd2d8df0c8":
+                  service.getCharacteristic("fb005c82-02e7-f387-1cad-8acd2d8df0c8").then(dataCharacteristic => {
+                      dataCharacteristic.startNotifications().then( value =>{
+                          //console.log(value);
+                      });
+                      return dataCharacteristic;
+                  }).then(dataCharacteristic => {
+                      //console.log(dataCharacteristic);
+                      //console.log("notification started");
+                      dataCharacteristic.addEventListener('characteristicvaluechanged', test);
+                      //console.log("added EventListener");
 
 
 
-                      }).then (_ => {
-                          service.getCharacteristic("fb005c81-02e7-f387-1cad-8acd2d8df0c8").then(controlCharacteristic => {
-                              console.log(controlCharacteristic);
-                              console.log("writing value to device");
-                              controlCharacteristic.writeValueWithoutResponse(new Uint8Array([0x00, 0x03]))
+                    }).then (_ => {
+                        service.getCharacteristic("fb005c81-02e7-f387-1cad-8acd2d8df0c8").then(controlCharacteristic => {
+                            //console.log(controlCharacteristic);
+                            //console.log("writing value to device");
+                            controlCharacteristic.writeValueWithoutResponse(new Uint8Array([0x00, 0x03]))
 
 
-                          })
-                      })
+                        })
+                    })
 
 
-                      break;
+                break;
 
-                  default:
+              default:
 
-                      break;
+                break;
               }
           })
       })
@@ -116,6 +134,12 @@ const onClickEvent = () => {
   function test(event) {
       let commandValue = event.target.value.getUint8(0);
       console.log(event);
+  }
+  function heartRateChanged(event){
+    console.log(event);
+  }
+  function batteryLevelChanged(event){
+    console.log(event);
   }
 }
 
