@@ -1,8 +1,7 @@
-import './App.css';
-import './bluetooth';
-import Clock from './components/clock';
-import BarChart, { IotChart } from './components/chart';
-
+import './components/modules/App.module.css';
+import './components/bluetooth.js';
+import Clock from './components/clock.js';
+import BarChart, { IotChart } from './components/chart.js';
 import React, { useState, useEffect } from 'react';   
 
 function App() {
