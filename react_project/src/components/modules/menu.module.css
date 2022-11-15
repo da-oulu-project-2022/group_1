@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+}
+
+.background {
+    background: #D2D9F3;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.container {
+    background: #FFFFFF;
+    box-shadow: 0px 43px 50px -25px rgba(157, 172, 227, 0.3);
+    border-radius: 40px;
+    width: 29.75%;
+    height: 53vh;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4vh auto 0;
+    width: 26.5%;
+    height: 7vh;
+}
+
+.device_container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 7vh auto 0;
+    width: 50%;
+}
+
+.device {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    padding: 10px 30px;
+    border: 2px solid #D2D9F3;
+    border-radius: 20px;
+}
+
+.select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2vh auto 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.button {
+    background: #1B255A;
+    display: flex;
+    justify-content: center;
+    width: 79%;
+    align-items: center;
+    margin: 4vh auto 0;
+    padding: 24px;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+}

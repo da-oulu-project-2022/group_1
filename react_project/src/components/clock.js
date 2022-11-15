@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './modules/Clock.module.css';
 
-
-
 function Clock() {
 	const [dateState, setDateState] = useState(new Date());
 	useEffect(() => {
@@ -12,19 +10,15 @@ function Clock() {
 		}, 30000);
 	}, []);
 	return (
-		<div>
-			
-		
-			<p>
-			<h1 className={styles.clockData}>
-				
+		<>
+			<div className={ styles.clock }>
 				{dateState.toLocaleString('en-US', {
 					hour: 'numeric',
 					minute: 'numeric',
 					hour12: false,
-				})}</h1>
-			</p>
-		</div>
+				})}
+			</div>
+		</>
 	);
 }
 
