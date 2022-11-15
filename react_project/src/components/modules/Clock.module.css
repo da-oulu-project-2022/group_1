@@ -1,0 +1,9 @@
+
+.clockData {
+    font-size: 3rem;
+    color: red;
+    font-weight: 700;
+   /* margin-bottom: 0.5rem;*/
+    text-align:center;
+    align-items: center;
+  }

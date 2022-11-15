@@ -1,4 +1,5 @@
-import styles from './modules/App.module.css';
+import styles from './modules/HomePage.module.css';
+
 import './Bluetooth.js';
 import Clock from './Clock.js';
 import BarChart, { IotChart } from './Chart.js';
@@ -200,7 +201,7 @@ const onClickEvent = () => {
     <div className={ styles.back }>
     <div className={ styles.header }>
         <img className={ styles.logo } src="/images/heart.png"/>
-        <button onClick={onClickEvent} id="connectButton">Connect device</button>
+        <button onClick={onClickEvent} className={styles.connectButton}>Connect device</button>
     </div>
     <hr/>
     <div className={ styles.statsContainer }>
