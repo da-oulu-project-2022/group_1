@@ -198,53 +198,44 @@ const onClickEvent = () => {
 
   return (
     <div className={ styles.back }>
-    <div className={ styles.header }>
-        <img className={ styles.logo } src="/images/heart.png"/>
-        <button onClick={onClickEvent} id="connectButton">Connect device</button>
-    </div>
-    <hr/>
-    <div className={ styles.statsContainer }>
-        <div className={ styles.smallColumn }>
-            <div className={ styles.dataText }>0</div>
-            <div className={ styles.dataUnit }>khm/h</div>
+        <div className={ styles.header }>
+            <img className={ styles.logo } src="/images/heart.png"/>
+            <button onClick={onClickEvent} id="connectButton">Connect device</button>
         </div>
-        <div className={ styles.smallColumn }>
-        <Clock/> 
-        </div>
-        <div className={ styles.smallColumn }>
-            <div className={ styles.dataText }>0</div>
-            <div className={ styles.dataUnit }>BPM</div>
-        </div>
-    </div>
-    <hr/>
-    <div className={ styles.statsContainer }>
-        <div className={ styles.smallColumn }>
-            <div className={ styles.dataText }>60</div>
-            <div className={ styles.dataUnit }>Lowest BPM</div>
-        </div>
-        <div className={ styles.smallColumn }>
-            <div>
-        <img id="heartSprite" src = "./heart.png" hidden="true"/>
-        <div id="dataText" class="dataText">0</div>
-        <div className={ styles.dataUnit }>BPM</div>
+        <div className={ styles.statsContainer }>
+            <div className={ styles.smallColumn }>
+                <div className={ styles.dataText }>0</div>
+                <div className={ styles.dataUnit }>khm/h</div>
+            </div>
+            <div className={ styles.smallColumn }>
+                <Clock/> 
             </div>
         </div>
-        <div className={ styles.smallColumn }>
-            <div className={ styles.dataText }>120</div>
-            <div className={ styles.dataUnit }>Highest BPM</div>
+        <div className={ styles.statsContainer }>
+            <div className={ styles.smallColumn }>
+                <div className={ styles.dataText }>60</div>
+                <div className={ styles.dataUnit }>Lowest BPM</div>
+            </div>
+            <div className={ styles.smallColumn }>
+                <img id="heartSprite" src = "./heart.png" hidden="true"/>
+                <div className={ styles.dataText }>0</div>
+                <div className={ styles.dataUnit }>BPM</div>
+            </div>
+            <div className={ styles.smallColumn }>
+                <div className={ styles.dataText }>120</div>
+                <div className={ styles.dataUnit }>Highest BPM</div>
+            </div>
         </div>
-    </div>
-    <hr/>
-    <div className={ styles.graphContainer }>
-        <div className={ styles.bigColumn }>
-            <IotChart/>
-            <div className={ styles.graphName2 }>ECG</div>
+        <div className={ styles.graphContainer }>
+            <div className={ styles.bigColumn }>
+                <IotChart/>
+                <div className={ styles.graphName2 }>ECG</div>
+            </div>
+            <div className={ styles.bigColumn }>
+                <IotChart/>
+                <div className={ styles.graphName }>PPG</div>
+            </div>
         </div>
-        <div className={ styles.bigColumn }>
-            <IotChart/>
-            <div className={ styles.graphName }>PPG</div>
-        </div>
-    </div>
     </div>
   );
 }
