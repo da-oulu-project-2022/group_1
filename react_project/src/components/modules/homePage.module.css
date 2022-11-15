@@ -1,5 +1,7 @@
 * {
     margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
     
   }
@@ -14,9 +16,9 @@
     margin: 0.5rem 0;
   }
   
-  .back {
-  
-    background-image: url('../images/POLARISTIST.png');
+  .background {
+    margin-top: -20px;
+    background-image: url('../images/homePageBackgroundTop1.jpg');
     background-repeat: no-repeat;
     flex: 1;
     background-size: cover;
@@ -32,9 +34,14 @@
   margin: 1rem 1rem 1rem 2.5rem;
 }
 
-.logo {
-  max-width: 50%;
-  max-height: 20vh;
+
+
+.companyLogo {
+  background-image: url('../images/heart.png');
+  max-width: 50px;
+  height: auto;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .battery {

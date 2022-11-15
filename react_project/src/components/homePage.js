@@ -1,9 +1,13 @@
+import React, { useState, useEffect } from 'react';
+import BarChart, { IotChart } from './Chart.js';
+import Clock from './Clock.js';
+import './Bluetooth.js';
 import styles from './modules/HomePage.module.css';
 
-import './Bluetooth.js';
-import Clock from './Clock.js';
-import BarChart, { IotChart } from './Chart.js';
-import React, { useState, useEffect } from 'react';
+
+
+
+
 
 
 export default function HomePage() {
@@ -198,30 +202,27 @@ const onClickEvent = () => {
 
 
   return (
-    <div className={ styles.back }>
+    <div className={ styles.background }>
         <div className={ styles.header }>
-            <img className={ styles.logo } src="/images/heart.png"/>
+            <img id="companyLogo" className={ styles.companyLogo } alt='Company Logo'/>
             <button onClick={onClickEvent} className={styles.connectButton}>Connect device</button>
         </div>
         <div className={ styles.statsContainer }>
             <div className={ styles.smallColumn }>
                 <div className={ styles.dataText }>0</div>
-                <div className={ styles.dataUnit }>khm/h</div>
+                <div className={ styles.dataUnit }>km/h</div>
             </div>
             <div className={ styles.smallColumn }>
                 <Clock/> 
             </div>
-            <div className={ styles.smallColumn }>
-                <div className={ styles.dataText }>0</div>
-                <div className={ styles.dataUnit }>BPM</div>
-            </div>
+        </div>
             <div className={ styles.statsContainer }>
                 <div className={ styles.smallColumn }>
                     <div className={ styles.dataText }>60</div>
                     <div className={ styles.dataUnit }>Lowest BPM</div>
                 </div>
                 <div className={ styles.smallColumn }>
-                    <img id="heartSprite" src = "./heart.png" hidden="true"/>
+                    <img id="heartSprite" src = "./heart.png" alt="bpmHeartImage" hidden="true"/>
                     <div className={ styles.dataText }>0</div>
                     <div className={ styles.dataUnit }>BPM</div>
                 </div>
@@ -240,7 +241,6 @@ const onClickEvent = () => {
                     <div className={ styles.graphName }>PPG</div>
                 </div>
             </div>
-        </div>
     </div>
   );
 }
