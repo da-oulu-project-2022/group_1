@@ -95,14 +95,14 @@ hr {
 
 /* Status Container */
 
-.stats-container {
+.statsContainer {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 2rem 2.5rem;
 }
 
-.small-column {
+.smallColumn {
   width: 25%;
 }
 
@@ -143,14 +143,14 @@ hr {
 
 /* Graph Container */
 
-.graph-container {
+.graphContainer {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 4rem 0;
 }
 
-.big-column {
+.bigColumn {
   width: 45%;
 }
 
@@ -165,7 +165,7 @@ hr {
   font-size: 2rem;
 }
 
-.graph-name2 {
+.graphName2 {
   color: black;
   font-size: 2rem ;
 }
