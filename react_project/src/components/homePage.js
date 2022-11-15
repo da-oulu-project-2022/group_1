@@ -1,4 +1,5 @@
-import styles from './modules/App.module.css';
+import styles from './modules/HomePage.module.css';
+
 import './Bluetooth.js';
 import Clock from './Clock.js';
 import BarChart, { IotChart } from './Chart.js';
@@ -200,7 +201,7 @@ const onClickEvent = () => {
     <div className={ styles.back }>
         <div className={ styles.header }>
             <img className={ styles.logo } src="/images/heart.png"/>
-            <button onClick={onClickEvent} id="connectButton">Connect device</button>
+            <button onClick={onClickEvent} className={styles.connectButton}>Connect device</button>
         </div>
         <div className={ styles.statsContainer }>
             <div className={ styles.smallColumn }>
@@ -210,30 +211,34 @@ const onClickEvent = () => {
             <div className={ styles.smallColumn }>
                 <Clock/> 
             </div>
-        </div>
-        <div className={ styles.statsContainer }>
             <div className={ styles.smallColumn }>
-                <div className={ styles.dataText }>60</div>
-                <div className={ styles.dataUnit }>Lowest BPM</div>
-            </div>
-            <div className={ styles.smallColumn }>
-                <img id="heartSprite" src = "./heart.png" hidden="true"/>
                 <div className={ styles.dataText }>0</div>
                 <div className={ styles.dataUnit }>BPM</div>
             </div>
-            <div className={ styles.smallColumn }>
-                <div className={ styles.dataText }>120</div>
-                <div className={ styles.dataUnit }>Highest BPM</div>
+            <div className={ styles.statsContainer }>
+                <div className={ styles.smallColumn }>
+                    <div className={ styles.dataText }>60</div>
+                    <div className={ styles.dataUnit }>Lowest BPM</div>
+                </div>
+                <div className={ styles.smallColumn }>
+                    <img id="heartSprite" src = "./heart.png" hidden="true"/>
+                    <div className={ styles.dataText }>0</div>
+                    <div className={ styles.dataUnit }>BPM</div>
+                </div>
+                <div className={ styles.smallColumn }>
+                    <div className={ styles.dataText }>120</div>
+                    <div className={ styles.dataUnit }>Highest BPM</div>
+                </div>
             </div>
-        </div>
-        <div className={ styles.graphContainer }>
-            <div className={ styles.bigColumn }>
-                <IotChart/>
-                <div className={ styles.graphName2 }>ECG</div>
-            </div>
-            <div className={ styles.bigColumn }>
-                <IotChart/>
-                <div className={ styles.graphName }>PPG</div>
+            <div className={ styles.graphContainer }>
+                <div className={ styles.bigColumn }>
+                    <IotChart/>
+                    <div className={ styles.graphName2 }>ECG</div>
+                </div>
+                <div className={ styles.bigColumn }>
+                    <IotChart/>
+                    <div className={ styles.graphName }>PPG</div>
+                </div>
             </div>
         </div>
     </div>

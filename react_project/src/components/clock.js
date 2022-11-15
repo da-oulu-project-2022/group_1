@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './modules/App.module.css';
+import styles from './modules/Clock.module.css';
 
 
 
@@ -16,7 +16,7 @@ function Clock() {
 			
 		
 			<p>
-			<h1 className={styles.dataText}>
+			<h1 className={styles.clockData}>
 				
 				{dateState.toLocaleString('en-US', {
 					hour: 'numeric',

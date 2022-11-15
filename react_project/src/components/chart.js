@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Line } from "react-chartjs-2";
+import styles from './modules/Chart.module.css'
 import Chart, { registry } from "chart.js/auto";
 import 'chartjs-adapter-luxon';
 import registerables, { StreamingPlugin, RealTimeScale } from "chartjs-plugin-streaming";
@@ -9,17 +10,6 @@ Chart.register(StreamingPlugin, RealTimeScale);
 
 export const IotChart = () => {
 
-/*  
-const data = {
-  
-  datasets: [{
-    label: 'My First Dataset',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    fill: false,
-    borderColor: 'rgb(75, 192, 192)',
-    tension: 0.1
-  }]
-};*/
   const data = {
     datasets: [
 
@@ -61,7 +51,7 @@ const data = {
   return (
     <div>
       <div>
-        <Line data={data} options={options} width={400} height={200}/>
+        <Line data={data} options={options} width={400} height={200} className={styles.chartBackground} />
       </div>
     </div>
   );
