@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // import HomePage from './components/homePage.js';
-import { Menu } from './pages/menu'
+import { Menu } from './components/Menu'
 
 
 function App() {
