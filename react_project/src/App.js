@@ -44,16 +44,22 @@ function App() {
    * Update the value shown on the web page when a notification is
    * received.
    */
-  const handleCharacteristicValueChanged = (event) => {
-    setBatteryLevel(event.target.value.getUint8(0) + '%');
+  const handleBatteryValueChanged = (event) => {
+    //setBatteryLevel(event.target.value.getUint8(0) + '%');
+    console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
   }
+  
 
   const handleAccValueChanged = (event) => {
-    setAcceleration(event.target.value.getUint8(0));
+    //setAcceleration(event.target.value.getUint8(0));
+    console.log("Data: " + event.target.value.getUint8(0));
+    //console.log(event.target.value);
   }
 
   const handleEcgValueChanged = (event) => {
-    setEcg(event.target.value.getUint8(0));
+    //setEcg(event.target.value.getUint8(0));
+    console.log("BPM: " + event.target.value.getUint8(1));
+    //console.log(event.target.value);
   }
 
   /**
@@ -204,18 +210,6 @@ function stopStream(){
   })
 }
 
-function testi(event){
-  console.log(event);
-}
-
-function heartRateChanged(event){
-  console.log(event.target.value);
-}
-
-function batteryLevelChanged(event){
-  console.log(event.target.value);
-}
-
 const startStream = () => {
   console.log(device);
   console.log(server);
@@ -233,7 +227,7 @@ const startStream = () => {
         element.getCharacteristic(Data_char)
         .then(dataChar => {
           dataChar.startNotifications();
-          dataChar.addEventListener("characteristicvaluechanged", testi);
+          dataChar.addEventListener("characteristicvaluechanged", handleAccValueChanged);
         })
       });
     } if (element.uuid === Heart_rate_Service) {
@@ -241,17 +235,14 @@ const startStream = () => {
         .then(heartRateChar => {
           console.log(heartRateChar);
           heartRateChar.startNotifications();
-          heartRateChar.addEventListener("characteristicvaluechanged", heartRateChanged);
+          heartRateChar.addEventListener("characteristicvaluechanged", handleEcgValueChanged);
         })
     } if (element.uuid === Battery_Service) {
         element.getCharacteristic(Battery_Char)
         .then(char => {
           console.log(char.properties);
           char.readValue()
-          .then(value => {
-            console.log(value);
-          })
-          char.addEventListener("characteristicvaluechanged", batteryLevelChanged);
+          char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
         })
     }
   });
