@@ -15,15 +15,16 @@ view[1] = 2;
 
 
 const buffer2 = Uint8Array.of(2);
-console.log(buffer2);
 
 if (navigator.bluetooth === undefined) {
     p.textContent = "Web bluetooth is not supported";
 }
 else {
+    console.log();
     let button = document.getElementById("connectButton");
+    //button.addEventListener('onClick', onClickEvent);
     button.style.cursor = "pointer";
-
+    
     handleCharacteristicValueChanged = (event) => {
 
 
@@ -48,7 +49,7 @@ else {
     }
 
     onClickEvent = () => {
-
+        console.log("hello");
         navigator.bluetooth.requestDevice(options)
             .then(device => device.gatt.connect()) // after the user select a device, we return the selected one
             /*     .then(function (server) {
@@ -83,12 +84,11 @@ else {
                                 service.getCharacteristic("fb005c81-02e7-f387-1cad-8acd2d8df0c8").then(controlCharacteristic => {
                                     console.log(controlCharacteristic);
                                     console.log("writing value to device");
-                                    controlCharacteristic.writeValueWithResponse(new Uint8Array([0x02, 0x02, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2,1,8,0, 4, 1, 3]))
-
+                                    controlCharacteristic.writeValueWithResponse(new Uint8Array([0x02, 0x02, 0, 1, 0x34, 0x0, 0x1, 0x1, 0x10, 0x0, 0x2,1,8,0, 4, 1, 3]))
+                                    return controlCharacteristic
 
                                 })
                             })
-
 
                             break;
 
