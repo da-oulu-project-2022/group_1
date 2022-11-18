@@ -16,11 +16,12 @@ function App() {
 
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
+  const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
 
   const Cntrl_char = "fb005c81-02e7-f387-1cad-8acd2d8df0c8";
   const Data_char = "fb005c82-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
-
+  const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
   // When the component mounts, check that the browser supports Bluetooth
   useEffect(() => {
     console.log("updated");
@@ -77,12 +78,6 @@ function App() {
     ]
   }
   
-
-let heartRateChanged = (event) => {
-  console.log(event);
-}
-
-
 const connectDevice = () => {
   navigator.bluetooth.requestDevice(options)
   .then(device => {
@@ -90,15 +85,23 @@ const connectDevice = () => {
     device.gatt.connect()
     .then(server => {
       setServer(server);
-      server.getPrimaryService(Heart_rate_Service)
-      .then(service => {
-        service.getCharacteristic(Heart_rate_Char)
-        .then(char => {
+      server.getPrimaryServices()
+      .then(services => {
+        setServices(services);
+        /* .then(char => {
           console.log(char);
           console.log(char.properties);
-          char.addEventListener("changed", heartRateChanged);
+          char.addEventListener("characteristicvaluechanged", heartRateChanged);
           char.startNotifications();
         })
+        service.getCharacteristic(Cntrl_char)
+        .then(char => {
+          char.writeValueWithResponse(new Uint8Array([1, 0]))
+          .then(value => {
+            console.log(value);
+          })
+          char.writeValueWithResponse(new Uint8Array([2, 2, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2, 1, 8, 0, 4, 1, 3]));
+        }) */
       })
     });
   });
@@ -188,59 +191,71 @@ const connectDevice = () => {
   } */
 }
 
+function stopStream(){
+  server.getPrimaryService(PMD_Service)
+  .then(service => {
+    service.getCharacteristic(Cntrl_char)
+    .then(char => {
+      char.writeValueWithResponse(new Uint8Array([3, 3]))
+      .then(_ => {
+        alert("Data stream stopped");
+      })
+    })
+  })
+}
 
 function testi(event){
-  let commandValue = event.target.value.getUint8(0);
   console.log(event);
 }
 
-/* const startStream = () => {
+function heartRateChanged(event){
+  console.log(event.target.value);
+}
+
+function batteryLevelChanged(event){
+  console.log(event.target.value);
+}
+
+const startStream = () => {
   console.log(device);
   console.log(server);
   console.log(services);
   console.log("täällä");
-  server.getPrimaryService(Heart_rate_Service)
-  .then(value => {
-    value.getCharacteristic(Heart_rate_Char)
-    .then(value => {
-      value.startNotifications();
-      value.addEventListener("value changed", (e) => heartRateChanged(e));
-    })
-  })
   services.forEach(element => {
     if (element.uuid === PMD_Service) {
       element.getCharacteristic(Cntrl_char)
       .then(controlChar => {
         console.log(controlChar.properties);
-        controlChar.writeValueWithResponse(new Uint8Array([0x02, 0x03]))
-        .then(_ => {
-          console.log(controlChar.readValue());
-          return;
-        })
+        controlChar.writeValueWithResponse(new Uint8Array([0x02, 0x03]));
+        /* controlChar.writeValueWithResponse(new Uint8Array([2, 2, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2, 1, 8, 0, 4, 1, 3])); */
       })
       .then(_ => {
         element.getCharacteristic(Data_char)
         .then(dataChar => {
           dataChar.startNotifications();
-          return dataChar;
+          dataChar.addEventListener("characteristicvaluechanged", testi);
         })
-        .then(dataChar => {
-          console.log("notifications started");
-          dataChar.addEventListener("value_changed", testi());
-        });
       });
     } if (element.uuid === Heart_rate_Service) {
         element.getCharacteristic(Heart_rate_Char)
         .then(heartRateChar => {
           console.log(heartRateChar);
           heartRateChar.startNotifications();
-          heartRateChar.addEventListener("value_changed", (event => {
-            console.log(event.target.value);
-          }));
+          heartRateChar.addEventListener("characteristicvaluechanged", heartRateChanged);
+        })
+    } if (element.uuid === Battery_Service) {
+        element.getCharacteristic(Battery_Char)
+        .then(char => {
+          console.log(char.properties);
+          char.readValue()
+          .then(value => {
+            console.log(value);
+          })
+          char.addEventListener("characteristicvaluechanged", batteryLevelChanged);
         })
     }
   });
-} */
+}
 
 
   return (
@@ -250,7 +265,8 @@ function testi(event){
     <img class="logo" src="/polarLogo.png"/>
     <button onClick={connectDevice} id="connectButton">Connect device</button>
     <button onClick={onDisconnectedButtonClick} class="disConnectButton">Disconnect device</button>
-    {/* <button onClick={startStream} class="disConnectButton">Start acc</button> */}
+    <button onClick={startStream} class="disConnectButton">Start stream</button>
+    <button onClick={stopStream} class="disConnectButton">Stop stream</button>
 </div>
 <hr/>
 <div class="stats-container">
