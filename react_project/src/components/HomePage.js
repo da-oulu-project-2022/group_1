@@ -6,11 +6,6 @@ import styles from './modules/HomePage.module.css';
 //import { Menu } from './Menu.js';
 
 
-
-
-
-
-
 export default function HomePage() {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
   const [isDisconnected, setIsDisconnected] = useState(true);
