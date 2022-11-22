@@ -8,8 +8,6 @@ import styles from './modules/HomePage.module.css';
 
 
 
-
-
 export default function HomePage() {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
   const [isDisconnected, setIsDisconnected] = useState(true);
