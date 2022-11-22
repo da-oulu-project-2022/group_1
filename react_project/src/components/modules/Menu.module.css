@@ -8,9 +8,9 @@
 
     display: flex;
     background-image: url('../images/homePageBackgroundTop11.jpg'), url('../images/homePageBackgroundBottom1.jpg');
-    background-repeat: no-repeat;
-    background-size: 3000px 500px;
-    background-position: fixed bottom;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 3000px 500px, 3000px 500px;
+    background-position: fixed top, fixed bottom;
     align-items: center;
     height: 100vh;
     justify-content: center;

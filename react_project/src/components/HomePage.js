@@ -51,6 +51,23 @@ export default function HomePage() {
    * battery level readings using the battery service.
    */
 
+   let options = {
+    filters: [
+      {
+        manufacturerData: [{ companyIdentifier: 0x006b }] // Filtering devices with company indentifier, showing only devices made by Polar
+      },
+      {
+        services: ["heart_rate"]
+      }
+    ],
+    acceptAllDevices: false,
+    optionalServices: [
+      "0000180a-0000-1000-8000-00805f9b34fb",
+      "0000180f-0000-1000-8000-00805f9b34fb",
+      "fb005c80-02e7-f387-1cad-8acd2d8df0c8"
+    ]
+  }
+
   const connectToDeviceAndSubscribeToUpdates = async () => {
     try {
       // Search for Bluetooth devices that advertise a battery service
@@ -109,7 +126,7 @@ export default function HomePage() {
     <div className={ styles.background }>
         <div className={ styles.header }>
             <img id="companyLogo" className={ styles.companyLogo } alt='Company Logo'/>
-            <button onClick={onClickEvent} className={styles.connectButton}>Connect device</button>
+            
         </div>
         <div className={ styles.statsContainer }>
             <div className={ styles.smallColumn }>

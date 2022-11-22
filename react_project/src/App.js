@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage';
 
 import { Menu } from './components/Menu'
-import { NavigationPage } from './components/NavigationPage'
+
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element= {<Menu />} />
-        <Route path="/nav" element={<NavigationPage />} />
+        <Route path="/home" element={<HomePage />} />
       </Routes>
     </>
   );
