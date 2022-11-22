@@ -100,7 +100,6 @@ export function Menu() {
         function batteryLevelChanged(event){
           console.log(event);
         }
-  
     }
 
     return(

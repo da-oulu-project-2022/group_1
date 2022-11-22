@@ -51,10 +51,6 @@ export default function HomePage() {
    * battery level readings using the battery service.
    */
 
-   
-
-
-
   const connectToDeviceAndSubscribeToUpdates = async () => {
     try {
       // Search for Bluetooth devices that advertise a battery service
