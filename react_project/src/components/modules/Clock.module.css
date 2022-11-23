@@ -1,9 +1,20 @@
-.clock {
+.clock1 {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    margin: 5vh auto 0;
+    color: rgb(181, 9, 9);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+}
+
+.clock2 {
     display: flex;
     justify-content: flex-end;
     align-items:flex-end;
-    margin: 5vh auto 0;
-    color: white;
+    
+    color: rgb(244, 238, 238);
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 40px;

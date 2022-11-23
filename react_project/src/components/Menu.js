@@ -1,5 +1,5 @@
 import styles from './modules/Menu.module.css'
-import Clock from './Clock'
+import MenuClock from './MenuClock'
 import { Link } from 'react-router-dom';
 //import HomePage from './HomePage'
 //import {OnClickEvent} from './HomePage'
@@ -106,7 +106,7 @@ export function Menu() {
       <div className={ styles.backgroundImage}>
           <div className={ styles.container }>
               <div className={ styles.logo }></div>
-              <Clock />
+              <MenuClock />
               <button onClick={ onClickEvent } className={ styles.button }><Link to='/home'>Connect Device</Link></button>
           </div>
       </div>

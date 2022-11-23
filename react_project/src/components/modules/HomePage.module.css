@@ -36,9 +36,10 @@
 
 .companyLogo {
   
-  background-size: auto;
-  background-image: url('../images/logos.png') top no-repeat;
-  position: relative;
+  /*background-size:100px 200px;*/
+  display: inline-flexbox;
+  justify-content: flex-end;
+  width: 90%;
 
   
 }
@@ -69,10 +70,7 @@
     margin: 2rem 2.5rem;
   }
 
-  .clockColumn {
-    width: 90%;
-    
-  }
+
   
   .smallColumn {
     width: 25%;

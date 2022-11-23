@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BarChart, { IotChart } from './Chart.js';
-import Clock from './Clock.js';
+
+import HomeClock from './HomePageClock.js';
 import './Bluetooth.js';
 import styles from './modules/HomePage.module.css';
 
@@ -125,9 +126,9 @@ export default function HomePage() {
 
   return (
     <div className={ styles.background }>
-            <img src='../images/logos.png' alt=''/>
-            <div className={ styles.clockColumn }>
-                <Clock/> 
+      <div className={ styles.companyLogo}>
+            <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+              <HomeClock/> 
             </div>
         <div className={ styles.statsContainer }>
             <div className={ styles.smallColumn }>
