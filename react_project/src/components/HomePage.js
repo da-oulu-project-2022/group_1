@@ -1,6 +1,6 @@
 import './modules/Menu.module.css';
 import './bluetooth';
-import Clock from './Clock';
+import Clock from './HomePageClock';
 import BarChart, { IotChart } from './Chart';
 
 import React, { useState, useEffect } from 'react';   
