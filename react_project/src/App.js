@@ -52,14 +52,18 @@ function App() {
 
   const handleAccValueChanged = (event) => {
     //setAcceleration(event.target.value.getUint8(0));
-    console.log("Data: " + event.target.value.getUint8(0));
-    //console.log(event.target.value);
+    //console.log("Data: " + event.target.value.getUint8(0));
+    console.log(event.target.value.buffer);
   }
 
   const handleEcgValueChanged = (event) => {
     //setEcg(event.target.value.getUint8(0));
     console.log("BPM: " + event.target.value.getUint8(1));
     //console.log(event.target.value);
+  }
+
+  const handleCntrlValueChanged = (event) => {
+    console.log(event.target.value);
   }
 
   /**
@@ -220,7 +224,9 @@ const startStream = () => {
       element.getCharacteristic(Cntrl_char)
       .then(controlChar => {
         console.log(controlChar.properties);
-        controlChar.writeValueWithResponse(new Uint8Array([0x02, 0x03]));
+        controlChar.startNotifications();
+        controlChar.addEventListener("characteristicvaluechanged", handleCntrlValueChanged);
+        controlChar.writeValueWithResponse(new Uint8Array([2, 1, 0, 1, 0x87, 0, 1, 1, 0x16, 0, 4, 1, 4]));
         /* controlChar.writeValueWithResponse(new Uint8Array([2, 2, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2, 1, 8, 0, 4, 1, 3])); */
       })
       .then(_ => {
