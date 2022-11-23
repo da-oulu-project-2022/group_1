@@ -107,7 +107,7 @@ export function Menu() {
           <div className={ styles.container }>
               <div className={ styles.logo }></div>
               <Clock />
-              <button onClick={ onClickEvent } className={ styles.button }><Link to='/nav'>Connect Device</Link></button>
+              <button onClick={ onClickEvent } className={ styles.button }><Link to='/home'>Connect Device</Link></button>
           </div>
       </div>
     ) 

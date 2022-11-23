@@ -7,10 +7,12 @@
 .backgroundImage {
 
     display: flex;
-    background-image: url('../images/homePageBackgroundTop11.jpg'), url('../images/homePageBackgroundBottom1.jpg');
-    background-repeat: no-repeat, no-repeat;
-    background-size: 3000px 500px, 3000px 500px;
-    background-position: fixed top, fixed bottom;
+    background: url('../images/homePageBackgroundTop11.jpg') top no-repeat, url('../images/homePageBackgroundBottom1.jpg') bottom no-repeat;
+   /* background-image: url('../images/homePageBackgroundTop11.jpg'), url('../images/homePageBackgroundBottom1.jpg');*/
+   /* background-repeat: no-repeat, no-repeat;*/
+    background-size: 3000px 300px, 3000px 300px;
+    background-color: #f7f7f7;
+   /* background-position: fixed top, fixed bottom;*/
     align-items: center;
     height: 100vh;
     justify-content: center;

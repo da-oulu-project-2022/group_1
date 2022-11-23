@@ -8,6 +8,7 @@ import styles from './modules/HomePage.module.css';
 
 
 
+
 export default function HomePage() {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
   const [isDisconnected, setIsDisconnected] = useState(true);
@@ -124,18 +125,16 @@ export default function HomePage() {
 
   return (
     <div className={ styles.background }>
-        <div className={ styles.header }>
-            <img id="companyLogo" className={ styles.companyLogo } alt='Company Logo'/>
-            
-        </div>
+            <img src='../images/logos.png' alt=''/>
+            <div className={ styles.clockColumn }>
+                <Clock/> 
+            </div>
         <div className={ styles.statsContainer }>
             <div className={ styles.smallColumn }>
                 <div className={ styles.dataText }>0</div>
                 <div className={ styles.dataUnit }>km/h</div>
             </div>
-            <div className={ styles.smallColumn }>
-                <Clock/> 
-            </div>
+            
         </div>
             <div className={ styles.statsContainer }>
                 <div className={ styles.smallColumn }>

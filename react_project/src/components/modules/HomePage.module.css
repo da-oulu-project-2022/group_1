@@ -1,47 +1,46 @@
+
+
 * {
     margin: 0px;
     padding: 0px;
-    box-sizing: border-box;
+    
     font-family: 'Montserrat', sans-serif;
     
   }
   
-  p {
-    width: 256px;
-    text-align: center;
-    font-size: 2rem;
-  }
-  
-  hr {
-    margin: 0.5rem 0;
-  }
+ 
   
   .background {
-    margin-top: -20px;
-    background-image: url('../images/homePageBackgroundTop1.jpg');
-    background-repeat: no-repeat;
-    flex: 1;
-    background-size: cover;
-  
+    
+    background: url('../images/homePageBackgroundTop11.jpg') top no-repeat, url('../images/homePageBackgroundBottom1.jpg') bottom no-repeat;
+    background-size: 3000px 300px, 3000px 300px;
+    background-color: #f7f7f7;
+    margin: 0px;
+    padding: 0px;
+    
+    display: block;
+    
+    
   }
   /* Header */
 
     
-.header {
+/*.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 1rem 1rem 1rem 2.5rem;
-}
+}*/
 
 
 
 .companyLogo {
-  background-image: url('../images/heart.png');
-  max-width: 50px;
-  height: auto;
-  background-repeat: no-repeat;
-  background-position: center;
+  
+  background-size: auto;
+  background-image: url('../images/logos.png') top no-repeat;
+  position: relative;
+
+  
 }
 
 .battery {
@@ -68,6 +67,11 @@
     justify-content: space-around;
     align-items: center;
     margin: 2rem 2.5rem;
+  }
+
+  .clockColumn {
+    width: 90%;
+    
   }
   
   .smallColumn {
@@ -115,10 +119,27 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 4rem 0;
+    
   }
   
   .bigColumn {
     width: 45%;
+   
   }
   
+  .graph {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    /*margin-bottom: 1rem;*/
+  }
+  
+  .graphName {
+    color: red;
+    font-size: 2rem;
+    
+  }
+  
+  .graphName2 {
+    color: red;
+    font-size: 2rem ;
+  }
