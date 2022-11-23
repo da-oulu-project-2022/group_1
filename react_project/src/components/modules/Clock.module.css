@@ -1,10 +1,21 @@
-.clock {
+.clock1 {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:center;
     margin: 5vh auto 0;
-    color: #db1623;
-    font-family: 'Poppins', sans-serif;
+    color: red;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+}
+
+.clock2 {
+    display: flex;
+    justify-content: flex-end;
+    align-items:flex-end;
+    
+    color: rgb(244, 238, 238);
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 40px;
 }

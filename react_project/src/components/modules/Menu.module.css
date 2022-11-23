@@ -6,14 +6,16 @@
 
 .backgroundImage {
 
-    display: flex;
-    background-image: url('../images/homePageBackgroundTop11.jpg'), url('../images/homePageBackgroundBottom1.jpg');
-    background-repeat: no-repeat;
-    background-size: 3000px 500px;
-    background-position: fixed bottom;
-    align-items: center;
+   display: flex;
+    background: url('../images/homePageBackgroundTop11.jpg') top no-repeat, url('../images/homePageBackgroundBottom1.jpg') bottom no-repeat;
+   /* background-image: url('../images/homePageBackgroundTop11.jpg'), url('../images/homePageBackgroundBottom1.jpg');*/
+   /* background-repeat: no-repeat, no-repeat;*/
+    background-size: 3000px 300px, 3000px 300px;
+    background-color: #f7f7f7;
+   /* background-position: fixed top, fixed bottom;*/
+    
     height: 100vh;
-    justify-content: center;
+    
     
 
 }
@@ -26,17 +28,35 @@
     border-radius: 40px;
     width: 29.75%;
     height: 53vh;
-    align-items: center;
-}
+    
+    position: fixed;
+    bottom: 24%;
+    right: 42%;
+    width: 300px;
+    
+  }
 
-.logo {
+
+.welcome {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 4vh auto 0;
     width: 26.5%;
     height: 7vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 40px;
+    color: #de1818;
 }
+.companyLogo {
+  
+    /*background-size:100px 200px;*/
+    display:inline;
+    justify-content: flex-end;
+    width: 90%;
+  
+    
+  }
 
 .device_container {
     display: flex;

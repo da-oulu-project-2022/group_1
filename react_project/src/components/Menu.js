@@ -1,5 +1,6 @@
 import styles from './modules/Menu.module.css'
-import Clock from './Clock'
+import MenuClock from './MenuClock'
+import { Link } from 'react-router-dom';
 //import HomePage from './HomePage'
 //import {OnClickEvent} from './HomePage'
 
@@ -99,22 +100,18 @@ export function Menu() {
         function batteryLevelChanged(event){
           console.log(event);
         }
-  
     }
 
-
-    
     return(
-        
-    <div className={ styles.backgroundImage}>
-        <div className={ styles.container }>
-            <div className={ styles.logo }></div>
-            <Clock />
-            
-            
-            <button onClick={onClickEvent} className={ styles.button } >Connect Device</button>
-        </div></div>
-  
-    
+      <div className={ styles.backgroundImage}>
+        <div className={ styles.companyLogo}>
+        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+        </div>
+          <div className={ styles.container }>
+              <div className={ styles.welcome }>Welcome</div>
+              <MenuClock />
+              <button onClick={ onClickEvent } className={ styles.button }><Link to='/home'>Connect Device</Link></button>
+          </div>
+      </div>
     ) 
 }

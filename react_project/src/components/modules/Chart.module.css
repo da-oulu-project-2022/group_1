@@ -13,15 +13,16 @@
   .graph {
     border-bottom: 1px solid black;
     border-left: 1px solid black;
-    margin-bottom: 1rem;
+    /*margin-bottom: 1rem;*/
   }
   
   .graph-name {
     color: red;
-    font-size: 2rem;
+    font-size: 4rem;
+    
   }
   
   .graphName2 {
-    color: black;
-    font-size: 2rem ;
+    color: red;
+    font-size: 4rem ;
   }
