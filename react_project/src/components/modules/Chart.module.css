@@ -1,0 +1,28 @@
+
+.chartBackground {
+
+    
+    background-color: white;
+    font: 100;
+    font-family: 'Montserrat', sans-serif;
+    
+    
+  
+  }
+
+  .graph {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    /*margin-bottom: 1rem;*/
+  }
+  
+  .graph-name {
+    color: red;
+    font-size: 4rem;
+    
+  }
+  
+  .graphName2 {
+    color: red;
+    font-size: 4rem ;
+  }

@@ -1,7 +1,6 @@
 * {
     margin: 0px;
     font-family: 'Montserrat', sans-serif;
-    
 }
 
 p {
@@ -15,12 +14,13 @@ hr {
 }
 
 .back {
-
     background-image: url('POLARISTIST.png');
     background-repeat: no-repeat;
     background-size: cover;
-
 }
+
+
+
 /* Header */
 
 .header {

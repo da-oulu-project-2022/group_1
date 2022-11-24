@@ -12,7 +12,7 @@ else {
         heart.hidden = false;
         let value = event.target.value ; // a dataviewer object is provided by the object event
         let heartrate = value.getUint8(1) ; // we select the eight bytes that contain the heartrate informations
-        p.textContent = heartrate + " BPM" ; // and display it
+        p.textContent = heartrate; // and display it
         BPM = heartrate ;
     }
     onClickEvent = () => {
@@ -66,3 +66,105 @@ else {
     } ;
     let globalID = requestAnimationFrame(updateHeartSize) ;
 }
+
+function currentTime() {
+    let date = new Date(); 
+    let hh = date.getHours();
+    let mm = date.getMinutes();
+    
+     hh = (hh < 10) ? "0" + hh : hh;
+     mm = (mm < 10) ? "0" + mm : mm;
+     let time = hh + ":" + mm;
+  
+    document.getElementById("clock").innerText = time; 
+    let t = setTimeout(function(){ currentTime() }, 1000); 
+  }
+currentTime();
+
+
+// load current chart package
+google.charts.load("current", {
+    packages: ["corechart", "line"]
+});
+// set callback function when api loaded
+google.charts.setOnLoadCallback(drawPPG);
+google.charts.setOnLoadCallback(drawECG);
+
+function drawECG() {
+    // create data object with default value
+    var data = google.visualization.arrayToDataTable([
+        ['Time', 'ECG'],
+        [0, 0],
+    ]);
+    // create options object with titles, colors, etc.
+    var options = {
+        hAxis: {
+            textPosition: 'none',
+            title: "Time (ms)"
+        },
+        vAxis: {
+            title: "Time (mV)"
+        }
+    };
+    // draw chart on load
+    var chart = new google.visualization.LineChart(
+        document.getElementById("chart_div_1")
+    );
+    chart.draw(data, options);
+
+        // max amount of data rows that should be displayed
+let maxData = 50;
+// interval for adding new data every 250ms
+let index = 0;
+setInterval(function () {
+  // instead of this random, you can make an ajax call for the current cpu usage or what ever data you want to display
+  let randomCP = Math.random() * 20;
+  
+  if (data.getNumberOfRows() > maxData) {
+    data.removeRows(0, data.getNumberOfRows() - maxData);
+  }
+  data.addRow([index, randomCP]);
+  chart.draw(data, options);
+  index++;
+}, 100);
+}
+
+
+function drawPPG() {
+    // create data object with default value
+    var data = google.visualization.arrayToDataTable([
+        ['Time', 'PPG'],
+        [0, 0],
+    ]);
+    // create options object with titles, colors, etc.
+    var options = {
+        hAxis: {
+            textPosition: 'none',
+        },
+        vAxis: {
+            title: "Usage"
+        }
+    };
+    // draw chart on load
+    var chart = new google.visualization.LineChart(
+        document.getElementById("chart_div_2")
+    );
+    chart.draw(data, options);
+
+    // max amount of data rows that should be displayed
+let maxDatas = 50;
+// interval for adding new data every 250ms
+let index = 0;
+setInterval(function () {
+  // instead of this random, you can make an ajax call for the current cpu usage or what ever data you want to display
+  let randomCPU = Math.random() * 20;
+  
+  if (data.getNumberOfRows() > maxDatas) {
+    data.removeRows(0, data.getNumberOfRows() - maxDatas);
+  }
+  data.addRow([index, randomCPU]);
+  chart.draw(data, options);
+  index++;
+}, 100);
+}
+

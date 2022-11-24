@@ -1,0 +1,143 @@
+
+
+* {
+    margin: 0px;
+    padding: 0px;
+    
+    font-family: 'Montserrat', sans-serif;
+    
+  }
+  
+ 
+  
+  .background {
+    
+    background: url('../images/homePageBackgroundTop11.jpg') top no-repeat, url('../images/homePageBackgroundBottom1.jpg') bottom no-repeat;
+    background-size: 3000px 300px, 3000px 300px;
+    background-color: #f7f7f7;
+    margin: 0px;
+    padding: 0px;
+    
+    display: block;
+    
+    
+  }
+  /* Header */
+
+    
+/*.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 1rem 1rem 2.5rem;
+}*/
+
+
+
+.companyLogo {
+  
+  /*background-size:100px 200px;*/
+  display: inline-flexbox;
+  justify-content: flex-end;
+  width: 90%;
+
+  
+}
+
+.battery {
+  width: 10%;
+}
+
+.connectButton {
+  cursor: not-allowed;
+  max-width: 20%;
+  margin: 2%;
+  padding: 1rem 2rem;
+  background-color: red;
+  color: white;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 28px;
+}
+  
+  
+  /* Status Container */
+  
+  .statsContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 2rem 2.5rem;
+  }
+
+
+  
+  .smallColumn {
+    width: 25%;
+  }
+  
+  #heartSprite {
+    width : 100px;
+    height : 100px;
+    margin-bottom: 0.5rem;
+   align-items: baseline;
+  }
+  
+  #clock {
+    color: red;
+    font-size: 3rem;
+    text-align: center;
+  }
+  
+  .data {
+    text-align: center;
+  }
+  
+  .dataText {
+    font-size: 3rem;
+    color: red;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .dataUnit {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  
+  
+  
+  
+  /* Graph Container */
+  
+  .graphContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+  }
+  
+  .bigColumn {
+    width: 45%;
+   
+  }
+  
+  .graph {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    /*margin-bottom: 1rem;*/
+  }
+  
+  .graphName {
+    color: red;
+    font-size: 2rem;
+    
+  }
+  
+  .graphName2 {
+    color: red;
+    font-size: 2rem ;
+  }
