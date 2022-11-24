@@ -10,10 +10,8 @@
 }
 
 .clock2 {
-    display: flex;
-    justify-content: flex-end;
-    align-items:flex-end;
-    
+
+    margin: 3vh 5vh;
     color: rgb(244, 238, 238);
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;

@@ -1,7 +1,6 @@
 
 .chartBackground {
 
-    
     background-color: white;
     font: 100;
     font-family: 'Montserrat', sans-serif;
@@ -25,4 +24,5 @@
   .graphName2 {
     color: red;
     font-size: 4rem ;
+    
   }
