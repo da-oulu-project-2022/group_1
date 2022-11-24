@@ -103,15 +103,19 @@ export function Menu() {
     }
 
     return(
-      <div className={ styles.backgroundImage}>
-        <div className={ styles.companyLogo}>
-        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
-        </div>
+      <html>
+        <header></header>
+        <div className={styles.content}>
           <div className={ styles.container }>
               <div className={ styles.welcome }>Welcome</div>
-              <MenuClock />
+                <MenuClock />
               <button onClick={ onClickEvent } className={ styles.button }><Link to='/HomePage'>Connect Device</Link></button>
           </div>
-      </div>
+        </div>
+
+        <footer >
+          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+        </footer>
+      </html>
     ) 
 }

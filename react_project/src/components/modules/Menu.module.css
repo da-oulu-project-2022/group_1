@@ -1,40 +1,53 @@
 * {
-    margin:0;
-   
+    margin: 0px;
+    padding: 0px;
+    
+    font-family: 'Montserrat', sans-serif;
     
 }
-
-.backgroundImage {
-
-   display: flex;
-    background: url('../images/homePageBackgroundTop11.jpg') top no-repeat, url('../images/homePageBackgroundBottom1.jpg') bottom no-repeat;
-   /* background-image: url('../images/homePageBackgroundTop11.jpg'), url('../images/homePageBackgroundBottom1.jpg');*/
-   /* background-repeat: no-repeat, no-repeat;*/
-    background-size: 3000px 300px, 3000px 300px;
-    background-color: #f7f7f7;
-   /* background-position: fixed top, fixed bottom;*/
-    
-    height: 100vh;
-    
-    
-
+html {
+    display: flex;
+    flex-direction: column;
+    align: center;
 }
 
-
+header {
+    background: url('../images/homePageBackgroundTop.png');;
+    background-size: 100vw 15vh;
+    height: 15vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+}
+.content{
+    background-color: white;
+    height: 70vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* flex-wrap: wrap; */
+  }
+footer{
+    background: url('../images/homePageBackgroundBottom.png');
+    background-size: 100vw 15vh;
+    height: 15vh;
+    width: 100vw;
+    display: flex;
+    align-items: flex-end;
+}
 
 .container {
-    background: #FFFFFF;
-    box-shadow: 0px 43px 50px -25px rgba(157, 172, 227, 0.3);
+    background-image: linear-gradient(to bottom, #efefef, #adadad); 
+    box-shadow: 0px 20px 80px -25px #000000;
     border-radius: 40px;
-    width: 29.75%;
-    height: 53vh;
-    
-    position: fixed;
-    bottom: 24%;
-    right: 42%;
-    width: 300px;
-    
-  }
+    border: 3px solid #de1818;
+    width: 25vw;
+    height: 50vh;    
+}
 
 
 .welcome {
@@ -56,9 +69,9 @@
     width: 90%;
   
     
-  }
+}
 
-.device_container {
+/* .device_container {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -85,7 +98,7 @@
     font-weight: 500;
     font-size: 16px;
 }
-
+ */
 .button {
     background: #de1818;
     display: flex;
