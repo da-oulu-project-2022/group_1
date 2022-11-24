@@ -110,7 +110,7 @@ export function Menu() {
           <div className={ styles.container }>
               <div className={ styles.welcome }>Welcome</div>
               <MenuClock />
-              <button onClick={ onClickEvent } className={ styles.button }><Link to='/home'>Connect Device</Link></button>
+              <button onClick={ onClickEvent } className={ styles.button }><Link to='/HomePage'>Connect Device</Link></button>
           </div>
       </div>
     ) 
