@@ -1,7 +1,8 @@
 import './modules/Menu.module.css';
-import './bluetooth';
+import HomeClock from './HomePageClock.js';
 import Clock from './HomePageClock';
 import BarChart, { IotChart } from './Chart';
+import styles from './modules/HomePage.module.css';
 
 import React, { useState, useEffect } from 'react';   
 
@@ -232,60 +233,44 @@ const startStream = () => {
 
 
   return (
-<div class="back">
-
-<div class="header">
-    <img class="logo" src="/polarLogo.png"/>
-    <button onClick={connectDevice} id="connectButton">Connect device</button>
-    <button onClick={onDisconnectedButtonClick} class="disConnectButton">Disconnect device</button>
-    <button onClick={startStream} class="disConnectButton">Start stream</button>
-    <button onClick={stopStream} class="disConnectButton">Stop stream</button>
-</div>
-<hr/>
-<div class="stats-container">
-    <div class="small-column">
-        <div class="data dataText">0</div>
-        <div class="data dataUnit">khm/h</div>
-    </div>
-    <div class="small-column">
-    <Clock/>
-        
-    </div>
-    <div class="small-column">
-        <div class="data dataText">0</div>
-        <div class="data dataUnit">BPM</div>
-    </div>
-</div>
-<hr/>
-<div class="stats-container">
-    <div class="small-column">
-        <div class="data dataText">60</div>
-        <div class="data dataUnit">Lowest BPM</div>
-    </div>
-    <div class="small-column">
-        <div>
-       <img id="heartSprite" src = "./heart.png" hidden="true"/>
-       <div id="dataText" class="dataText">0</div>
-       <div class="dataUnit">BPM</div>
-        </div>
-    </div>
-    <div class="small-column">
-        <div class="data dataText">120</div>
-        <div class="data dataUnit">Highest BPM</div>
-    </div>
-</div>
-<hr/>
-<div class="graph-container">
-    <div class="big-column">
-        <IotChart/>
-        <div class="graph-name2">ECG</div>
-    </div>
-    <div class="big-column">
-        <IotChart/>
-        <div class="graph-name">PPG</div>
-    </div>
-</div>
-</div>
+    <div className={ styles.background }>
+    <div className={ styles.companyLogo}>
+          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+            <HomeClock/> 
+          </div>
+      <div className={ styles.statsContainer }>
+          <div className={ styles.smallColumn }>
+              <div className={ styles.dataText }>0</div>
+              <div className={ styles.dataUnit }>km/h</div>
+          </div>
+          
+      </div>
+          <div className={ styles.statsContainer }>
+              <div className={ styles.smallColumn }>
+                  <div className={ styles.dataText }>60</div>
+                  <div className={ styles.dataUnit }>Lowest BPM</div>
+              </div>
+              <div className={ styles.smallColumn }>
+                  <img id="heartSprite" src = "./heart.png" alt="bpmHeartImage" hidden="true"/>
+                  <div className={ styles.dataText }>0</div>
+                  <div className={ styles.dataUnit }>BPM</div>
+              </div>
+              <div className={ styles.smallColumn }>
+                  <div className={ styles.dataText }>120</div>
+                  <div className={ styles.dataUnit }>Highest BPM</div>
+              </div>
+          </div>
+          <div className={ styles.graphContainer }>
+              <div className={ styles.bigColumn }>
+                  <IotChart/>
+                  <div className={ styles.graphName2 }>ECG</div>
+              </div>
+              <div className={ styles.bigColumn }>
+                  <IotChart/>
+                  <div className={ styles.graphName }>PPG</div>
+              </div>
+          </div>
+  </div>
   );
 }
 
