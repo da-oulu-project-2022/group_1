@@ -5,10 +5,11 @@
     font-family: 'Montserrat', sans-serif;
     
 }
-html {
+body {
     display: flex;
     flex-direction: column;
     align: center;
+    background-image: linear-gradient(to bottom, #efefef, #adadad); 
 }
 
 header {
@@ -22,7 +23,7 @@ header {
     
 }
 .content{
-    background-color: white;
+    
     height: 70vh;
     width: 100vw;
     display: flex;
