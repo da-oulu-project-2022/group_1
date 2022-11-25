@@ -262,7 +262,6 @@ const startStream = (services) => {
         </header>
         <div className={styles.content}>
           <section className={styles.dataContainer}>
-          <button onClick={connectDevice}>connectDev</button>
             <div>
               <p className={ styles.dataText }>60</p>
               <p className={ styles.dataUnit }>Lowest BPM</p>
