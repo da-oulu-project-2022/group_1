@@ -37,7 +37,7 @@ function App() {
     }
   }, []);
 
-  function pasrseToInt(byte_array){
+  function pasrseToInt24(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
     if (value0.length == 1){ value0 = 0 + value0}
@@ -80,7 +80,7 @@ function App() {
       
 
       if (i%30 == 1) {
-        sample = pasrseToInt(event.target.value.buffer.slice(i, i+3));
+        sample = pasrseToInt24(event.target.value.buffer.slice(i, i+3));
         console.log(sample + " microvolt");
       }
     }
@@ -233,13 +233,13 @@ const startStream = (services) => {
           controlChar.writeValueWithResponse(ECG_Array);
         })
       });
-/*     } if (element.uuid === Heart_rate_Service) {
+    } if (element.uuid === Heart_rate_Service) {
         element.getCharacteristic(Heart_rate_Char)
         .then(heartRateChar => {
           console.log(heartRateChar);
           heartRateChar.startNotifications();
           heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
-        }) */
+        })
     } if (element.uuid === Battery_Service) {
         element.getCharacteristic(Battery_Char)
         .then(char => {
@@ -255,40 +255,43 @@ const startStream = (services) => {
   return (
     
     <html>
-      <header>
-        <HomeClock/>   
-      </header>
-      <div className={styles.content}>
-        <section className={styles.dataContainer}>
-        <button onClick={connectDevice}>connectDev</button>
-          <div>
-            <p className={ styles.dataText }>60</p>
-            <p className={ styles.dataUnit }>Lowest BPM</p>
-          </div>
-          <div>
-            <p className={ styles.dataText }>0</p>
-            <p className={ styles.dataUnit }>BPM</p>
-          </div>
-          <div>
-            <p className={ styles.dataText }>120</p>
-            <p className={ styles.dataUnit }>Highest BPM</p>
-          </div>
-        </section> 
-        
-        <section className={ styles.graphContainer }>
-            <div className={ styles.graph }>
-              <IotChart/>
+      <head></head>
+      <body>
+        <header>
+          <HomeClock/>   
+        </header>
+        <div className={styles.content}>
+          <section className={styles.dataContainer}>
+          <button onClick={connectDevice}>connectDev</button>
+            <div>
+              <p className={ styles.dataText }>60</p>
+              <p className={ styles.dataUnit }>Lowest BPM</p>
             </div>
-            <p className={ styles.graphName2 }>ECG</p>
-            
+            <div>
+              <p className={ styles.dataText }>0</p>
+              <p className={ styles.dataUnit }>BPM</p>
+            </div>
+            <div>
+              <p className={ styles.dataText }>120</p>
+              <p className={ styles.dataUnit }>Highest BPM</p>
+            </div>
+          </section> 
+          
+          <section className={ styles.graphContainer }>
+              <div className={ styles.graph }>
+                <IotChart/>
+              </div>
+              <p className={ styles.graphName2 }>ECG</p>
+              
 
-        </section>
-      
-      </div>
-      <footer >
-        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          </section>
         
-      </footer>
+        </div>
+        <footer >
+          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          
+        </footer>
+      </body>
     </html>
   );
 }
