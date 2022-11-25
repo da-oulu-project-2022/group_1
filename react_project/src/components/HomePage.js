@@ -233,44 +233,42 @@ const startStream = () => {
 
 
   return (
-    <div className={ styles.background }>
-    <div className={ styles.companyLogo}>
-          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
-            <HomeClock/> 
+    
+    <html>
+      <header>
+        <HomeClock/>   
+      </header>
+      <div className={styles.content}>
+        <section className={styles.dataContainer}>
+          <div>
+            <p className={ styles.dataText }>60</p>
+            <p className={ styles.dataUnit }>Lowest BPM</p>
           </div>
-      <div className={ styles.statsContainer }>
-          <div className={ styles.smallColumn }>
-              <div className={ styles.dataText }>0</div>
-              <div className={ styles.dataUnit }>km/h</div>
+          <div>
+            <p className={ styles.dataText }>0</p>
+            <p className={ styles.dataUnit }>BPM</p>
           </div>
-          
+          <div>
+            <p className={ styles.dataText }>120</p>
+            <p className={ styles.dataUnit }>Highest BPM</p>
+          </div>
+        </section> 
+        
+        <section className={ styles.graphContainer }>
+            <div className={ styles.graph }>
+              <IotChart/>
+            </div>
+            <p className={ styles.graphName2 }>ECG</p>
+            
+
+        </section>
+      
       </div>
-          <div className={ styles.statsContainer }>
-              <div className={ styles.smallColumn }>
-                  <div className={ styles.dataText }>60</div>
-                  <div className={ styles.dataUnit }>Lowest BPM</div>
-              </div>
-              <div className={ styles.smallColumn }>
-                  <img id="heartSprite" src = "./heart.png" alt="bpmHeartImage" hidden="true"/>
-                  <div className={ styles.dataText }>0</div>
-                  <div className={ styles.dataUnit }>BPM</div>
-              </div>
-              <div className={ styles.smallColumn }>
-                  <div className={ styles.dataText }>120</div>
-                  <div className={ styles.dataUnit }>Highest BPM</div>
-              </div>
-          </div>
-          <div className={ styles.graphContainer }>
-              <div className={ styles.bigColumn }>
-                  <IotChart/>
-                  <div className={ styles.graphName2 }>ECG</div>
-              </div>
-              <div className={ styles.bigColumn }>
-                  <IotChart/>
-                  <div className={ styles.graphName }>PPG</div>
-              </div>
-          </div>
-  </div>
+      <footer >
+        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+        
+      </footer>
+    </html>
   );
 }
 

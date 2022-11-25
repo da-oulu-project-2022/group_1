@@ -51,7 +51,7 @@ export const IotChart = () => {
   return (
     <div>
       <div>
-        <Line data={data} options={options} width={400} height={200} className={styles.chartBackground} />
+        <Line data={data} options={options} className={styles.chartBackground} />
         
       </div>
     </div>

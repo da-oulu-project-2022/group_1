@@ -1,28 +1,84 @@
 
 
 * {
-    margin: 0px;
-    padding: 0px;
-    
-    font-family: 'Montserrat', sans-serif;
-    
-  }
+  margin: 0px;
+  padding: 0px;
   
- 
+  font-family: 'Montserrat', sans-serif;
   
-  .background {
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align: center;
+  background-image: linear-gradient(to bottom, #efefef, #adadad); 
+}
+
+header {
+  background: url('../images/homePageBackgroundTop.png');;
+  background-size: 100vw 15vh;
+  height: 15vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
     
-    background: url('../images/homePageBackgroundTop11.jpg') top no-repeat, url('../images/homePageBackgroundBottom1.jpg') bottom no-repeat;
-    background-size: 3000px 300px, 3000px 300px;
-    background-color: #f7f7f7;
-    margin: 0px;
-    padding: 0px;
-    
-    display: block;
-    
-    
-  }
-  /* Header */
+}
+.content{
+  
+  height: 70vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /* flex-wrap: wrap; */
+}
+footer{
+  background: url('../images/homePageBackgroundBottom.png');
+  background-size: 100vw 15vh;
+  height: 15vh;
+  width: 100vw;
+  display: flex;
+  align-items: flex-end;
+}
+.dataContainer {
+  width: 30vw;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-right: 4px solid black;
+}
+
+.graphContainer {
+  width: 60vw;
+  
+  height:auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.blackBar {
+  width: 5px;
+  height: 90%;
+  background-color: black;
+}
+
+/*   .background {
+  
+  background: url('../images/homePageBackgroundTop11.jpg') top no-repeat, url('../images/homePageBackgroundBottom1.jpg') bottom no-repeat;
+  
+  background-color: #f7f7f7;
+  margin: 0px;
+  padding: 0px;
+  
+  display: block;
+  
+  
+} */
+/* Header */
 
     
 /*.header {
@@ -37,9 +93,10 @@
 .companyLogo {
   
   /*background-size:100px 200px;*/
-  display: inline-flexbox;
-  justify-content: flex-end;
-  width: 90%;
+  display: flex;
+
+  justify-content: space-between;
+  width: 90vw;
 
   
 }
@@ -72,8 +129,10 @@
 
 
   
-  .smallColumn {
-    width: 25%;
+  .displayElement {
+    display: flex;
+    flex-direction: column;
+
   }
   
   #heartSprite {
@@ -113,21 +172,13 @@
   
   /* Graph Container */
   
-  .graphContainer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    
-  }
+
   
-  .bigColumn {
-    width: 45%;
-   
-  }
+
   
   .graph {
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
+    /* border-bottom: 1px solid black;
+    border-left: 1px solid black; */
     /*margin-bottom: 1rem;*/
   }
   
@@ -140,4 +191,5 @@
   .graphName2 {
     color: red;
     font-size: 2rem ;
+    text-align: center;
   }
