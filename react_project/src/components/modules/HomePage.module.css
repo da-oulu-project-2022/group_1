@@ -11,7 +11,7 @@ body {
   display: flex;
   flex-direction: column;
   align: center;
-  background-image: linear-gradient(to bottom, #efefef, #adadad); 
+  background-image: linear-gradient(to bottom, #ffffff, #b5bac3); 
 }
 
 header {

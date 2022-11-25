@@ -37,6 +37,21 @@ function App() {
     }
   }, []);
 
+  function pasrseToInt24(byte_array){
+    let m_array = new Uint8Array(byte_array)
+    let value0 = m_array[0].toString(16)
+    if (value0.length == 1){ value0 = 0 + value0}
+    let value1 = m_array[1].toString(16)
+    if (value1.length == 1){ value1 = 0 + value1}
+    let value2 = m_array[2].toString(16)
+    if (value2.length == 1){ value2 = 0 + value2}
+    let value = value2 + value1 + value0;
+    value = parseInt(value, 16);
+    
+    if (value > 8388607) { value = value - 16777216 };
+    return value;
+  }
+
   /**
    * Let the user know when their device has been disconnected.
    */
@@ -62,9 +77,10 @@ function App() {
     let sample;
     for(let i = 10; i <  event.target.value.byteLength; i=i+3){
 
-      sample = event.target.value.getUint8(i+2) * 256 * 256 + event.target.value.getUint8(i+1) *256 + event.target.value.getUint8(i);
+      
 
       if (i%30 == 1) {
+        sample = pasrseToInt24(event.target.value.buffer.slice(i, i+3));
         console.log(sample + " microvolt");
       }
     }
@@ -156,14 +172,17 @@ function App() {
               element.getCharacteristic(Cntrl_char).then(cntChar => {
                 cntChar.startNotifications();
                 cntChar.addEventListener("characteristicvaluechanged", cntChanged);
-                cntChar.writeValueWithResponse(new Uint8Array([0x01, 0x01])).then(value => {
-                  console.log(value);
+                cntChar.writeValueWithResponse(new Uint8Array([0x01, 0x01])).then(cntChar => {
+                  startStream(services);
                 })
+                
+                
+                
               })
             }
           })
         })
-      });
+      })
     })
   }
         /* .then(char => {
@@ -195,11 +214,12 @@ function stopStream(){
   })
 }
 
-const startStream = () => {
+const startStream = (services) => {
+  console.log("täällä");
   console.log(device);
   console.log(server);
   console.log(services);
-  console.log("täällä");
+  
   services.forEach(element => {
     if (element.uuid === PMD_Service) {
       element.getCharacteristic(Data_char).then(dataChar => {
@@ -235,39 +255,42 @@ const startStream = () => {
   return (
     
     <html>
-      <header>
-        <HomeClock/>   
-      </header>
-      <div className={styles.content}>
-        <section className={styles.dataContainer}>
-          <div>
-            <p className={ styles.dataText }>60</p>
-            <p className={ styles.dataUnit }>Lowest BPM</p>
-          </div>
-          <div>
-            <p className={ styles.dataText }>0</p>
-            <p className={ styles.dataUnit }>BPM</p>
-          </div>
-          <div>
-            <p className={ styles.dataText }>120</p>
-            <p className={ styles.dataUnit }>Highest BPM</p>
-          </div>
-        </section> 
-        
-        <section className={ styles.graphContainer }>
-            <div className={ styles.graph }>
-              <IotChart/>
+      <head></head>
+      <body>
+        <header>
+          <HomeClock/>   
+        </header>
+        <div className={styles.content}>
+          <section className={styles.dataContainer}>
+            <div>
+              <p className={ styles.dataText }>60</p>
+              <p className={ styles.dataUnit }>Lowest BPM</p>
             </div>
-            <p className={ styles.graphName2 }>ECG</p>
-            
+            <div>
+              <p className={ styles.dataText }>0</p>
+              <p className={ styles.dataUnit }>BPM</p>
+            </div>
+            <div>
+              <p className={ styles.dataText }>120</p>
+              <p className={ styles.dataUnit }>Highest BPM</p>
+            </div>
+          </section> 
+          
+          <section className={ styles.graphContainer }>
+              <div className={ styles.graph }>
+                <IotChart/>
+              </div>
+              <p className={ styles.graphName2 }>ECG</p>
+              
 
-        </section>
-      
-      </div>
-      <footer >
-        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          </section>
         
-      </footer>
+        </div>
+        <footer >
+          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          
+        </footer>
+      </body>
     </html>
   );
 }
