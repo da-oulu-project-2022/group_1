@@ -13,7 +13,7 @@ export function Menu() {
   const [isConnected, setConnection] = useState(); // This is to be used in preventing "unauthorized" access
   const supportedDevices = [
     "Polar H10 AFCBA929",
-    "The other device"
+    "Polar Sense B5E57727"
   ]
   const connectionEstablished = (connectedDeviceName) => {
     console.log(`Connected device name: ${connectedDeviceName}`);
@@ -47,9 +47,11 @@ export function Menu() {
       .then(device => device.gatt.connect())
       .then(server => {
         setConnection(true)
-        return server.getPrimaryServices();
+        console.log(server);
+        connectionEstablished(server.device.name);
+        //return server.getPrimaryServices();
       })
-      .then(services => {
+      /* .then(services => {
           console.log(services);
           let queue = Promise.resolve();
           services.forEach(service => {
@@ -105,12 +107,12 @@ export function Menu() {
                   break;
                 }
             })
-        })
+        }) */
         .catch(error => {
             console.log('Argh! ' + error);
         }); 
 
-        function test(event) {
+        /* function test(event) {
           let commandValue = event.target.value.getUint8(0);
           console.log(event);
       }
@@ -119,7 +121,7 @@ export function Menu() {
       }
       function batteryLevelChanged(event){
         console.log(event);
-      }
+      } */
   }
 
     return(
