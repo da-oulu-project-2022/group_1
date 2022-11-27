@@ -33,6 +33,7 @@ function App() {
   const bpm_normal = document.getElementById("bpm_normal");
   const bpm_high = document.getElementById("bpm_high");
   const bpm_low = document.getElementById("bpm_low");
+  const alert_box = document.getElementById("alertbox");
 
   let lowest_bpm;
   let highest_bpm;
@@ -143,6 +144,12 @@ function App() {
       highest_bpm = event.target.value.getUint8(1);
       bpm_high.innerText = event.target.value.getUint8(1);
     }
+
+    //add alertbox
+    //TODO: make it more fancy!!!
+    if (event.target.value.getUint8(1) > 100){
+      alert_box.style.display = "flex";
+    } else {alert_box.style.display = "none";}
 
   }
 
@@ -276,6 +283,7 @@ const startStream = (services) => {
           <HomeClock/>   
         </header>
         <div className={styles.content}>
+          <p className={styles.alertBox} id="alertbox">watchout!</p>
           <section className={styles.dataContainer}>
             <button onClick={connectDevice}>coonnect</button>
             <div>
