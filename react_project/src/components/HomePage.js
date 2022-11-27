@@ -135,7 +135,14 @@ function App() {
   const handleHRValueChanged = (event) => {
     bpm_normal.innerText = event.target.value.getUint8(1)
     
-
+    if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
+      lowest_bpm = event.target.value.getUint8(1);
+      bpm_low.innerText = event.target.value.getUint8(1);
+    } 
+    if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
+      highest_bpm = event.target.value.getUint8(1);
+      bpm_high.innerText = event.target.value.getUint8(1);
+    }
 
   }
 
