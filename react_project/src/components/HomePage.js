@@ -1,8 +1,10 @@
 import './modules/Menu.module.css';
-import HomeClock from './HomePageClock.js';
-import Clock from './HomePageClock';
+import Clock from './Clock.js';
+
 import BarChart, { IotChart } from './Chart';
 import styles from './modules/HomePage.module.css';
+import clock from './modules/Clock.module.css';
+
 
 import React, { useState, useEffect } from 'react';   
 
@@ -14,6 +16,7 @@ function App() {
   const [device, setDevice] = useState(null);
   const [server, setServer] = useState(null);
   const [services, setServices] = useState(null);
+
 
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
@@ -29,6 +32,13 @@ function App() {
   const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
   const PPI_Array = new Uint8Array([0x02, 0x03]);
 
+  const bpm_normal = document.getElementById("bpm_normal");
+  const bpm_high = document.getElementById("bpm_high");
+  const bpm_low = document.getElementById("bpm_low");
+  const alert_box = document.getElementById("alertbox");
+
+  let lowest_bpm;
+  let highest_bpm;
   // When the component mounts, check that the browser supports Bluetooth
   useEffect(() => {
     console.log("updated");
@@ -126,9 +136,23 @@ function App() {
 
 
   const handleHRValueChanged = (event) => {
-    //setEcg(event.target.value.getUint8(0));
-    console.log("BPM: " + event.target.value.getUint8(1));
-    //console.log(event.target.value);
+    bpm_normal.innerText = event.target.value.getUint8(1)
+    
+    if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
+      lowest_bpm = event.target.value.getUint8(1);
+      bpm_low.innerText = event.target.value.getUint8(1);
+    } 
+    if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
+      highest_bpm = event.target.value.getUint8(1);
+      bpm_high.innerText = event.target.value.getUint8(1);
+    }
+
+    //add alertbox
+    //TODO: make it more fancy!!!
+    if (event.target.value.getUint8(1) > 100){
+      alert_box.style.display = "flex";
+    } else {alert_box.style.display = "none";}
+
   }
 
   /**
@@ -258,20 +282,22 @@ const startStream = (services) => {
       <head></head>
       <body>
         <header>
-          <HomeClock/>   
+          <Clock styles ={clock.clock2}/>   
         </header>
         <div className={styles.content}>
+          <p className={styles.alertBox} id="alertbox">watchout!</p>
           <section className={styles.dataContainer}>
+          <button onClick={connectDevice}>coonnect</button>
             <div>
-              <p className={ styles.dataText }>60</p>
+              <p className={ styles.dataText } id="bpm_low" >n.a.</p>
               <p className={ styles.dataUnit }>Lowest BPM</p>
             </div>
             <div>
-              <p className={ styles.dataText }>0</p>
+              <p className={ styles.dataText } id="bpm_normal">n.a.</p>
               <p className={ styles.dataUnit }>BPM</p>
             </div>
             <div>
-              <p className={ styles.dataText }>120</p>
+              <p className={ styles.dataText } id="bpm_high" >n.a.</p>
               <p className={ styles.dataUnit }>Highest BPM</p>
             </div>
           </section> 
