@@ -6,7 +6,7 @@ import styles from './modules/HomePage.module.css';
 
 import React, { useState, useEffect } from 'react';   
 
-function App() {
+function App(props) {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
   const [batteryLevel, setBatteryLevel] = useState(null);
   const [acceleration, setAcceleration] = useState(null);
@@ -158,7 +158,7 @@ function App() {
    * battery level readings using the battery service.
    */
 
-   let options = {
+/*    let options = {
     filters: [
       {
         manufacturerData: [{ companyIdentifier: 0x006b }] // Filtering devices with company indentifier, showing only devices made by Polar
@@ -173,10 +173,11 @@ function App() {
       "0000180f-0000-1000-8000-00805f9b34fb",
       "fb005c80-02e7-f387-1cad-8acd2d8df0c8"
     ]
-  }
+  } */
   
   const connectDevice = () => {
-    console.log("1");
+    console.log(props.device);
+/*     console.log("1");
     navigator.bluetooth.requestDevice(options)
     .then(device => {
       setDevice(device);
@@ -205,7 +206,7 @@ function App() {
           })
         })
       })
-    })
+    }) */
   }
         /* .then(char => {
           console.log(char);
@@ -223,7 +224,7 @@ function App() {
         }) */
  
 
-function stopStream(){
+/* function stopStream(){
   server.getPrimaryService(PMD_Service)
   .then(service => {
     service.getCharacteristic(Cntrl_char)
@@ -234,9 +235,9 @@ function stopStream(){
       })
     })
   })
-}
+} */
 
-const startStream = (services) => {
+/* const startStream = (services) => {
   console.log("täällä");
   console.log(device);
   console.log(server);
@@ -246,9 +247,9 @@ const startStream = (services) => {
     if (element.uuid === PMD_Service) {
       element.getCharacteristic(Data_char).then(dataChar => {
         dataChar.startNotifications();
-        /* dataChar.addEventListener("characteristicvaluechanged", handleAccValueChanged); */
+        dataChar.addEventListener("characteristicvaluechanged", handleAccValueChanged);
         dataChar.addEventListener("characteristicvaluechanged", handleEcgValueChanged);
-      }) .then(_ => {
+      }).then(_ => {
         element.getCharacteristic(Cntrl_char)
         .then(controlChar => {
           console.log(controlChar.properties);
@@ -271,7 +272,7 @@ const startStream = (services) => {
         })
     }
   });
-}
+} */
 
 
   return (

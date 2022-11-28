@@ -7,7 +7,7 @@ export function isConnected() { // This is to be used in preventing "unauthorize
   return true
 }
 
-export function Menu(props) {
+export function Connect(props) {
 
   const navigate = useNavigate();
   const [device, setDevice] = useState();
@@ -50,7 +50,6 @@ export function Menu(props) {
         setConnection(true)
         console.log(server);
         connectionEstablished(server.device.name);
-        setDevice(server.device);
         props.func(server.device);
         //return server.getPrimaryServices();
       })
@@ -80,4 +79,4 @@ export function Menu(props) {
     ) 
 }
 
-export default Menu;
+export default Connect;

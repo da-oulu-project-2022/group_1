@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
-import { Menu } from './components/Menu'
+import { Connect } from './components/Connect'
 
 
 function App() {
@@ -15,8 +15,8 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element= { <Menu func={pull_data}/> } />
-        <Route path="/HomePage" element= { <HomePage/> } />
+        <Route path="/" element= { <Connect func={pull_data}/> } />
+        <Route path="/HomePage" element= { <HomePage device={device}/> } />
         {/* <Route path="/signup" element= { <SignUp/> } /> */}
       </Routes>
     </>
