@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
-import Menu from './components/Menu'
-import { isConnected } from './components/Menu'
+import { Connect } from './components/Connect'
 
 
 function App() {
+  const [device, setDevice] = useState();
+  const [connection, setConnection] = useState();
 
-  const isConnectionEstablished = isConnected
-  
-  //isConnectionEstablished == true &&
+  const pullData = (device) => {
+    console.log(device);
+    setDevice(device);
+  }
+
+  const isConnected = (connection) => {
+    console.log(connection)
+    if (connection) {
+      setConnection(connection);
+    }
+    
+  }
 
   return (
     <>
       <Routes>
-        <Route path="/" element= { <Menu/> } />
-        { 
-        <Route path="/HomePage" element= { <HomePage/> } />
+        <Route path="/" element= { <Connect func={ pullData } checkConnection={ isConnected }/> } />
+        {
+          connection &&
+          <Route path="/HomePage" element= { <HomePage device={device}/> } />
         }
-        {/* <Route path="/signup" element= { <SignUp/> } /> */}
       </Routes>
     </>
   );

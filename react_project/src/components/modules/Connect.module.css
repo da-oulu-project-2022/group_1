@@ -8,7 +8,7 @@
 body {
     display: flex;
     flex-direction: column;
-    align: center;
+    align-items: center;
     background-image: linear-gradient(to bottom, #efefef, #adadad); 
 }
 
@@ -32,6 +32,7 @@ header {
     align-items: center;
     /* flex-wrap: wrap; */
   }
+
 footer{
     background: url('../images/homePageBackgroundBottom.png');
     background-size: 100vw 15vh;
@@ -55,6 +56,7 @@ footer{
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     margin: 4vh auto 0;
     width: 26.5%;
     height: 7vh;
