@@ -30,8 +30,9 @@ header {
   width: 100vw;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  
   /* flex-wrap: wrap; */
 }
 footer{
@@ -51,9 +52,17 @@ footer{
   border-right: 4px solid black;
 }
 
+.alertBox{
+  position: fixed;
+  display: none;
+  background-color: rgba(128, 128, 128, 0.8);
+  width: 50%;
+  height: 50%; 
+  text-align: center;
+}
+
 .graphContainer {
-  width: 60vw;
-  
+  width: 60vw;  
   height:auto;
   display: flex;
   flex-direction: column;
