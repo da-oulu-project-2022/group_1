@@ -8,9 +8,8 @@ import { isConnected } from './components/Menu'
 function App() {
 
   const isConnectionEstablished = isConnected
-  console.log(isConnectionEstablished)
-
-  // isConnectionEstablished == true &&
+  
+  //isConnectionEstablished == true &&
 
   return (
     <>

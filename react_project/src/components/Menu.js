@@ -13,7 +13,7 @@ export function Menu() {
   const [isConnected, setConnection] = useState(); // This is to be used in preventing "unauthorized" access
   const supportedDevices = [
     "Polar H10 AFCBA929",
-    "The other device"
+    "Polar Sense B5E5C726"
   ]
   const connectionEstablished = (connectedDeviceName) => {
     console.log(`Connected device name: ${connectedDeviceName}`);
@@ -47,6 +47,7 @@ export function Menu() {
       .then(device => device.gatt.connect())
       .then(server => {
         setConnection(true)
+        connectionEstablished(server.device.name);
         return server.getPrimaryServices();
       })
       .then(services => {
@@ -60,7 +61,6 @@ export function Menu() {
                   service.getCharacteristic("00002a19-0000-1000-8000-00805f9b34fb").then( value =>{
                     value.addEventListener('characteristicvaluechanged', batteryLevelChanged);
                     console.log(value);
-                    connectionEstablished(service.device.name); // Possibly to be moved higher in code, so that nesting doesn't affect performance so much
                   });
                     
                   break;
