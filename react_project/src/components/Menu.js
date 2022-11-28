@@ -7,9 +7,10 @@ export function isConnected() { // This is to be used in preventing "unauthorize
   return true
 }
 
-export function Menu() {
+export function Menu(props) {
 
   const navigate = useNavigate();
+  const [device, setDevice] = useState();
   const [isConnected, setConnection] = useState(); // This is to be used in preventing "unauthorized" access
   const supportedDevices = [
     "Polar H10 AFCBA929",
@@ -49,6 +50,8 @@ export function Menu() {
         setConnection(true)
         console.log(server);
         connectionEstablished(server.device.name);
+        setDevice(server.device);
+        props.func(server.device);
         //return server.getPrimaryServices();
       })
       .catch(error => {
