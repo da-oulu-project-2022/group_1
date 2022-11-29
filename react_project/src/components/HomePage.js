@@ -1,4 +1,4 @@
-import './modules/Menu.module.css';
+import './modules/Connect.module.css';
 import Clock from './Clock.js';
 
 import BarChart, { IotChart } from './Chart';
@@ -8,7 +8,7 @@ import clock from './modules/Clock.module.css';
 
 import React, { useState, useEffect } from 'react';   
 
-function App() {
+function App(props) {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
   const [batteryLevel, setBatteryLevel] = useState(null);
   const [acceleration, setAcceleration] = useState(null);
@@ -97,7 +97,7 @@ function App() {
 
     
   }
-  /* const handleAccValueChanged = (event) => {
+  const handleAccValueChanged = (event) => {
   //setAcceleration(event.target.value.getUint8(0));
   
   
@@ -126,7 +126,7 @@ function App() {
       }
     }
 
-  } */
+  }
 
 
 
@@ -178,6 +178,7 @@ function App() {
   }
   
   const connectDevice = () => {
+    console.log(props.device);
     console.log("1");
     navigator.bluetooth.requestDevice(options)
     .then(device => {
@@ -209,20 +210,20 @@ function App() {
       })
     })
   }
-        /* .then(char => {
-          console.log(char);
-          console.log(char.properties);
-          char.addEventListener("characteristicvaluechanged", heartRateChanged);
-          char.startNotifications();
-        })
-        service.getCharacteristic(Cntrl_char)
-        .then(char => {
-          char.writeValueWithResponse(new Uint8Array([1, 0]))
-          .then(value => {
-            console.log(value);
-          })
-          char.writeValueWithResponse(new Uint8Array([2, 2, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2, 1, 8, 0, 4, 1, 3]));
-        }) */
+        // .then(char => {
+        //   console.log(char);
+        //   console.log(char.properties);
+        //   char.addEventListener("characteristicvaluechanged", heartRateChanged);
+        //   char.startNotifications();
+        // })
+        // service.getCharacteristic(Cntrl_char)
+        // .then(char => {
+        //   char.writeValueWithResponse(new Uint8Array([1, 0]))
+        //   .then(value => {
+        //     console.log(value);
+        //   })
+        //   char.writeValueWithResponse(new Uint8Array([2, 2, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2, 1, 8, 0, 4, 1, 3]));
+        // })
  
 
 function stopStream(){
@@ -248,9 +249,9 @@ const startStream = (services) => {
     if (element.uuid === PMD_Service) {
       element.getCharacteristic(Data_char).then(dataChar => {
         dataChar.startNotifications();
-        /* dataChar.addEventListener("characteristicvaluechanged", handleAccValueChanged); */
+        dataChar.addEventListener("characteristicvaluechanged", handleAccValueChanged);
         dataChar.addEventListener("characteristicvaluechanged", handleEcgValueChanged);
-      }) .then(_ => {
+      }).then(_ => {
         element.getCharacteristic(Cntrl_char)
         .then(controlChar => {
           console.log(controlChar.properties);
@@ -287,7 +288,7 @@ const startStream = (services) => {
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox">watchout!</p>
           <section className={styles.dataContainer}>
-          <button onClick={connectDevice}>coonnect</button>
+            <button onClick={connectDevice}>Connect</button>
             <div>
               <p className={ styles.dataText } id="bpm_low" >n.a.</p>
               <p className={ styles.dataUnit }>Lowest BPM</p>
