@@ -283,6 +283,7 @@ const startStream = (services) => {
       <head></head>
       <body>
         <header>
+        <img style={{ height: 150, width: 410, }} src={require('../components/images/Simplefitlogo.png')} alt='' />
           <Clock styles ={clock.clock2}/>   
         </header>
         <div className={styles.content}>
@@ -314,7 +315,7 @@ const startStream = (services) => {
         
         </div>
         <footer >
-          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+        
           
         </footer>
       </body>

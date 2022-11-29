@@ -26,7 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element= { <Connect func={ pullData } checkConnection={ isConnected }/> } />
         {
-          connection &&
+       //   connection && //RETURN THIS 
           <Route path="/HomePage" element= { <HomePage device={device}/> } />
         }
       </Routes>
