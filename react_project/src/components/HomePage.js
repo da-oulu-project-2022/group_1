@@ -95,7 +95,7 @@ function App(props) {
 
     
   }
-  /* const handleAccValueChanged = (event) => {
+  const handleAccValueChanged = (event) => {
   //setAcceleration(event.target.value.getUint8(0));
   
   
@@ -124,7 +124,7 @@ function App(props) {
       }
     }
 
-  } */
+  }
 
 
 
@@ -158,7 +158,7 @@ function App(props) {
    * battery level readings using the battery service.
    */
 
-/*    let options = {
+   let options = {
     filters: [
       {
         manufacturerData: [{ companyIdentifier: 0x006b }] // Filtering devices with company indentifier, showing only devices made by Polar
@@ -173,11 +173,11 @@ function App(props) {
       "0000180f-0000-1000-8000-00805f9b34fb",
       "fb005c80-02e7-f387-1cad-8acd2d8df0c8"
     ]
-  } */
+  }
   
   const connectDevice = () => {
     console.log(props.device);
-/*     console.log("1");
+    console.log("1");
     navigator.bluetooth.requestDevice(options)
     .then(device => {
       setDevice(device);
@@ -206,9 +206,9 @@ function App(props) {
           })
         })
       })
-    }) */
+    })
   }
-        /* .then(char => {
+/*         .then(char => {
           console.log(char);
           console.log(char.properties);
           char.addEventListener("characteristicvaluechanged", heartRateChanged);
@@ -224,7 +224,7 @@ function App(props) {
         }) */
  
 
-/* function stopStream(){
+function stopStream(){
   server.getPrimaryService(PMD_Service)
   .then(service => {
     service.getCharacteristic(Cntrl_char)
@@ -235,9 +235,9 @@ function App(props) {
       })
     })
   })
-} */
+}
 
-/* const startStream = (services) => {
+const startStream = (services) => {
   console.log("täällä");
   console.log(device);
   console.log(server);
@@ -272,7 +272,7 @@ function App(props) {
         })
     }
   });
-} */
+}
 
 
   return (
