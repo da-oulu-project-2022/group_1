@@ -283,8 +283,8 @@ const startStream = (services) => {
       <head></head>
       <body>
         <header>
-        <img style={{ height: 150, width: 410, }} src={require('../components/images/Simplefitlogo.png')} alt='' />
-          <Clock styles ={clock.clock2}/>   
+        <img src={require('../components/images/Simplefitlogo.png')} alt='' />
+        <Clock styles ={clock.clock2}/>   
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox">watchout!</p>
@@ -308,7 +308,7 @@ const startStream = (services) => {
               <div className={ styles.graph }>
                 <IotChart/>
               </div>
-              <p className={ styles.graphName2 }>ECG</p>
+              <p className={ styles.graphName }>ECG</p>
               
 
           </section>

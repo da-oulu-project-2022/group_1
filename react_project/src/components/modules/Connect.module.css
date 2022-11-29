@@ -51,7 +51,7 @@ footer{
     box-shadow: 0px 20px 80px -25px #000000;
     border-radius: 40px;
     border: 3px solid #de1818;
-    width: 25vw;
+    width: 30vw;
     height: fit-content;
     padding: 20px 0;
     display: flex;
@@ -70,19 +70,11 @@ footer{
     color: #de1818;
 }
 
-img{
+img {
+  
     height: 6vh;
     width: 16vw;
     margin: 3vh 3vw;
-}
-
-.companyLogo {
-  
-    /*background-size:100px 200px;*/
-    display:inline;
-    justify-content: flex-end;
-    width: 90%;
-  
     
 }
 
