@@ -52,22 +52,30 @@ footer{
     border-radius: 40px;
     border: 3px solid #de1818;
     width: 25vw;
-    height: 50vh;    
+    height: fit-content;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 
 .welcome {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     text-align: center;
-    margin: 4vh auto 0;
-    width: 26.5%;
-    height: 7vh;
+    width: inherit;
+    height: fit-content;
     font-family: 'Poppins', sans-serif;
     font-size: 3rem;
     color: #de1818;
 }
+
+img{
+    height: 6vh;
+    width: 16vw;
+    margin: 3vh 3vw;
+}
+
 .companyLogo {
   
     /*background-size:100px 200px;*/
@@ -78,42 +86,10 @@ footer{
     
 }
 
-/* .device_container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 7vh auto 0;
-    width: 50%;
-}
-
-.device {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #FFFFFF;
-    padding: 10px 30px;
-    border: 2px solid #D2D9F3;
-    border-radius: 20px;
-}
-
-.select {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2vh auto 0;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-}
- */
 .button {
     background: #de1818;
-    display: flex;
-    justify-content: center;
     width: 79%;
-    align-items: center;
-    margin: 4vh auto 0;
-    padding: 24px;
+    padding: 10px;
     border-radius: 8px;
     border-color: #de1818;
     color: #FFFFFF;
