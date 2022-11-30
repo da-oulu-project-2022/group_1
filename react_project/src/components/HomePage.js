@@ -210,20 +210,22 @@ function App(props) {
       })
     })
   }
-        // .then(char => {
-        //   console.log(char);
-        //   console.log(char.properties);
-        //   char.addEventListener("characteristicvaluechanged", heartRateChanged);
-        //   char.startNotifications();
-        // })
-        // service.getCharacteristic(Cntrl_char)
-        // .then(char => {
-        //   char.writeValueWithResponse(new Uint8Array([1, 0]))
-        //   .then(value => {
-        //     console.log(value);
-        //   })
-        //   char.writeValueWithResponse(new Uint8Array([2, 2, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2, 1, 8, 0, 4, 1, 3]));
-        // })
+
+/*         .then(char => {
+          console.log(char);
+          console.log(char.properties);
+          char.addEventListener("characteristicvaluechanged", heartRateChanged);
+          char.startNotifications();
+        })
+        service.getCharacteristic(Cntrl_char)
+        .then(char => {
+          char.writeValueWithResponse(new Uint8Array([1, 0]))
+          .then(value => {
+            console.log(value);
+          })
+          char.writeValueWithResponse(new Uint8Array([2, 2, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2, 1, 8, 0, 4, 1, 3]));
+        }) */
+
  
 
 function stopStream(){
