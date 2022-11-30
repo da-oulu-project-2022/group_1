@@ -1,0 +1,136 @@
+
+
+* {
+    margin: 0rem;
+    padding: 0rem;
+    
+    font-family: 'Montserrat', sans-serif;
+    
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    
+    background-image: linear-gradient(to bottom, #ffffff, #b5bac3); 
+  }
+  
+  header {
+    background: url('../images/homePageBackgroundToptest.png');
+    background-size: 100vw 15vh;
+    height: 15vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+      
+  }
+  
+  
+  .content{
+    
+    height: 70vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+    /* flex-wrap: wrap; */
+  }
+  footer{
+    background: url('../images/homePageBackgroundBottomtest.png');
+    background-size: 100vw 15vh;
+    height: 15vh;
+    width: 100vw;
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  
+  img {
+    height: 6vh;
+    width: 16vw;
+    margin: 3vh 3vw;
+  }
+  
+  
+  .dataContainer {
+    width: 25vw;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-right: 4px solid black;
+  }
+  
+  .alertBox{
+    position: fixed;
+    display: none;
+    background-color: rgba(128, 128, 128, 0.8);
+    width: 50%;
+    height: 50%; 
+    text-align: center;
+  }
+  
+  
+  .battery {
+    width: 10%;
+  }
+  
+  .statsContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 2rem 2.5rem;
+  }
+  
+  
+  .displayElement {
+    display: flex;
+    flex-direction: column;
+  
+  }
+  
+  .dataText {
+    font-size: 3rem;
+    color: red;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .dataUnit {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  
+  .blackBar {
+    width: 5px;
+    height: inherit;
+    background-color: black;
+  }
+  
+  .graphContainer {
+    width: 65vw;  
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  
+  .graph {
+    width: inherit;  
+  
+  }
+  
+  .graphName {
+    color: red;
+    background-color: white;
+    font-size: 2rem ;
+    text-align: center;
+  }

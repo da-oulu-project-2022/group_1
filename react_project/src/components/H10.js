@@ -1,14 +1,12 @@
-import './modules/Connect.module.css';
-import Clock from './Clock.js';
-
+import './modules/Menu.module.css';
+import HomeClock from './HomePageClock.js';
+import Clock from './HomePageClock';
 import BarChart, { IotChart } from './Chart';
 import styles from './modules/HomePage.module.css';
-import clock from './modules/Clock.module.css';
-
 
 import React, { useState, useEffect } from 'react';   
 
-function App(props) {
+function H10(props) {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
   const [batteryLevel, setBatteryLevel] = useState(null);
   const [acceleration, setAcceleration] = useState(null);
@@ -201,8 +199,6 @@ function App(props) {
                   startStream(services);
                 })
                 
-                
-                
               })
             }
           })
@@ -210,7 +206,6 @@ function App(props) {
       })
     })
   }
-
 /*         .then(char => {
           console.log(char);
           console.log(char.properties);
@@ -225,7 +220,6 @@ function App(props) {
           })
           char.writeValueWithResponse(new Uint8Array([2, 2, 0, 1, 0x34, 0, 1, 1, 0x10, 0, 2, 1, 8, 0, 4, 1, 3]));
         }) */
-
  
 
 function stopStream(){
@@ -285,13 +279,12 @@ const startStream = (services) => {
       <head></head>
       <body>
         <header>
-        <img src={require('../components/images/Simplefitlogo.png')} alt='' />
-        <Clock styles ={clock.clock2}/>   
+          <HomeClock/>   
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox">watchout!</p>
           <section className={styles.dataContainer}>
-            <button onClick={connectDevice}>Connect</button>
+            <button onClick={connectDevice}>coonnect</button>
             <div>
               <p className={ styles.dataText } id="bpm_low" >n.a.</p>
               <p className={ styles.dataUnit }>Lowest BPM</p>
@@ -310,14 +303,14 @@ const startStream = (services) => {
               <div className={ styles.graph }>
                 <IotChart/>
               </div>
-              <p className={ styles.graphName }>ECG</p>
+              <p className={ styles.graphName2 }>ECG</p>
               
 
           </section>
         
         </div>
         <footer >
-        
+          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
           
         </footer>
       </body>
@@ -326,4 +319,4 @@ const startStream = (services) => {
 }
 
 
-export default App;
+export default H10;
