@@ -1,9 +1,7 @@
-import './modules/Menu.module.css';
-import HomeClock from './HomePageClock.js';
-import Clock from './HomePageClock';
+import Clock from './Clock';
 import BarChart, { IotChart } from './Chart';
-import styles from './modules/HomePage.module.css';
-
+import styles from './modules/H10.module.css';
+import clockStyles from './modules/Clock.module.css';
 import React, { useState, useEffect } from 'react';   
 
 function H10(props) {
@@ -279,7 +277,7 @@ const startStream = (services) => {
       <head></head>
       <body>
         <header>
-          <HomeClock/>   
+          <Clock styles={clockStyles.clock2}/>   
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox">watchout!</p>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import HomePage from './components/HomePage';
+import H10 from './components/H10';
+import VeritySense from './components/VeritySense';
 import { Connect } from './components/Connect'
 
 
@@ -27,7 +28,10 @@ function App() {
         <Route path="/" element= { <Connect func={ pullData } checkConnection={ isConnected }/> } />
         {
        //   connection && //RETURN THIS 
-          <Route path="/HomePage" element= { <HomePage device={device}/> } />
+          <>
+            <Route path="/VeritySense" element={<VeritySense device={device} />} />
+            <Route path="/H10" element={<H10 device={device} />} />
+          </>
         }
       </Routes>
     </>
