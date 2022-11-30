@@ -27,8 +27,6 @@ header {
 }
 
 
-
-
 .content{
   
   height: 70vh;
@@ -48,9 +46,18 @@ footer{
   display: flex;
   align-items: flex-end;
 }
+
+
+img {
+  height: 6vh;
+  width: 16vw;
+  margin: 3vh 3vw;
+}
+
+
 .dataContainer {
-  width: 30vw;
-  height: 90%;
+  width: 25vw;
+  height: inherit;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -66,144 +73,64 @@ footer{
   text-align: center;
 }
 
-.graphContainer {
-  width: 60vw;  
-  height:auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.blackBar {
-  width: 5px;
-  height: 90%;
-  background-color: black;
-}
-
-/*   .background {
-  
-  background: url('../images/homePageBackgroundTop11.jpg') top no-repeat, url('../images/homePageBackgroundBottom1.jpg') bottom no-repeat;
-  
-  background-color: #f7f7f7;
-  margin: 0px;
-  padding: 0px;
-  
-  display: block;
-  
-  
-} */
-/* Header */
-
-    
-/*.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 1rem 1rem 1rem 2.5rem;
-}*/
-
-
-
-.companyLogo {
-  
-  /*background-size:100px 200px;*/
-  display: flex;
-
-  justify-content: space-between;
-  width: 90vw;
-
-  
-}
 
 .battery {
   width: 10%;
 }
 
-.connectButton {
-  cursor: not-allowed;
-  max-width: 20%;
-  margin: 2%;
-  padding: 1rem 2rem;
-  background-color: red;
-  color: white;
-  font-size: 1rem;
-  border: 0;
-  border-radius: 28px;
+.statsContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 2rem 2.5rem;
 }
-  
-  
-  /* Status Container */
-  
-  .statsContainer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 2rem 2.5rem;
-  }
 
 
-  
-  .displayElement {
-    display: flex;
-    flex-direction: column;
+.displayElement {
+  display: flex;
+  flex-direction: column;
 
-  }
-  
-  #heartSprite {
-    width : 100px;
-    height : 100px;
-    margin-bottom: 0.5rem;
-   align-items: baseline;
-  }
-  
-  #clock {
-    color: red;
-    font-size: 3rem;
-    text-align: center;
-  }
-  
-  .data {
-    text-align: center;
-  }
-  
-  .dataText {
-    font-size: 3rem;
-    color: red;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    text-align: center;
-  }
-  
-  .dataUnit {
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-align: center;
-  }
-  
-  
-  
-  
-  
-  /* Graph Container */
-  
+}
 
-  
+.dataText {
+  font-size: 3rem;
+  color: red;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
 
-  
- /* .graph {
-    /* border-bottom: 1px solid black;
-    border-left: 1px solid black; */
-    /*margin-bottom: 1rem;*/
- /* }*/
-  
-  .graphName {
-    color: red;
-    font-size: 2rem;
-    
-  }
-  
-  .graphName2 {
-    color: red;
-    font-size: 2rem ;
-    text-align: center;
-  }
+.dataUnit {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+
+.blackBar {
+  width: 5px;
+  height: inherit;
+  background-color: black;
+}
+
+.graphContainer {
+  width: 65vw;  
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+.graph {
+  width: inherit;  
+
+}
+
+.graphName {
+  color: red;
+  background-color: white;
+  font-size: 2rem ;
+  text-align: center;
+}

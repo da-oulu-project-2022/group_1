@@ -64,12 +64,12 @@ export function Connect(props) {
         <head></head>
         <body>
           <header>
-          <img style={{ height: 150, width: 410, }} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          <img  src={require('../components/images/Simplefitlogo.png')} alt=''/>
           </header>
           <div className={styles.content}>
             <div className={ styles.container }>
-                <div className={ styles.welcome }>Welcome to SimpleFit</div>
-                  <Clock styles ={clock.clock1} />
+                <p className={ styles.welcome }>Welcome to SimpleFit</p>
+                <Clock styles ={clock.clock1} />
                 <button onClick={ onClickEvent } className={ styles.button }>Connect Device</button>
             </div>
           </div>
