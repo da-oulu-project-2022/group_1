@@ -26,7 +26,7 @@ export function Connect(props) {
     } */
     if (connectedDeviceName === supportedDevices[0]) {
       navigate('/H10');
-    } if (connectedDeviceName === supportedDevices[1]){
+    } else if (connectedDeviceName === supportedDevices[1]){
       navigate('/VeritySense');
     } else {
       alert("Device is not supported");

@@ -274,7 +274,7 @@ const startStream = (services) => {
   return (
     
     <html>
-      <head></head>
+{/*       <head></head>
       <body>
         <header>
           <Clock styles={clockStyles.clock2}/>   
@@ -311,7 +311,7 @@ const startStream = (services) => {
           <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
           
         </footer>
-      </body>
+      </body> */}
     </html>
   );
 }
