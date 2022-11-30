@@ -1,5 +1,6 @@
-import styles from './modules/Menu.module.css'
-import MenuClock from './MenuClock'
+import styles from './modules/Connect.module.css'
+import Clock from './Clock'
+import clock from './modules/Clock.module.css';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 
@@ -47,8 +48,8 @@ export function Connect(props) {
     navigator.bluetooth.requestDevice(options)
       .then(device => device.gatt.connect())
       .then(server => {
-        setConnection(true)
         console.log(server);
+        props.checkConnection(true)
         connectionEstablished(server.device.name);
         props.func(server.device);
         //return server.getPrimaryServices();
@@ -62,17 +63,19 @@ export function Connect(props) {
       <div>
         <head></head>
         <body>
-          <header></header>
+          <header>
+          <img style={{ height: 150, width: 410, }} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          </header>
           <div className={styles.content}>
             <div className={ styles.container }>
-                <div className={ styles.welcome }>Welcome</div>
-                  <MenuClock />
-                <button onClick={ onClickEvent } className={ styles.button }></button>
+                <div className={ styles.welcome }>Welcome to SimpleFit</div>
+                  <Clock styles ={clock.clock1} />
+                <button onClick={ onClickEvent } className={ styles.button }>Connect Device</button>
             </div>
           </div>
 
           <footer >
-            <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+            
           </footer>
         </body>
       </div>
