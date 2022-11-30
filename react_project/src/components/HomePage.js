@@ -1,10 +1,8 @@
-import './modules/Connect.module.css';
 import HomeClock from './HomePageClock.js';
-import Clock from './HomePageClock';
 import BarChart, { IotChart } from './Chart';
 import styles from './modules/HomePage.module.css';
-
 import React, { useState, useEffect } from 'react';   
+import { useNavigate } from 'react-router-dom';
 
 function App(props) {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
@@ -14,6 +12,8 @@ function App(props) {
   const [device, setDevice] = useState(null);
   const [server, setServer] = useState(null);
   const [services, setServices] = useState(null);
+
+  const navigate = useNavigate();
 
 
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
@@ -42,6 +42,7 @@ function App(props) {
     console.log("updated");
     if (navigator.bluetooth) {
       setSupportsBluetooth(true);
+      console.log(props.device)
     }
   }, []);
 
@@ -58,16 +59,6 @@ function App(props) {
     
     if (value > 8388607) { value = value - 16777216 };
     return value;
-  }
-
-  /**
-   * Let the user know when their device has been disconnected.
-   */
-  const onDisconnectedButtonClick = () => {
-    if (device.gatt.connected) {
-      device.gatt.disconnect();
-      alert("Bluetooth device disconnected");
-    }
   }
 
   /**
@@ -174,6 +165,18 @@ function App(props) {
       "fb005c80-02e7-f387-1cad-8acd2d8df0c8"
     ]
   }
+
+  /**
+ * Let the user know when their device has been disconnected.
+ */
+  const onDisconnectedButtonClick = () => {
+    if (props.device.gatt.connected) {
+      props.device.gatt.disconnect();
+      alert("Bluetooth device disconnected");
+      props.checkConnection(false)
+      navigate('/')
+    }
+  }
   
   const connectDevice = () => {
     console.log(props.device);
@@ -278,43 +281,45 @@ const startStream = (services) => {
   return (
     
     <html>
-      <head></head>
       <body>
-        <header>
-          <HomeClock/>   
-        </header>
-        <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox">watchout!</p>
-          <section className={styles.dataContainer}>
-            <button onClick={connectDevice}>Connect</button>
-            <div>
-              <p className={ styles.dataText } id="bpm_low" >n.a.</p>
-              <p className={ styles.dataUnit }>Lowest BPM</p>
-            </div>
-            <div>
-              <p className={ styles.dataText } id="bpm_normal">n.a.</p>
-              <p className={ styles.dataUnit }>BPM</p>
-            </div>
-            <div>
-              <p className={ styles.dataText } id="bpm_high" >n.a.</p>
-              <p className={ styles.dataUnit }>Highest BPM</p>
-            </div>
-          </section> 
-          
-          <section className={ styles.graphContainer }>
-              <div className={ styles.graph }>
-                <IotChart/>
+        <div>
+          <header>
+            <HomeClock/>   
+          </header>
+          <div className={styles.content}>
+            <p className={styles.alertBox} id="alertbox">watchout!</p>
+            <section className={styles.dataContainer}>
+              <button onClick={connectDevice}>Connect</button>
+              <button onClick={onDisconnectedButtonClick}>Disconnect</button>
+              <div>
+                <p className={ styles.dataText } id="bpm_low" >n.a.</p>
+                <p className={ styles.dataUnit }>Lowest BPM</p>
               </div>
-              <p className={ styles.graphName2 }>ECG</p>
-              
+              <div>
+                <p className={ styles.dataText } id="bpm_normal">n.a.</p>
+                <p className={ styles.dataUnit }>BPM</p>
+              </div>
+              <div>
+                <p className={ styles.dataText } id="bpm_high" >n.a.</p>
+                <p className={ styles.dataUnit }>Highest BPM</p>
+              </div>
+            </section> 
+            
+            <section className={ styles.graphContainer }>
+                <div className={ styles.graph }>
+                  <IotChart/>
+                </div>
+                <p className={ styles.graphName2 }>ECG</p>
+                
 
-          </section>
-        
-        </div>
-        <footer >
-          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+            </section>
           
-        </footer>
+          </div>
+          <footer >
+            <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+            
+          </footer>
+        </div>
       </body>
     </html>
   );

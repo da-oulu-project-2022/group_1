@@ -18,16 +18,22 @@ function App() {
     if (connection) {
       setConnection(connection);
     }
-    
+  }
+
+  const isDisconnected = (connection) => {
+    console.log(connection)
+    if (connection) {
+      setConnection(connection);
+    }
   }
 
   return (
     <>
       <Routes>
-        <Route path="/" element= { <Connect func={ pullData } checkConnection={ isConnected }/> } />
+        <Route path="/*" element= { <Connect func={ pullData } checkConnection={ isDisconnected }/> } />
         {
           connection &&
-          <Route path="/HomePage" element= { <HomePage device={device}/> } />
+          <Route path="/HomePage" element= { <HomePage device={device} checkConnection={ isConnected }/> } />
         }
       </Routes>
     </>

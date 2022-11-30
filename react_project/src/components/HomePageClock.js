@@ -9,6 +9,7 @@ function HomeClock() {
 			setDateState(new Date());
 		}, 30000);
 	}, []);
+	
 	return (
 		<>
 			<div className={ styles.clock2 }>

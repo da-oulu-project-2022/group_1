@@ -1,5 +1,6 @@
 import styles from './modules/Connect.module.css'
 import MenuClock from './MenuClock'
+import BatteryDetails from './Battery'
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 
@@ -59,10 +60,11 @@ export function Connect(props) {
   }
 
     return(
-      <div>
-        <head></head>
-        <body>
-          <header></header>
+      <body>
+        <div>
+          <header>
+            <BatteryDetails />
+          </header>
           <div className={styles.content}>
             <div className={ styles.container }>
                 <div className={ styles.welcome }>Welcome to SimpleFit</div>
@@ -74,8 +76,8 @@ export function Connect(props) {
           <footer >
             <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
           </footer>
-        </body>
-      </div>
+        </div>
+      </body>
     ) 
 }
 
