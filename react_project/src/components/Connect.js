@@ -19,10 +19,12 @@ export function Connect(props) {
   ]
   const connectionEstablished = (connectedDeviceName) => {
     console.log(`Connected device name: ${connectedDeviceName}`);
-    for (let device of supportedDevices) {
-      if (connectedDeviceName === device) {
-        navigate('/HomePage')
-      }
+    if (connectedDeviceName === supportedDevices[0]) {
+      navigate('/H10');
+    } else if (connectedDeviceName === supportedDevices[1]){
+      navigate('/VeritySense');
+    } else {
+      alert("Device is not supported");
     }
   }
 
