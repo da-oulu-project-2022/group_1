@@ -40,65 +40,63 @@ function VeritySense(props) {
     console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
   }
 
-  const handleAccValueChanged = (event) => {
-  //setAcceleration(event.target.value.getUint8(0));
-  
-  
-    
-    console.log("\n\nNew values");
-    console.log(event.target.value);
+  const handlePmdDataValueChanged = (event) => {
+    if (event.target.value.getUint8(0) === 2) {
+      console.log("\n\nNew values");
+      console.log(event.target.value);
 
-    let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
-    let ref_y = event.target.value.getInt8(13) * 256 + event.target.value.getInt8(12);
-    let ref_z = event.target.value.getInt8(15) * 256 + event.target.value.getInt8(14);
-    console.log("x " + ref_x + " y " + ref_y + " z " + ref_z );
+      let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
+      let ref_y = event.target.value.getInt8(13) * 256 + event.target.value.getInt8(12);
+      let ref_z = event.target.value.getInt8(15) * 256 + event.target.value.getInt8(14);
+      console.log("x " + ref_x + " y " + ref_y + " z " + ref_z );
 
-    let sample_x = ref_x + event.target.value.getInt8(18);
-    let sample_y = ref_y + event.target.value.getInt8(19);
-    let sample_z = ref_z + event.target.value.getInt8(20);
-    console.log("x " + sample_x + " y " + sample_y + " z " + sample_z );
-    
-    
-    for(let i = 21; i < 222; i=i+3){
+      let sample_x = ref_x + event.target.value.getInt8(18);
+      let sample_y = ref_y + event.target.value.getInt8(19);
+      let sample_z = ref_z + event.target.value.getInt8(20);
+      console.log("x " + sample_x + " y " + sample_y + " z " + sample_z );
+      
+      
+      for(let i = 21; i < 222; i=i+3){
 
-      sample_x = sample_x + event.target.value.getInt8(i);
-      sample_y = sample_y + event.target.value.getInt8(i+1);
-      sample_z = sample_z + event.target.value.getInt8(i+2); 
-      if (i%30 == 0) {
-        console.log("x " + sample_x + " y " + sample_y + " z " + sample_z );
+        sample_x = sample_x + event.target.value.getInt8(i);
+        sample_y = sample_y + event.target.value.getInt8(i+1);
+        sample_z = sample_z + event.target.value.getInt8(i+2); 
+        if (i%30 == 0) {
+          console.log("x " + sample_x + " y " + sample_y + " z " + sample_z );
+        }
       }
+      
+    } else if (event.target.value.getUint8(0) === 3) {
+      console.log(event);
     }
-
   }
 
 
   const handleHRValueChanged = (event) => {
-    if (bpm_normal) {
-      bpm_normal.innerText = event.target.value.getUint8(1);
-    }
+    console.log(event);
+    bpm_normal.innerText = event.target.value.getUint8(1);
     
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
-      if (bpm_low) {
+
         bpm_low.innerText = event.target.value.getUint8(1);
-      }
+      
     } 
     if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
       highest_bpm = event.target.value.getUint8(1);
-      if (bpm_high) {
+
         bpm_high.innerText = event.target.value.getUint8(1);
-      }
+      
     }
 
     //add alertbox
     //TODO: make it more fancy!!!
-    if (alert_box) {
       if (event.target.value.getUint8(1) > 100){
         alert_box.style.display = "flex";
       } else {
         alert_box.style.display = "none";
       }
-    }
+    
   }
 
 
@@ -109,15 +107,15 @@ const startMeasurement = () => {
       if (element.uuid === PMD_Service) {
         element.getCharacteristic(Data_char).then(dataChar => {
           dataChar.startNotifications();
-          dataChar.addEventListener("characteristicvaluechanged", handleAccValueChanged);
+          dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
         }).then(_ => {
           element.getCharacteristic(Cntrl_char)
           .then(controlChar => {
             console.log(controlChar.properties);
-            controlChar.writeValueWithResponse(ACC_Array)
-            .then(_ => {
+            controlChar.writeValueWithResponse(PPI_Array)
+  /*           .then(_ => {
               controlChar.writeValueWithResponse(PPI_Array)
-            })
+            }) */
           })
         });
       } if (element.uuid === Heart_rate_Service) {
