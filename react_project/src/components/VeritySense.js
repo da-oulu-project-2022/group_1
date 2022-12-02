@@ -17,15 +17,19 @@ function VeritySense(props) {
   const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
   const PPI_Array = new Uint8Array([0x02, 0x03]);
 
-  const bpm_normal = document.getElementById("bpm_normal");
-  const bpm_high = document.getElementById("bpm_high");
-  const bpm_low = document.getElementById("bpm_low");
-  const alert_box = document.getElementById("alertbox");
+  let bpm_normal;
+  let bpm_high;
+  let bpm_low;
+  let alert_box;
 
   let lowest_bpm;
   let highest_bpm;
 
   useEffect(() => {
+    bpm_normal = document.getElementById("bpm_normal");
+    bpm_high = document.getElementById("bpm_high");
+    bpm_low = document.getElementById("bpm_low");
+    alert_box = document.getElementById("alertbox");
     startMeasurement();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -104,7 +108,7 @@ const startMeasurement = () => {
   props.device.gatt.getPrimaryServices()
   .then(services => { 
     services.forEach(element => {
-      if (element.uuid === PMD_Service) {
+/*       if (element.uuid === PMD_Service) {
         element.getCharacteristic(Data_char).then(dataChar => {
           dataChar.startNotifications();
           dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
@@ -113,12 +117,12 @@ const startMeasurement = () => {
           .then(controlChar => {
             console.log(controlChar.properties);
             controlChar.writeValueWithResponse(PPI_Array)
-  /*           .then(_ => {
+            .then(_ => {
               controlChar.writeValueWithResponse(PPI_Array)
-            }) */
+            })
           })
         });
-      } if (element.uuid === Heart_rate_Service) {
+      } */ if (element.uuid === Heart_rate_Service) {
           element.getCharacteristic(Heart_rate_Char)
           .then(heartRateChar => {
             console.log(heartRateChar);
@@ -166,7 +170,7 @@ const startMeasurement = () => {
           
           <section className={ styles.graphContainer }>
               <div className={ styles.graph }>
-                <IotChart/>
+              <IotChart/>
               </div>
               <p className={ styles.graphName2 }>ECG</p>
           </section>
