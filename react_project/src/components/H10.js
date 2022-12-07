@@ -1,4 +1,7 @@
-import Clock from './Clock';
+
+import './modules/Connect.module.css';
+import Clock from './Clock.js';
+import { GoAlert } from "react-icons/go";
 import BarChart, { IotChart } from './Chart';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
@@ -93,7 +96,7 @@ function H10(props) {
 
     
   }
-  const handleAccValueChanged = (event) => {
+ const handleAccValueChanged = (event) => {
   //setAcceleration(event.target.value.getUint8(0));
   
   
@@ -145,7 +148,7 @@ function H10(props) {
 
     //add alertbox
     //TODO: make it more fancy!!!
-    if (event.target.value.getUint8(1) > 100){
+    if (event.target.value.getUint8(1) > 70){
       alert_box.style.display = "flex";
     } else {alert_box.style.display = "none";}
 
@@ -280,7 +283,7 @@ const startStream = (services) => {
           <Clock styles={clockStyles.clock2}/>   
         </header>
         <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox">watchout!</p>
+          <p className={styles.alertBox} id="alertbox"> <GoAlert/> Heart rate too high!</p>
           <section className={styles.dataContainer}>
             <button onClick={connectDevice}>coonnect</button>
             <div>
