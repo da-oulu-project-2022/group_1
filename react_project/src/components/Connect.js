@@ -15,7 +15,8 @@ export function Connect(props) {
   const [isConnected, setConnection] = useState(); // This is to be used in preventing "unauthorized" access
   const supportedDevices = [
     "Polar H10 AFCBA929",
-    "Polar Sense B5E5C726"
+    "Polar Sense B5E5C726",
+    "Polar OH1 50924E2C"
   ]
   const connectionEstablished = (connectedDeviceName) => {
     console.log(`Connected device name: ${connectedDeviceName}`);

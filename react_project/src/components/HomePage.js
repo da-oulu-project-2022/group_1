@@ -1,12 +1,14 @@
 import './modules/Connect.module.css';
 import Clock from './Clock.js';
-
+import { GoAlert } from "react-icons/go";
 import BarChart, { IotChart } from './Chart';
 import styles from './modules/HomePage.module.css';
 import clock from './modules/Clock.module.css';
 
 
 import React, { useState, useEffect } from 'react';   
+
+
 
 function App(props) {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
@@ -97,7 +99,7 @@ function App(props) {
 
     
   }
-  const handleAccValueChanged = (event) => {
+ const handleAccValueChanged = (event) => {
   //setAcceleration(event.target.value.getUint8(0));
   
   
@@ -149,7 +151,7 @@ function App(props) {
 
     //add alertbox
     //TODO: make it more fancy!!!
-    if (event.target.value.getUint8(1) > 100){
+    if (event.target.value.getUint8(1) > 70){
       alert_box.style.display = "flex";
     } else {alert_box.style.display = "none";}
 
@@ -287,7 +289,7 @@ const startStream = (services) => {
         <Clock styles ={clock.clock2}/>   
         </header>
         <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox">watchout!</p>
+          <p className={styles.alertBox} id="alertbox"> <GoAlert/> Heart rate too high!</p>
           <section className={styles.dataContainer}>
             <button onClick={connectDevice}>Connect</button>
             <div>

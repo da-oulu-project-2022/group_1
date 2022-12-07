@@ -67,10 +67,37 @@ img {
 .alertBox{
   position: fixed;
   display: none;
-  background-color: rgba(128, 128, 128, 0.8);
+  background-image: radial-gradient(  #F07470, #DC1C13);
+  box-shadow: 0px 20px 80px -25px #000000 ;
   width: 50%;
   height: 50%; 
-  text-align: center;
+  text-align:center;
+  border-radius: 5px;
+  
+  padding: 7rem 7rem 7rem;
+  font-size: 70px;
+  box-sizing: border-box;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+
+  /* display: none;
+            background-image: linear-gradient(to right, #66a80f, #c0eb75);
+            background-size:cover;
+            color: white;
+            position: absolute;
+            width: 350px;
+            border-radius: 5px;
+            left: 50%;
+            margin-left: -160px;
+            padding: 16px 8px 8px;
+            box-sizing: border-box;*/
+
+  /* background-image: linear-gradient(to bottom, #efefef, #adadad); 
+    box-shadow: 0px 20px 80px -25px #000000;
+    border-radius: 40px;
+    border: 3px solid #de1818;
+    width: 30vw;
+    height: fit-content;
+    padding: 20px 0;*/
 }
 
 
