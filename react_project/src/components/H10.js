@@ -38,6 +38,7 @@ function H10(props) {
 
   let lowest_bpm;
   let highest_bpm;
+  const [ EcgSample, setEcgSample] = useState();
   // When the component mounts, check that the browser supports Bluetooth
   useEffect(() => {
     console.log("updated");
@@ -91,9 +92,11 @@ function H10(props) {
       if (i%30 == 1) {
         sample = pasrseToInt24(event.target.value.buffer.slice(i, i+3));
         console.log(sample + " microvolt");
+        setEcgSample(sample);
       }
     }
 
+  
     
   }
  const handleAccValueChanged = (event) => {
@@ -302,7 +305,7 @@ const startStream = (services) => {
           
           <section className={ styles.graphContainer }>
               <div className={ styles.graph }>
-                <IotChart/>
+                <IotChart data={ EcgSample}/>
               </div>
               <p className={ styles.graphName2 }>ECG</p>
               

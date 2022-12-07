@@ -22,7 +22,7 @@ export function Connect(props) {
     console.log(`Connected device name: ${connectedDeviceName}`);
     if (connectedDeviceName === supportedDevices[0]) {
       navigate('/H10');
-    } else if (connectedDeviceName === supportedDevices[1]){
+    } else if (connectedDeviceName === supportedDevices[1] || connectedDeviceName === supportedDevices[2]){
       navigate('/VeritySense');
     } else {
       alert("Device is not supported");
