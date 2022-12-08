@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './modules/Clock.module.css';
 
-function Clock() {
+function Clock(props) {
 	const [dateState, setDateState] = useState(new Date());
 	useEffect(() => {
 		setInterval(() => {
@@ -11,7 +11,7 @@ function Clock() {
 	}, []);
 	return (
 		<>
-			<div className={ styles.clock1 }>
+			<div className={ props.styles }>
 				{dateState.toLocaleString('en-US', {
 					hour: 'numeric',
 					minute: 'numeric',

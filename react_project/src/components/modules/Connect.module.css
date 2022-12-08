@@ -13,8 +13,8 @@ body {
 }
 
 header {
-    background: url('../images/homePageBackgroundTop.png');;
-    background-size: 100vw 15vh;
+    background: url('../images/homePageBackgroundToptest.png');
+    background-size: 100vw 17vh;
     height: 15vh;
     width: 100vw;
     display: flex;
@@ -22,6 +22,10 @@ header {
     justify-content: flex-end;
     
 }
+
+
+
+
 .content{
     
     height: 70vh;
@@ -34,7 +38,7 @@ header {
   }
 
 footer{
-    background: url('../images/homePageBackgroundBottom.png');
+    background: url('../images/homePageBackgroundBottomtest.png');
     background-size: 100vw 15vh;
     height: 15vh;
     width: 100vw;
@@ -47,69 +51,37 @@ footer{
     box-shadow: 0px 20px 80px -25px #000000;
     border-radius: 40px;
     border: 3px solid #de1818;
-    width: 25vw;
-    height: 50vh;    
+    width: 30vw;
+    height: fit-content;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 
 .welcome {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     text-align: center;
-    margin: 4vh auto 0;
-    width: 26.5%;
-    height: 7vh;
+    width: inherit;
+    height: fit-content;
     font-family: 'Poppins', sans-serif;
-    font-size: 40px;
+    font-size: 3rem;
     color: #de1818;
 }
-.companyLogo {
+
+img {
   
-    /*background-size:100px 200px;*/
-    display:inline;
-    justify-content: flex-end;
-    width: 90%;
-  
+    height: 6vh;
+    width: 16vw;
+    margin: 3vh 3vw;
     
 }
 
-/* .device_container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 7vh auto 0;
-    width: 50%;
-}
-
-.device {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #FFFFFF;
-    padding: 10px 30px;
-    border: 2px solid #D2D9F3;
-    border-radius: 20px;
-}
-
-.select {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2vh auto 0;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-}
- */
 .button {
     background: #de1818;
-    display: flex;
-    justify-content: center;
     width: 79%;
-    align-items: center;
-    margin: 4vh auto 0;
-    padding: 24px;
+    padding: 10px;
     border-radius: 8px;
     border-color: #de1818;
     color: #FFFFFF;
