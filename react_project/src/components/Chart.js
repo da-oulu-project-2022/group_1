@@ -1,6 +1,6 @@
 //live chart with dummy data
 
-import React from "react";
+import {React, useRef} from "react";
 import { Line } from "react-chartjs-2";
 import styles from './modules/Chart.module.css'
 import Chart, { registry } from "chart.js/auto";
@@ -8,7 +8,9 @@ import 'chartjs-adapter-luxon';
 import registerables, { StreamingPlugin, RealTimeScale } from "chartjs-plugin-streaming";
 Chart.register(StreamingPlugin, RealTimeScale);
 
-export const IotChart = () => {
+export const IotChart = (props) => {
+
+  const bpm = useRef(props.data);
 
   const data = {
     datasets: [
@@ -36,6 +38,7 @@ export const IotChart = () => {
         type: "realtime",
         realtime: {
           onRefresh: function() {
+            console.log(bpm.current);
             data.datasets[0].data.push({
               x: Date.now(),
               y: Math.random() * 100,

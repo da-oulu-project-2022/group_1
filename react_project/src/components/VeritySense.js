@@ -2,7 +2,7 @@ import Clock from './Clock';
 import { IotChart } from './Chart';
 import styles from './modules/VeritySense.module.css';
 import clockStyles from './modules/Clock.module.css';
-import React, { useEffect } from 'react';   
+import React, { useEffect, useRef, useState } from 'react';   
 
 function VeritySense(props) {
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
@@ -21,9 +21,10 @@ function VeritySense(props) {
   let bpm_high;
   let bpm_low;
   let alert_box;
+  let [bpm_now, setBpm] = useState();
 
   let lowest_bpm;
-  let highest_bpm;
+  let highest_bpm;  
 
   useEffect(() => {
     bpm_normal = document.getElementById("bpm_normal");
@@ -77,8 +78,9 @@ function VeritySense(props) {
 
 
   const handleHRValueChanged = (event) => {
-    console.log(event);
+    console.log(event.target.value.getUint8(1));
     bpm_normal.innerText = event.target.value.getUint8(1);
+    setBpm(event.target.value.getUint8(1));
     
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
@@ -100,15 +102,13 @@ function VeritySense(props) {
       } else {
         alert_box.style.display = "none";
       }
-    
   }
-
 
 const startMeasurement = () => {
   props.device.gatt.getPrimaryServices()
   .then(services => { 
     services.forEach(element => {
-/*       if (element.uuid === PMD_Service) {
+      if (element.uuid === PMD_Service) {
         element.getCharacteristic(Data_char).then(dataChar => {
           dataChar.startNotifications();
           dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
@@ -118,11 +118,13 @@ const startMeasurement = () => {
             console.log(controlChar.properties);
             controlChar.writeValueWithResponse(PPI_Array)
             .then(_ => {
-              controlChar.writeValueWithResponse(PPI_Array)
-            })
+              console.log(controlChar.properties);
+              controlChar.writeValueWithResponse(ACC_Array);
+            });
           })
-        });
-      } */ if (element.uuid === Heart_rate_Service) {
+        })
+
+      } if (element.uuid === Heart_rate_Service) {
           element.getCharacteristic(Heart_rate_Char)
           .then(heartRateChar => {
             console.log(heartRateChar);
@@ -170,7 +172,7 @@ const startMeasurement = () => {
           
           <section className={ styles.graphContainer }>
               <div className={ styles.graph }>
-              <IotChart/>
+              <IotChart data={bpm_now}/>
               </div>
               <p className={ styles.graphName2 }>ECG</p>
           </section>
