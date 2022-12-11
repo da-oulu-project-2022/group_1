@@ -33,7 +33,7 @@
     width: 100vw;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     
     /* flex-wrap: wrap; */
@@ -114,7 +114,8 @@
   }
   
   .graphContainer {
-    width: 65vw;  
+    margin: 100px;
+    width: 400px;  
     height: inherit;
     display: flex;
     flex-direction: column;

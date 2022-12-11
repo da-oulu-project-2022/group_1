@@ -22,6 +22,7 @@ function VeritySense(props) {
   let bpm_low;
   let alert_box;
   let [bpm_now, setBpm] = useState();
+  let [ppi_now, setPpi] = useState();
 
   let lowest_bpm;
   let highest_bpm;  
@@ -47,7 +48,7 @@ function VeritySense(props) {
 
   const handlePmdDataValueChanged = (event) => {
     if (event.target.value.getUint8(0) === 2) {
-      console.log("\n\nNew values");
+/*       console.log("\n\nNew values");
       console.log(event.target.value);
 
       let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
@@ -69,18 +70,32 @@ function VeritySense(props) {
         if (i%30 == 0) {
           console.log("x " + sample_x + " y " + sample_y + " z " + sample_z );
         }
-      }
+      } */
       
     } else if (event.target.value.getUint8(0) === 3) {
-      console.log(event);
+      let sample = pasrseToInt16(event.target.value.buffer.slice(11, 13));
+      console.log(sample);
+      setPpi(sample);
     }
+  }
+
+function pasrseToInt16(byte_array){
+    let m_array = new Uint8Array(byte_array)
+    let value0 = m_array[0].toString(16)
+    if (value0.length == 1){ value0 = 0 + value0}
+    let value1 = m_array[1].toString(16)
+    if (value1.length == 1){ value1 = 0 + value1}
+    let value = value1 + value0;
+    value = parseInt(value, 16);
+
+    if (value > 32767) { value = value - 65536 };
+    return value;
   }
 
 
   const handleHRValueChanged = (event) => {
-    console.log(event.target.value.getUint8(1));
-    bpm_normal.innerText = event.target.value.getUint8(1);
     setBpm(event.target.value.getUint8(1));
+    bpm_normal.innerText = event.target.value.getUint8(1);
     
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
@@ -94,9 +109,6 @@ function VeritySense(props) {
         bpm_high.innerText = event.target.value.getUint8(1);
       
     }
-
-    //add alertbox
-    //TODO: make it more fancy!!!
       if (event.target.value.getUint8(1) > 100){
         alert_box.style.display = "flex";
       } else {
@@ -108,33 +120,28 @@ const startMeasurement = () => {
   props.device.gatt.getPrimaryServices()
   .then(services => { 
     services.forEach(element => {
-      if (element.uuid === PMD_Service) {
+/*       if (element.uuid === PMD_Service) {
         element.getCharacteristic(Data_char).then(dataChar => {
           dataChar.startNotifications();
           dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
         }).then(_ => {
           element.getCharacteristic(Cntrl_char)
           .then(controlChar => {
-            console.log(controlChar.properties);
             controlChar.writeValueWithResponse(PPI_Array)
             .then(_ => {
-              console.log(controlChar.properties);
               controlChar.writeValueWithResponse(ACC_Array);
             });
           })
         })
-
-      } if (element.uuid === Heart_rate_Service) {
+      } */ if (element.uuid === Heart_rate_Service) {
           element.getCharacteristic(Heart_rate_Char)
           .then(heartRateChar => {
-            console.log(heartRateChar);
             heartRateChar.startNotifications();
             heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
           })
       } if (element.uuid === Battery_Service) {
           element.getCharacteristic(Battery_Char)
           .then(char => {
-            console.log(char.properties);
             char.readValue()
             char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
           })
@@ -157,15 +164,15 @@ const startMeasurement = () => {
           <section className={styles.dataContainer}>
             {/* <button onClick={connectDevice}>coonnect</button> */}
             <div>
-              <p className={ styles.dataText } id="bpm_low" >n.a.</p>
+              <p className={ styles.dataText } id="bpm_low" >0</p>
               <p className={ styles.dataUnit }>Lowest BPM</p>
             </div>
             <div>
-              <p className={ styles.dataText } id="bpm_normal">n.a.</p>
+              <p className={ styles.dataText } id="bpm_normal">0</p>
               <p className={ styles.dataUnit }>BPM</p>
             </div>
             <div>
-              <p className={ styles.dataText } id="bpm_high" >n.a.</p>
+              <p className={ styles.dataText } id="bpm_high" >0</p>
               <p className={ styles.dataUnit }>Highest BPM</p>
             </div>
           </section> 
@@ -174,7 +181,8 @@ const startMeasurement = () => {
               <div className={ styles.graph }>
               <IotChart data={bpm_now}/>
               </div>
-              <p className={ styles.graphName2 }>ECG</p>
+              <p className={ styles.graphName2 }>BPM</p>
+              <p>{ppi_now}</p>
           </section>
         </div>
         <footer >
