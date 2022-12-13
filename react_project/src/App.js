@@ -33,14 +33,10 @@ function App() {
       <Routes>
         <Route path="/*" element= { <Connect func={ pullData } checkConnection={ isDisconnected }/> } />
         {
-      //     connection &&
-      //     <Route path="/HomePage" element= { <HomePage device={device} checkConnection={ isConnected }/> } />
-
-
-      //   connection && //RETURN THIS 
+          connection &&
           <>
-            <Route path="/VeritySense" element={<VeritySense device={device} />} />
-            <Route path="/H10" element={<H10 device={device} />} />
+            <Route path="/VeritySense" element={<VeritySense device={device} checkConnection={ isConnected }/>} />
+            <Route path="/H10" element={<H10 device={device} checkConnection={ isConnected }/>} />
           </>
         }
       </Routes>

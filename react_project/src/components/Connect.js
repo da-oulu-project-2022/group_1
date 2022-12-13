@@ -1,29 +1,25 @@
 import styles from './modules/Connect.module.css'
-import MenuClock from './MenuClock'
 import BatteryDetails from './Battery'
 import Clock from './Clock'
 import clock from './modules/Clock.module.css';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 
-export function isConnected() { // This is to be used in preventing "unauthorized" access
-  return true
-}
 
 export function Connect(props) {
 
   const navigate = useNavigate();
-  const [device, setDevice] = useState();
-  const [isConnected, setConnection] = useState(); // This is to be used in preventing "unauthorized" access
+
   const supportedDevices = [
-    "Polar H10 AFCBA929",
-    "Polar Sense B5E5C726"
+    "Polar H10",
+    "Polar Sense"
   ]
+
   const connectionEstablished = (connectedDeviceName) => {
     console.log(`Connected device name: ${connectedDeviceName}`);
-    if (connectedDeviceName === supportedDevices[0]) {
+    if (connectedDeviceName.includes(supportedDevices[0])) {
       navigate('/H10');
-    } else if (connectedDeviceName === supportedDevices[1]){
+    } else if (connectedDeviceName.includes(supportedDevices[1])){
       navigate('/VeritySense');
     } else {
       alert("Device is not supported");

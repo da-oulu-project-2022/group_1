@@ -4,6 +4,7 @@ import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import BatteryDetails from './Battery'
 
 function H10(props) {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
@@ -68,12 +69,12 @@ function H10(props) {
    */
   const handleBatteryValueChanged = (event) => {
     //setBatteryLevel(event.target.value.getUint8(0) + '%');
-    console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
+    return event.target.value.getUint8(0).str() + '%';
   }
 
   const handleEcgValueChanged = (event) => {
-    console.log("\n\nNew values");
-    console.log(event.target.value);
+    // console.log("\n\nNew values");
+    // console.log(event.target.value);
     let sample;
     for (let i = 10; i < event.target.value.byteLength; i = i + 3) {
 
@@ -81,7 +82,7 @@ function H10(props) {
 
       if (i % 30 == 1) {
         sample = pasrseToInt24(event.target.value.buffer.slice(i, i + 3));
-        console.log(sample + " microvolt");
+        // console.log(sample + " microvolt");
       }
     }
 
@@ -92,18 +93,18 @@ function H10(props) {
 
 
 
-    console.log("\n\nNew values");
-    console.log(event.target.value);
+    // console.log("\n\nNew values");
+    // console.log(event.target.value);
 
     let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
     let ref_y = event.target.value.getInt8(13) * 256 + event.target.value.getInt8(12);
     let ref_z = event.target.value.getInt8(15) * 256 + event.target.value.getInt8(14);
-    console.log("x " + ref_x + " y " + ref_y + " z " + ref_z);
+    // console.log("x " + ref_x + " y " + ref_y + " z " + ref_z);
 
     let sample_x = ref_x + event.target.value.getInt8(18);
     let sample_y = ref_y + event.target.value.getInt8(19);
     let sample_z = ref_z + event.target.value.getInt8(20);
-    console.log("x " + sample_x + " y " + sample_y + " z " + sample_z);
+    // console.log("x " + sample_x + " y " + sample_y + " z " + sample_z);
 
 
     for (let i = 21; i < 222; i = i + 3) {
@@ -112,7 +113,7 @@ function H10(props) {
       sample_y = sample_y + event.target.value.getInt8(i + 1);
       sample_z = sample_z + event.target.value.getInt8(i + 2);
       if (i % 30 == 0) {
-        console.log("x " + sample_x + " y " + sample_y + " z " + sample_z);
+        // console.log("x " + sample_x + " y " + sample_y + " z " + sample_z);
       }
     }
 
@@ -283,11 +284,12 @@ function H10(props) {
       <body>
         <header>
           <Clock styles={clockStyles.clock2} />
+          <BatteryDetails/>
+          <button onClick={connectDevice}>connect</button>
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox">watchout!</p>
           <section className={styles.dataContainer}>
-            <button onClick={connectDevice}>coonnect</button>
             <div>
               <p className={styles.dataText} id="bpm_low" >n.a.</p>
               <p className={styles.dataUnit}>Lowest BPM</p>
