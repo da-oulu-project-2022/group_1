@@ -2,7 +2,8 @@ import Clock from './Clock';
 import BarChart, { IotChart } from './Chart';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
-import React, { useState, useEffect } from 'react';   
+import React, { useState, useEffect } from 'react'; 
+import { GoAlert } from "react-icons/go";  
 /* import { Chart } from "react-google-charts";
  */
 function H10(props) {
@@ -207,7 +208,7 @@ const startMeasurement = () => {
           <Clock styles={clockStyles.clock2}/>   
         </header>
         <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox">watchout!</p>
+          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
           <section className={styles.dataContainer}>
             {/* <button onClick={connectDevice}>coonnect</button> */}
             <div>

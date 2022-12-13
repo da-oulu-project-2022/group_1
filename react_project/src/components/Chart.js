@@ -1,4 +1,4 @@
-//live chart with dummy data
+
 import {React, useRef, useEffect} from "react";
 import { Line } from "react-chartjs-2";
 import styles from './modules/Chart.module.css'
@@ -7,6 +7,7 @@ import 'chartjs-adapter-luxon';
 import { StreamingPlugin, RealTimeScale } from "chartjs-plugin-streaming";
 Chart.register(StreamingPlugin, RealTimeScale);
 
+//Chart base to visualize real-time BPM and ECG values.
 export const IotChart = (props) => {
 
   const bpm = useRef(props.data);
@@ -28,7 +29,7 @@ export const IotChart = (props) => {
         lineTension: 0.1,
         borderColor: "#f44336",
         borderJoinStyle: "miter",
-        pointRadius: 4,
+        pointRadius: 0,
         showLine: true,
         
       },
@@ -38,9 +39,7 @@ export const IotChart = (props) => {
   const options = {
     scales: {
       x: {
-        ticks: {
-          display: false
-        },
+       
         
         type: "realtime",
         realtime: {

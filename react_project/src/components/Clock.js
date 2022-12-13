@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './modules/Clock.module.css';
 
+//This function is for real-time clock for pages
 function Clock(props) {
 	const [dateState, setDateState] = useState(new Date());
 	useEffect(() => {

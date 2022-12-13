@@ -15,13 +15,15 @@ export function Connect(props) {
   const [isConnected, setConnection] = useState(); // This is to be used in preventing "unauthorized" access
   const supportedDevices = [
     "Polar H10 AFCBA929",
-    "Polar Sense B5E5C726"
+    "Polar Sense B5E5C726",
+    "Polar OH1 50924E2C"
   ]
+  // This is to be used to filter the sensor connection. Wrong sensor = no access. H10 sensor = navigate to H10 component
   const connectionEstablished = (connectedDeviceName) => {
     console.log(`Connected device name: ${connectedDeviceName}`);
     if (connectedDeviceName === supportedDevices[0]) {
       navigate('/H10');
-    } else if (connectedDeviceName === supportedDevices[1]){
+    } else if (connectedDeviceName === supportedDevices[1] || connectedDeviceName === supportedDevices[2]){
       navigate('/VeritySense');
     } else {
       alert("Device is not supported");

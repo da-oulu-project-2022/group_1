@@ -3,6 +3,7 @@ import { IotChart } from './Chart';
 import styles from './modules/VeritySense.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useEffect, useRef, useState } from 'react';   
+import { GoAlert } from "react-icons/go";
 
 function VeritySense(props) {
   // Initializing some constant gatt service uuids
@@ -43,10 +44,7 @@ function VeritySense(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /**
-   * Update the value shown on the web page when a notification is
-   * received.
-   */
+  //Update the value shown on the web page when a notification is received.
 
   const handleBatteryValueChanged = (event) => {
     //setBatteryLevel(event.target.value.getUint8(0) + '%');
@@ -115,10 +113,9 @@ function VeritySense(props) {
       bpm_high.innerText = event.target.value.getUint8(1);
         
     }
-
-    if (event.target.value.getUint8(1) > 100){
-    alert_box.style.display = "flex";
-    } else {
+      if (event.target.value.getUint8(1) > 70){
+        alert_box.style.display = "flex";
+      } else {
         alert_box.style.display = "none";
       }
   }
@@ -181,10 +178,11 @@ function VeritySense(props) {
       <head></head>
       <div className={style}>
         <header>
+        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
           <Clock styles={clockStyles.clock2}/>   
         </header>
         <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox">watchout!</p>
+          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
           <section className={styles.dataContainer}>
             <div>
               <p className={styles.dataText} id="bpm_low" >0</p>
@@ -210,7 +208,7 @@ function VeritySense(props) {
           <button style={{height: '100px', marginLeft: '440px', marginBottom: '440px', width: '100px'}} onClick={handleStyleChange}> Change theme </button>
         </div>
         <footer >
-          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          
           
         </footer>
       </div>
