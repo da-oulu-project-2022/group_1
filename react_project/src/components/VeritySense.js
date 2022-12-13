@@ -17,6 +17,7 @@ function VeritySense(props) {
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
 
+  // Initializing some constant command arrays for PMD Control point to start measurements
   const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
   const PPI_Array = new Uint8Array([0x02, 0x03]);
 
@@ -98,7 +99,11 @@ function VeritySense(props) {
     return value;
   }
 
-
+  // Handling the event of heartrate service value changing
+  // firstly setting state variable bpm_now with setBpm to current the current event.target.value
+  // then updating the bpm_normal element innertext to show current bpm value and doing some checking with the values of lowest and 
+  // highest bpm values
+  // lastly showing alert box if bpm goes over 100
   const handleHRValueChanged = (event) => {
     setBpm(event.target.value.getUint8(1));
     bpm_normal.innerText = event.target.value.getUint8(1);
