@@ -3,8 +3,8 @@ import BarChart, { IotChart } from './Chart';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useState, useEffect } from 'react';   
-import { Chart } from "react-google-charts";
-
+/* import { Chart } from "react-google-charts";
+ */
 function H10(props) {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
   const [batteryLevel, setBatteryLevel] = useState(null);

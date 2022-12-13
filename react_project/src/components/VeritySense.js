@@ -24,6 +24,11 @@ function VeritySense(props) {
   let [bpm_now, setBpm] = useState();
   let [ppi_now, setPpi] = useState();
 
+  let [style, setStyle] = useState(styles.body);
+  let [theme, setTheme] = useState('light');
+
+  let [dataUnit, setDataUnit] = useState(styles.dataUnit);
+
   let lowest_bpm;
   let highest_bpm;  
 
@@ -151,29 +156,40 @@ const startMeasurement = () => {
 }
 
 
+const handleStyleChange = () => {
+  if (theme === 'light') {
+    setStyle(styles.bodyDark);
+    setDataUnit(styles.dataUnitDark);
+    setTheme('dark');
+  } else {
+    setStyle(styles.body);
+    setDataUnit(styles.dataUnit);
+    setTheme('light');
+  }
+}
+
   return (
     
     <html>
       <head></head>
-      <body>
+      <div className={style}>
         <header>
           <Clock styles={clockStyles.clock2}/>   
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox">watchout!</p>
           <section className={styles.dataContainer}>
-            {/* <button onClick={connectDevice}>coonnect</button> */}
             <div>
-              <p className={ styles.dataText } id="bpm_low" >0</p>
-              <p className={ styles.dataUnit }>Lowest BPM</p>
+              <p className={styles.dataText} id="bpm_low" >0</p>
+              <p className={dataUnit}>Lowest BPM</p>
             </div>
             <div>
-              <p className={ styles.dataText } id="bpm_normal">0</p>
-              <p className={ styles.dataUnit }>BPM</p>
+              <p className={styles.dataText} id="bpm_normal">0</p>
+              <p className={dataUnit}>BPM</p>
             </div>
             <div>
-              <p className={ styles.dataText } id="bpm_high" >0</p>
-              <p className={ styles.dataUnit }>Highest BPM</p>
+              <p className={styles.dataText} id="bpm_high" >0</p>
+              <p className={dataUnit}>Highest BPM</p>
             </div>
           </section> 
           
@@ -184,12 +200,13 @@ const startMeasurement = () => {
               <p className={ styles.graphName2 }>BPM</p>
               <p>{ppi_now}</p>
           </section>
+          <button style={{height: '100px', marginLeft: '440px', marginBottom: '440px', width: '100px'}} onClick={handleStyleChange}> Change theme </button>
         </div>
         <footer >
           <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
           
         </footer>
-      </body>
+      </div>
     </html>
   );
 }
