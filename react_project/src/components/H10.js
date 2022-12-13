@@ -20,8 +20,6 @@ function H10(props) {
 
   const navigate = useNavigate();
 
-
-
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
   const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
@@ -164,44 +162,52 @@ function H10(props) {
       }
   }
 
-const startMeasurement = () => {
-  props.device.gatt.getPrimaryServices()
-  .then(services => { 
-    services.forEach(element => {
-      if (element.uuid === PMD_Service) {
-        element.getCharacteristic(Data_char).then(dataChar => {
-          dataChar.startNotifications();
-          dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
-        }).then(_ => {
-          element.getCharacteristic(Cntrl_char)
-          .then(controlChar => {
-            console.log(controlChar.properties);
-            controlChar.writeValueWithResponse(ECG_Array)
-            .then(_ => {
+  const startMeasurement = () => {
+    props.device.gatt.getPrimaryServices()
+    .then(services => { 
+      services.forEach(element => {
+        if (element.uuid === PMD_Service) {
+          element.getCharacteristic(Data_char).then(dataChar => {
+            dataChar.startNotifications();
+            dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
+          }).then(_ => {
+            element.getCharacteristic(Cntrl_char)
+            .then(controlChar => {
               console.log(controlChar.properties);
-              controlChar.writeValueWithResponse(ACC_Array);
-            });
+              controlChar.writeValueWithResponse(ECG_Array)
+              .then(_ => {
+                console.log(controlChar.properties);
+                controlChar.writeValueWithResponse(ACC_Array);
+              });
+            })
           })
-        })
 
-      } if (element.uuid === Heart_rate_Service) {
-          element.getCharacteristic(Heart_rate_Char)
-          .then(heartRateChar => {
-            console.log(heartRateChar);
-            heartRateChar.startNotifications();
-            heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
-          })
-      } if (element.uuid === Battery_Service) {
-          element.getCharacteristic(Battery_Char)
-          .then(char => {
-            console.log(char.properties);
-            char.readValue()
-            char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
-          })
-      }
+        } if (element.uuid === Heart_rate_Service) {
+            element.getCharacteristic(Heart_rate_Char)
+            .then(heartRateChar => {
+              console.log(heartRateChar);
+              heartRateChar.startNotifications();
+              heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
+            })
+        } if (element.uuid === Battery_Service) {
+            element.getCharacteristic(Battery_Char)
+            .then(char => {
+              console.log(char.properties);
+              char.readValue()
+              char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
+            })
+        }
+      })
     })
-  })
-}
+  }
+
+  const disconnectDevice = () => {
+    if (device.gatt.connected) {
+      device.gatt.disconnect();
+      alert("Bluetooth device disconnected");
+      navigate('/');
+    }
+  }
 
 
   return (
@@ -215,7 +221,7 @@ const startMeasurement = () => {
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
           <section className={styles.dataContainer}>
-            {/* <button onClick={connectDevice}>coonnect</button> */}
+            <button onClick={disconnectDevice}>Disconnect Device</button>
             <div>
               <p className={styles.dataText} id="bpm_low" >n.a.</p>
               <p className={styles.dataUnit}>Lowest BPM</p>

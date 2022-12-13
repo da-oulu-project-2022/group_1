@@ -2,23 +2,27 @@ import Clock from './Clock';
 import { IotChart } from './Chart';
 import styles from './modules/VeritySense.module.css';
 import clockStyles from './modules/Clock.module.css';
-import React, { useEffect, useRef, useState } from 'react';   
+import React, { useEffect, useState } from 'react';   
+import { useNavigate } from 'react-router-dom';
 import { GoAlert } from "react-icons/go";
+import BatteryDetails from "./Battery"
 
 function VeritySense(props) {
   // Initializing some constant gatt service uuids
-  const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
+  // const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
   const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
 
   // Initializing some constant gatt service characteristic uuids
-  const Cntrl_char = "fb005c81-02e7-f387-1cad-8acd2d8df0c8";
-  const Data_char = "fb005c82-02e7-f387-1cad-8acd2d8df0c8";
+  // const Cntrl_char = "fb005c81-02e7-f387-1cad-8acd2d8df0c8";
+  // const Data_char = "fb005c82-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
 
-  const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
-  const PPI_Array = new Uint8Array([0x02, 0x03]);
+  // const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
+  // const PPI_Array = new Uint8Array([0x02, 0x03]);
+
+  const navigate = useNavigate();
 
   let bpm_normal;
   let bpm_high;
@@ -26,6 +30,7 @@ function VeritySense(props) {
   let alert_box;
   let [bpm_now, setBpm] = useState();
   let [ppi_now, setPpi] = useState();
+  let [batteryLevel, setBatteryLevel] = useState();
 
   let [style, setStyle] = useState(styles.body);
   let [theme, setTheme] = useState('light');
@@ -49,12 +54,14 @@ function VeritySense(props) {
 
   const handleBatteryValueChanged = (event) => {
     //setBatteryLevel(event.target.value.getUint8(0) + '%');
-    console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
+    let currentBatteryLevel = event.target.value.getUint8(0)
+    console.log("Batterylevel: " + currentBatteryLevel + '%');
+    setBatteryLevel(currentBatteryLevel);
   }
 
-  const handlePmdDataValueChanged = (event) => {
+  /* const handlePmdDataValueChanged = (event) => {
     if (event.target.value.getUint8(0) === 2) {
-  /* console.log("\n\nNew values");
+      console.log("\n\nNew values");
       console.log(event.target.value);
 
       let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
@@ -76,21 +83,21 @@ function VeritySense(props) {
         if (i%30 == 0) {
           console.log("x " + sample_x + " y " + sample_y + " z " + sample_z );
         }
-      } */
+      }
       
     } else if (event.target.value.getUint8(0) === 3) {
       let sample = pasrseToInt16(event.target.value.buffer.slice(11, 13));
       console.log(sample);
       setPpi(sample);
     }
-  }
+  } */
 
   function pasrseToInt16(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
-    if (value0.length == 1){ value0 = 0 + value0}
+    if (value0.length === 1){ value0 = 0 + value0}
     let value1 = m_array[1].toString(16)
-    if (value1.length == 1){ value1 = 0 + value1}
+    if (value1.length === 1){ value1 = 0 + value1}
     let value = value1 + value0;
     value = parseInt(value, 16);
 
@@ -103,13 +110,13 @@ function VeritySense(props) {
     setBpm(event.target.value.getUint8(1));
     bpm_normal.innerText = event.target.value.getUint8(1);
       
-    if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
+    if (lowest_bpm === undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
       bpm_low.innerText = event.target.value.getUint8(1);
         
     }
 
-    if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
+    if (highest_bpm === undefined || highest_bpm < event.target.value.getUint8(1)){
       highest_bpm = event.target.value.getUint8(1);
       bpm_high.innerText = event.target.value.getUint8(1);
         
@@ -175,6 +182,14 @@ function VeritySense(props) {
     }
   }
 
+  const disconnectDevice = () => {
+    if (props.device.gatt.connected) {
+      props.device.gatt.disconnect();
+      alert("Bluetooth device disconnected");
+      navigate('/');
+    }
+  }
+
   return (
     
     <html>
@@ -183,10 +198,12 @@ function VeritySense(props) {
         <header>
         <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
           <Clock styles={clockStyles.clock2}/>   
+          <BatteryDetails data={batteryLevel}/>
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
           <section className={containerStyle}>
+          <button onClick={disconnectDevice}>Disconnect Device</button>
             <div>
               <p className={styles.dataText} id="bpm_low" >0</p>
               <p className={dataUnit}>Lowest BPM</p>

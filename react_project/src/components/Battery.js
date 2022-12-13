@@ -6,24 +6,25 @@ export default class BatteryDetails extends Component {
 
     constructor(props) {
       super(props);
-  
+
       this.state = {
-        currentBatteryLevel: 0
+        batteryLevel: getBatteryLevel(),
       };
-  
-      window.addEventListener("batterystatus", (status) => this.onBatteryStatus(status), false);
-      window.dispatchEvent(new Event('batterystatus'));
+    }  
+
+    getBatteryLevel = () => {
+      if (this.props.data) {
+        this.setState({batteryLevel: this.props.data});
+      }
     }
-  
-    onBatteryStatus(status) {
-      this.setState({ currentBatteryLevel: status.level });
-    }
+    
   
     render() {
       return ( 
         <div>
-          Remaining: { this.state.currentBatteryLevel } 
+          Remaining: { this.props.data } 
         </div>
+        
       );
     }
   }
