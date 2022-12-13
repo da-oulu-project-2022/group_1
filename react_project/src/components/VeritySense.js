@@ -29,6 +29,7 @@ function VeritySense(props) {
 
   let [style, setStyle] = useState(styles.body);
   let [theme, setTheme] = useState('light');
+  let [containerStyle, setContainerStyle] = useState(styles.dataContainer);
 
   let [dataUnit, setDataUnit] = useState(styles.dataUnit);
 
@@ -113,7 +114,7 @@ function VeritySense(props) {
       bpm_high.innerText = event.target.value.getUint8(1);
         
     }
-      if (event.target.value.getUint8(1) > 70){
+      if (event.target.value.getUint8(1) > 100){
         alert_box.style.display = "flex";
       } else {
         alert_box.style.display = "none";
@@ -164,10 +165,12 @@ function VeritySense(props) {
     if (theme === 'light') {
       setStyle(styles.bodyDark);
       setDataUnit(styles.dataUnitDark);
+      setContainerStyle(styles.dataContainerDark);
       setTheme('dark');
     } else {
       setStyle(styles.body);
       setDataUnit(styles.dataUnit);
+      setContainerStyle(styles.dataContainer);
       setTheme('light');
     }
   }
@@ -183,7 +186,7 @@ function VeritySense(props) {
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-          <section className={styles.dataContainer}>
+          <section className={containerStyle}>
             <div>
               <p className={styles.dataText} id="bpm_low" >0</p>
               <p className={dataUnit}>Lowest BPM</p>

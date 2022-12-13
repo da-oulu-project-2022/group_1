@@ -68,6 +68,15 @@
     justify-content: space-around;
     border-right: 4px solid black;
   }
+
+  .dataContainerDark {
+    width: 25vw;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-right: 4px solid rgb(255, 255, 255);
+  }
   
   .alertBox{
    /* position: fixed;
