@@ -5,10 +5,12 @@ import clockStyles from './modules/Clock.module.css';
 import React, { useEffect, useRef, useState } from 'react';   
 
 function VeritySense(props) {
+  // Initializing some constant gatt service uuids
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
   const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
 
+  // Initializing some constant gatt service characteristic uuids
   const Cntrl_char = "fb005c81-02e7-f387-1cad-8acd2d8df0c8";
   const Data_char = "fb005c82-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
@@ -53,7 +55,7 @@ function VeritySense(props) {
 
   const handlePmdDataValueChanged = (event) => {
     if (event.target.value.getUint8(0) === 2) {
-/*       console.log("\n\nNew values");
+  /* console.log("\n\nNew values");
       console.log(event.target.value);
 
       let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
@@ -84,7 +86,7 @@ function VeritySense(props) {
     }
   }
 
-function pasrseToInt16(byte_array){
+  function pasrseToInt16(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
     if (value0.length == 1){ value0 = 0 + value0}
@@ -101,72 +103,77 @@ function pasrseToInt16(byte_array){
   const handleHRValueChanged = (event) => {
     setBpm(event.target.value.getUint8(1));
     bpm_normal.innerText = event.target.value.getUint8(1);
-    
+      
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
+      bpm_low.innerText = event.target.value.getUint8(1);
+        
+    }
 
-        bpm_low.innerText = event.target.value.getUint8(1);
-      
-    } 
     if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
       highest_bpm = event.target.value.getUint8(1);
-
-        bpm_high.innerText = event.target.value.getUint8(1);
-      
+      bpm_high.innerText = event.target.value.getUint8(1);
+        
     }
-      if (event.target.value.getUint8(1) > 100){
-        alert_box.style.display = "flex";
-      } else {
+
+    if (event.target.value.getUint8(1) > 100){
+    alert_box.style.display = "flex";
+    } else {
         alert_box.style.display = "none";
       }
   }
 
-const startMeasurement = () => {
-  props.device.gatt.getPrimaryServices()
-  .then(services => { 
-    services.forEach(element => {
-/*       if (element.uuid === PMD_Service) {
-        element.getCharacteristic(Data_char).then(dataChar => {
-          dataChar.startNotifications();
-          dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
-        }).then(_ => {
-          element.getCharacteristic(Cntrl_char)
-          .then(controlChar => {
-            controlChar.writeValueWithResponse(PPI_Array)
-            .then(_ => {
-              controlChar.writeValueWithResponse(ACC_Array);
-            });
+
+  // Starts the data streams from polar device by first getting the "device" from props which is passed down from App.js
+  // then searching for the needed services from "device.gatt" meaning the device server
+  const startMeasurement = () => {
+    props.device.gatt.getPrimaryServices()
+    .then(services => { 
+      services.forEach(element => {
+  /*       if (element.uuid === PMD_Service) {
+          element.getCharacteristic(Data_char).then(dataChar => {
+            dataChar.startNotifications();
+            dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
+          }).then(_ => {
+            element.getCharacteristic(Cntrl_char)
+            .then(controlChar => {
+              controlChar.writeValueWithResponse(PPI_Array)
+              .then(_ => {
+                controlChar.writeValueWithResponse(ACC_Array);
+              });
+            })
           })
-        })
-      } */ if (element.uuid === Heart_rate_Service) {
-          element.getCharacteristic(Heart_rate_Char)
-          .then(heartRateChar => {
-            heartRateChar.startNotifications();
-            heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
-          })
-      } if (element.uuid === Battery_Service) {
-          element.getCharacteristic(Battery_Char)
-          .then(char => {
-            char.readValue()
-            char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
-          })
-      }
+        } */ if (element.uuid === Heart_rate_Service) {
+            element.getCharacteristic(Heart_rate_Char)
+            .then(heartRateChar => {
+              heartRateChar.startNotifications();
+              heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
+            })
+        } if (element.uuid === Battery_Service) {
+            element.getCharacteristic(Battery_Char)
+            .then(char => {
+              char.readValue()
+              char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
+            })
+        }
+      })
     })
-  })
-}
-
-
-const handleStyleChange = () => {
-  if (theme === 'light') {
-    setStyle(styles.bodyDark);
-    setDataUnit(styles.dataUnitDark);
-    setTheme('dark');
-  } else {
-    setStyle(styles.body);
-    setDataUnit(styles.dataUnit);
-    setTheme('light');
   }
-}
+
+
+  // Handling the onClick event of change theme button, updates state objects: style, dataUnit and theme
+  // with set function of each of these objects which triggers re-rendering of the page.
+  const handleStyleChange = () => {
+    if (theme === 'light') {
+      setStyle(styles.bodyDark);
+      setDataUnit(styles.dataUnitDark);
+      setTheme('dark');
+    } else {
+      setStyle(styles.body);
+      setDataUnit(styles.dataUnit);
+      setTheme('light');
+    }
+  }
 
   return (
     
@@ -194,10 +201,10 @@ const handleStyleChange = () => {
           </section> 
           
           <section className={ styles.graphContainer }>
+              <p className={ styles.graphName }>BPM</p>
               <div className={ styles.graph }>
               <IotChart data={bpm_now}/>
               </div>
-              <p className={ styles.graphName2 }>BPM</p>
               <p>{ppi_now}</p>
           </section>
           <button style={{height: '100px', marginLeft: '440px', marginBottom: '440px', width: '100px'}} onClick={handleStyleChange}> Change theme </button>
