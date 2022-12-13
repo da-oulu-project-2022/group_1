@@ -67,7 +67,8 @@ img {
 .alertBox{
  /* position: fixed;
   display: none;
-  background-color: rgba(128, 128, 128, 0.8);
+  background-image: radial-gradient(  #F07470, #DC1C13);
+  box-shadow: 0px 20px 80px -25px #000000 ;
   width: 50%;
   height: 50%; 
   text-align: center;*/

@@ -1,9 +1,11 @@
-import Clock from './Clock';
+
+import './modules/Connect.module.css';
+import Clock from './Clock.js';
+import { GoAlert } from "react-icons/go";
 import BarChart, { IotChart } from './Chart';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useState, useEffect } from 'react'; 
-import { GoAlert } from "react-icons/go";  
 /* import { Chart } from "react-google-charts";
  */
 function H10(props) {
