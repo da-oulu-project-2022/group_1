@@ -2,13 +2,16 @@ import Clock from './Clock';
 import { IotChart } from './Chart';
 import styles from './modules/VeritySense.module.css';
 import clockStyles from './modules/Clock.module.css';
-import React, { useEffect } from 'react';   
+import React, { useEffect, useRef, useState } from 'react';   
+import { GoAlert } from "react-icons/go";
 
 function VeritySense(props) {
+  // Initializing some constant gatt service uuids
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
   const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
 
+  // Initializing some constant gatt service characteristic uuids
   const Cntrl_char = "fb005c81-02e7-f387-1cad-8acd2d8df0c8";
   const Data_char = "fb005c82-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
@@ -17,23 +20,32 @@ function VeritySense(props) {
   const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
   const PPI_Array = new Uint8Array([0x02, 0x03]);
 
-  const bpm_normal = document.getElementById("bpm_normal");
-  const bpm_high = document.getElementById("bpm_high");
-  const bpm_low = document.getElementById("bpm_low");
-  const alert_box = document.getElementById("alertbox");
+  let bpm_normal;
+  let bpm_high;
+  let bpm_low;
+  let alert_box;
+  let [bpm_now, setBpm] = useState();
+  let [ppi_now, setPpi] = useState();
+
+  let [style, setStyle] = useState(styles.body);
+  let [theme, setTheme] = useState('light');
+  let [containerStyle, setContainerStyle] = useState(styles.dataContainer);
+
+  let [dataUnit, setDataUnit] = useState(styles.dataUnit);
 
   let lowest_bpm;
-  let highest_bpm;
+  let highest_bpm;  
 
   useEffect(() => {
+    bpm_normal = document.getElementById("bpm_normal");
+    bpm_high = document.getElementById("bpm_high");
+    bpm_low = document.getElementById("bpm_low");
+    alert_box = document.getElementById("alertbox");
     startMeasurement();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /**
-   * Update the value shown on the web page when a notification is
-   * received.
-   */
+  //Update the value shown on the web page when a notification is received.
 
   const handleBatteryValueChanged = (event) => {
     //setBatteryLevel(event.target.value.getUint8(0) + '%');
@@ -42,7 +54,7 @@ function VeritySense(props) {
 
   const handlePmdDataValueChanged = (event) => {
     if (event.target.value.getUint8(0) === 2) {
-      console.log("\n\nNew values");
+  /* console.log("\n\nNew values");
       console.log(event.target.value);
 
       let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
@@ -64,118 +76,145 @@ function VeritySense(props) {
         if (i%30 == 0) {
           console.log("x " + sample_x + " y " + sample_y + " z " + sample_z );
         }
-      }
+      } */
       
     } else if (event.target.value.getUint8(0) === 3) {
-      console.log(event);
+      let sample = pasrseToInt16(event.target.value.buffer.slice(11, 13));
+      console.log(sample);
+      setPpi(sample);
     }
+  }
+
+  function pasrseToInt16(byte_array){
+    let m_array = new Uint8Array(byte_array)
+    let value0 = m_array[0].toString(16)
+    if (value0.length == 1){ value0 = 0 + value0}
+    let value1 = m_array[1].toString(16)
+    if (value1.length == 1){ value1 = 0 + value1}
+    let value = value1 + value0;
+    value = parseInt(value, 16);
+
+    if (value > 32767) { value = value - 65536 };
+    return value;
   }
 
 
   const handleHRValueChanged = (event) => {
-    console.log(event);
+    setBpm(event.target.value.getUint8(1));
     bpm_normal.innerText = event.target.value.getUint8(1);
-    
+      
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
-
-        bpm_low.innerText = event.target.value.getUint8(1);
-      
-    } 
-    if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
-      highest_bpm = event.target.value.getUint8(1);
-
-        bpm_high.innerText = event.target.value.getUint8(1);
-      
+      bpm_low.innerText = event.target.value.getUint8(1);
+        
     }
 
-    //add alertbox
-    //TODO: make it more fancy!!!
+    if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
+      highest_bpm = event.target.value.getUint8(1);
+      bpm_high.innerText = event.target.value.getUint8(1);
+        
+    }
       if (event.target.value.getUint8(1) > 100){
         alert_box.style.display = "flex";
       } else {
         alert_box.style.display = "none";
       }
-    
   }
 
 
-const startMeasurement = () => {
-  props.device.gatt.getPrimaryServices()
-  .then(services => { 
-    services.forEach(element => {
-      if (element.uuid === PMD_Service) {
-        element.getCharacteristic(Data_char).then(dataChar => {
-          dataChar.startNotifications();
-          dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
-        }).then(_ => {
-          element.getCharacteristic(Cntrl_char)
-          .then(controlChar => {
-            console.log(controlChar.properties);
-            controlChar.writeValueWithResponse(PPI_Array)
-  /*           .then(_ => {
+  // Starts the data streams from polar device by first getting the "device" from props which is passed down from App.js
+  // then searching for the needed services from "device.gatt" meaning the device server
+  const startMeasurement = () => {
+    props.device.gatt.getPrimaryServices()
+    .then(services => { 
+      services.forEach(element => {
+  /*       if (element.uuid === PMD_Service) {
+          element.getCharacteristic(Data_char).then(dataChar => {
+            dataChar.startNotifications();
+            dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
+          }).then(_ => {
+            element.getCharacteristic(Cntrl_char)
+            .then(controlChar => {
               controlChar.writeValueWithResponse(PPI_Array)
-            }) */
+              .then(_ => {
+                controlChar.writeValueWithResponse(ACC_Array);
+              });
+            })
           })
-        });
-      } if (element.uuid === Heart_rate_Service) {
-          element.getCharacteristic(Heart_rate_Char)
-          .then(heartRateChar => {
-            console.log(heartRateChar);
-            heartRateChar.startNotifications();
-            heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
-          })
-      } if (element.uuid === Battery_Service) {
-          element.getCharacteristic(Battery_Char)
-          .then(char => {
-            console.log(char.properties);
-            char.readValue()
-            char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
-          })
-      }
+        } */ if (element.uuid === Heart_rate_Service) {
+            element.getCharacteristic(Heart_rate_Char)
+            .then(heartRateChar => {
+              heartRateChar.startNotifications();
+              heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
+            })
+        } if (element.uuid === Battery_Service) {
+            element.getCharacteristic(Battery_Char)
+            .then(char => {
+              char.readValue()
+              char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
+            })
+        }
+      })
     })
-  })
-}
+  }
 
+
+  // Handling the onClick event of change theme button, updates state objects: style, dataUnit and theme
+  // with set function of each of these objects which triggers re-rendering of the page.
+  const handleStyleChange = () => {
+    if (theme === 'light') {
+      setStyle(styles.bodyDark);
+      setDataUnit(styles.dataUnitDark);
+      setContainerStyle(styles.dataContainerDark);
+      setTheme('dark');
+    } else {
+      setStyle(styles.body);
+      setDataUnit(styles.dataUnit);
+      setContainerStyle(styles.dataContainer);
+      setTheme('light');
+    }
+  }
 
   return (
     
     <html>
       <head></head>
-      <body>
+      <div className={style}>
         <header>
+        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
           <Clock styles={clockStyles.clock2}/>   
         </header>
         <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox">watchout!</p>
-          <section className={styles.dataContainer}>
-            {/* <button onClick={connectDevice}>coonnect</button> */}
+          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
+          <section className={containerStyle}>
             <div>
-              <p className={ styles.dataText } id="bpm_low" >n.a.</p>
-              <p className={ styles.dataUnit }>Lowest BPM</p>
+              <p className={styles.dataText} id="bpm_low" >0</p>
+              <p className={dataUnit}>Lowest BPM</p>
             </div>
             <div>
-              <p className={ styles.dataText } id="bpm_normal">n.a.</p>
-              <p className={ styles.dataUnit }>BPM</p>
+              <p className={styles.dataText} id="bpm_normal">0</p>
+              <p className={dataUnit}>BPM</p>
             </div>
             <div>
-              <p className={ styles.dataText } id="bpm_high" >n.a.</p>
-              <p className={ styles.dataUnit }>Highest BPM</p>
+              <p className={styles.dataText} id="bpm_high" >0</p>
+              <p className={dataUnit}>Highest BPM</p>
             </div>
           </section> 
           
           <section className={ styles.graphContainer }>
+              <p className={ styles.graphName }>BPM</p>
               <div className={ styles.graph }>
-                <IotChart/>
+              <IotChart data={bpm_now}/>
               </div>
-              <p className={ styles.graphName2 }>ECG</p>
+              <p>{ppi_now}</p>
           </section>
+          <button style={{height: '100px', marginLeft: '440px', marginBottom: '440px', width: '100px'}} onClick={handleStyleChange}> Change theme </button>
         </div>
         <footer >
-          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          
           
         </footer>
-      </body>
+      </div>
     </html>
   );
 }
