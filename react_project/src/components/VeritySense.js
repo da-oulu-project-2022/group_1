@@ -7,16 +7,14 @@ import { GoAlert } from "react-icons/go";
 
 function VeritySense(props) {
   // Initializing some constant gatt service uuids
-  const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
   const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
 
   // Initializing some constant gatt service characteristic uuids
-  const Cntrl_char = "fb005c81-02e7-f387-1cad-8acd2d8df0c8";
-  const Data_char = "fb005c82-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
 
+  // Declaring some variables for bpm, alert box and a state variable to save current bpm
   let bpm_normal;
   let bpm_high;
   let bpm_low;
@@ -29,6 +27,7 @@ function VeritySense(props) {
   let [containerStyle, setContainerStyle] = useState(styles.dataContainer);
   let [dataUnit, setDataUnit] = useState(styles.dataUnit);
 
+  // Variables for highest and lowest bpm of current session
   let lowest_bpm;
   let highest_bpm;  
 
@@ -46,14 +45,13 @@ function VeritySense(props) {
     startMeasurement();
   }, []);
 
-
   const handleBatteryValueChanged = (event) => {
     //setBatteryLevel(event.target.value.getUint8(0) + '%');
     console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
   }
 
 
-  // Handling the event of heartrate service value changing
+  // Handling the event of heartrate characteristic value changing
   // firstly setting state variable bpm_now with setBpm to current the current event.target.value
   // then updating the bpm_normal element innertext to show current bpm value and doing some checking with the values of lowest and 
   // highest bpm values
