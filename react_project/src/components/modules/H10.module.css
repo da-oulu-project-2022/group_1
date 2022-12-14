@@ -18,7 +18,7 @@ body {
 .bodyDark {
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(to bottom, #181717, #0c0d0e); 
+  background-image: linear-gradient(to bottom, #383636, #24292f); 
 }
 
 header {
@@ -79,32 +79,6 @@ img {
   border-right: 4px solid rgb(255, 255, 255);
 }
 
-.alertBox{
- /* position: fixed;
-  display: none;
-  background-image: radial-gradient(  #F07470, #DC1C13);
-  box-shadow: 0px 20px 80px -25px #000000 ;
-  width: 50%;
-  height: 50%; 
-  text-align: center;*/
-  position: absolute;
-  display: none;
-  background-image: radial-gradient(  #F07470, #DC1C13);
-  box-shadow: 0px 20px 80px -25px #000000 ;
-  width: 30%;
-  height: 15%; 
-  text-align:center;
-  border-radius: 5px;
-  opacity: 70%;
-  margin-bottom: 50vh;
-
-  padding: 1rem 1rem 1rem;
-  font-size: 45px;
-  box-sizing: border-box;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
-}
-
-
 .battery {
   width: 10%;
 }
@@ -150,57 +124,65 @@ img {
   width: 50vw;  
   height: inherit;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  flex-wrap: wrap;
-  margin-left: 8vw;
-  justify-content: space-evenly;
+  align-items: center;
+  
+  margin: 0vh 3vw;
 }
 
 
 .graph {
   width: inherit;  
+  height: fit-content;
 
 }
 
 .graphName {
   color: red;
-  
+  width: inherit;
+  background-color: white;
   font-size: 2rem ;
   text-align: center;
 }
 
+.buttonContainer {
+  width: 25vw;
+  border-left: 4px solid black;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+ 
+}
 
+.buttonContainerDark {
+  width: 25vw;
+  border-left: 4px solid white;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+ 
+}
 
 /* CSS */
 .button {
-
-  background: red;
-  border-radius: 11px;
-  box-sizing: border-box;
-  color: rgb(10, 10, 10);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  font-family: Mija,-apple-system,BlinkMacSystemFont,Roboto,"Roboto Slab","Droid Serif","Segoe UI",system-ui,Arial,sans-serif;
-  font-size: 1.15em;
-  font-weight: 700;
-  justify-content: center;
-  line-height: 1px;
-  padding-top: 1rem;
+  background: #de1818;
+  width: 80%;
+  padding: 10px;
+  border-radius: 8px;
+  border-color: #de1818;
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
   text-align: center;
-  text-decoration: none;
-  text-decoration-skip-ink: auto;
-  text-shadow: rgba(0, 0, 0, .3) 1px 1px 1px;
-  text-underline-offset: 1px;
+
+  cursor: pointer;
+  font-weight: 700;
   transition: all .2s ease-in-out;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 10vw;
-  word-break: break-word;
-  border: 0;
-  margin-bottom: 1vh;
 }
 
 
@@ -217,3 +199,21 @@ img {
   border-color: #dadada;
 }
 
+
+.alertBox{
+   position: absolute;
+   display: none;
+   background-image: radial-gradient(  #F07470, #DC1C13);
+   box-shadow: 0px 20px 80px -25px #000000 ;
+   width: 30%;
+   height: 15%; 
+   text-align:center;
+   border-radius: 5px;
+   opacity: 70%;
+   margin-bottom: 50vh;
+ 
+   padding: 1rem 1rem 1rem;
+   font-size: 45px;
+   box-sizing: border-box;
+   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+ }

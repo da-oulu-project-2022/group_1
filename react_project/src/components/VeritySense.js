@@ -32,8 +32,8 @@ function VeritySense(props) {
 
   let [style, setStyle] = useState(styles.body);
   let [theme, setTheme] = useState('light');
-  let [containerStyle, setContainerStyle] = useState(styles.dataContainer);
-  let [buttonContainer, setButtonContainer] = useState(styles.buttonContainer);
+  let [dataContainerStyle, setContainerStyle] = useState(styles.dataContainer);
+  let [buttonContainerStyle, setButtonContainer] = useState(styles.buttonContainer);
 
   let [dataUnit, setDataUnit] = useState(styles.dataUnit);
 
@@ -200,7 +200,7 @@ function VeritySense(props) {
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-          <section className={containerStyle}>
+          <section className={dataContainerStyle}>
           
             <div>
               <p className={styles.dataText} id="bpm_low" >0</p>
@@ -219,15 +219,15 @@ function VeritySense(props) {
           <section className={ styles.graphContainer }>
           
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-              <p className={ styles.graphName }>BPM</p>
+              
               <div className={ styles.graph }>
               <IotChart data={bpm_now}/>
               </div>
-
-              <p>{ppi_now}</p>
+              <p className={ styles.graphName }>BPM</p>
+              
           </section>
 
-          <section className={buttonContainer}>
+          <section className={buttonContainerStyle}>
           <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
           <button className={styles.button} onClick={handleThemeChange}> Change theme </button>
 

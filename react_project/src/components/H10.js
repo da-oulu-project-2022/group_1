@@ -43,7 +43,9 @@ function H10(props) {
 
   let [style, setStyle] = useState(styles.body);
   let [theme, setTheme] = useState('light');
-  let [containerStyle, setContainerStyle] = useState(styles.dataContainer);
+  let [dataContainerStyle, setDataContainerStyle] = useState(styles.dataContainer);
+  let [buttonContainerStyle, setButtonContainerStyle] = useState(styles.buttonContainer);
+  
 
   let [dataUnit, setDataUnit] = useState(styles.dataUnit);
 
@@ -214,12 +216,14 @@ const handleStyleChange = () => {
   if (theme === 'light') {
     setStyle(styles.bodyDark);
     setDataUnit(styles.dataUnitDark);
-    setContainerStyle(styles.dataContainerDark);
+    setDataContainerStyle(styles.dataContainerDark);
+    setButtonContainerStyle(styles.buttonContainerDark);
     setTheme('dark');
   } else {
     setStyle(styles.body);
     setDataUnit(styles.dataUnit);
-    setContainerStyle(styles.dataContainer);
+    setDataContainerStyle(styles.dataContainer);
+    setButtonContainerStyle(styles.buttonContainer);
     setTheme('light');
   }
 }
@@ -235,8 +239,8 @@ const disconnectDevice = () => {
 
   return (
     
-    <html>
-      <head></head>
+    <div>
+      
       <div className={style}>
       
         <header>
@@ -246,7 +250,7 @@ const disconnectDevice = () => {
         
         <div className={styles.content}>
           
-          <section className={containerStyle}>
+          <section className={dataContainerStyle}>
           
             {/* <button onClick={connectDevice}>coonnect</button> */}
             <div>
@@ -264,13 +268,20 @@ const disconnectDevice = () => {
           </section> 
          
           <section className={ styles.graphContainer }>
-          <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
-          <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
-          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-              <div className={ styles.graph }>
-              <IotChart data={ecg_now}/>
+            <div className={styles.alertBox} id="alertbox">
+              <p><GoAlert/></p>
+              <p>Heart rate too high!</p>
               </div>
-              <p className={ styles.graphName }>ECG</p>
+            <div className={ styles.graph }>
+            <IotChart data={ecg_now}/>
+            </div>
+            <p className={ styles.graphName }>ECG</p>
+          </section>
+
+          <section className={buttonContainerStyle}>
+            <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+            <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
+            
           </section>
           
         </div>
@@ -280,7 +291,7 @@ const disconnectDevice = () => {
         </footer>
       
       </div>
-    </html>
+    </div>
   );
 }
 
