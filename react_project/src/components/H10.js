@@ -2,7 +2,7 @@
 import './modules/Connect.module.css';
 import Clock from './Clock.js';
 import { GoAlert } from "react-icons/go";
-import BarChart, { IotChart } from './Chart';
+import BarChart, { IotChart } from './ChartECG';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useState, useEffect } from 'react'; 
@@ -29,7 +29,7 @@ function H10(props) {
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
 
   const ECG_Array = new Uint8Array([0x02, 0x00, 0x00, 0x01, 0x82, 0x00, 0x01, 0x01, 0x0E, 0x00]);
-  const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
+  const ACC_Array = new Uint8Array([0x02, 0x02, 0x02, 0x01, 0x08, 0x00, 0x00, 0x01, 0xC8, 0x00, 0x01, 0x01, 0x10, 0x00]);
 
   let bpm_normal;
   let bpm_high;
@@ -54,6 +54,10 @@ function H10(props) {
    * Update the value shown on the web page when a notification is
    * received.
    */
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+ }
 
 
   function pasrseToInt24(byte_array){
@@ -94,14 +98,20 @@ function H10(props) {
       console.log("\n\nNew values");
       console.log(event.target.value);
       let sample;
+      let sample_array = new Array;
+      console.log("start");
       for(let i = 10; i <  event.target.value.byteLength; i=i+3){
         sample = pasrseToInt24(event.target.value.buffer.slice(i, i+3));
-        setEcg(sample);
-        if (i%30 == 1) {
-          
-          console.log(sample + " microvolt");
-        }
+        //sample_array.push(sample);
+        //await sleep(1);
+        //setTimeout(setEcg(sample), 150);
+        //setEcg(sample);
+        sample_array.push(sample);
       }
+      setEcg(sample_array);
+      console.log("finisched");
+      //setEcg(sample_array);
+      
     }
     else if (event.target.value.getUint8(0) === 2) {
       console.log("\n\nNew values");
@@ -174,10 +184,10 @@ const startMeasurement = () => {
           .then(controlChar => {
             console.log(controlChar.properties);
             controlChar.writeValueWithResponse(ECG_Array)
-            .then(_ => {
+/*             .then(_ => {
               console.log(controlChar.properties);
               controlChar.writeValueWithResponse(ACC_Array);
-            });
+            }); */
           })
         })
 
