@@ -10,7 +10,7 @@ function VeritySense(props) {
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
   const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
 
-  // Initializing some constant gatt service characteristic uuids
+  // Initializing some constant gatt characteristic uuids
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
 
@@ -19,6 +19,8 @@ function VeritySense(props) {
   let bpm_high;
   let bpm_low;
   let alert_box;
+
+  // Initializing data to send to chart
   let [bpm_now, setBpm] = useState();
 
   // Some state variables used in change theme feature
@@ -45,6 +47,8 @@ function VeritySense(props) {
     startMeasurement();
   }, []);
 
+
+  // Function for handeling batterylevelchange events
   const handleBatteryValueChanged = (event) => {
     //setBatteryLevel(event.target.value.getUint8(0) + '%');
     console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
@@ -67,11 +71,11 @@ function VeritySense(props) {
       highest_bpm = event.target.value.getUint8(1);
       bpm_high.innerText = event.target.value.getUint8(1);
     }
-      if (event.target.value.getUint8(1) > 100){
-        alert_box.style.display = "flex";
-      } else {
-        alert_box.style.display = "none";
-      }
+    if (event.target.value.getUint8(1) > 100){
+      alert_box.style.display = "flex";
+    } else {
+      alert_box.style.display = "none";
+    }
   }
 
 
