@@ -58,8 +58,8 @@ export const IotChart = (props) => {
                 });
             }
           },
-          delay: 300,
-          refresh: 300,
+          delay: 0,
+          refresh: 0,
         },
       },
     }

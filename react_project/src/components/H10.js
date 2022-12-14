@@ -6,6 +6,7 @@ import BarChart, { IotChart } from './ChartECG';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useState, useEffect } from 'react'; 
+
 import { useNavigate } from 'react-router-dom';
 /* import { Chart } from "react-google-charts";
  */
@@ -21,24 +22,30 @@ function H10(props) {
   const navigate = useNavigate();
 
 
-
+function H10(props) {
+  // Initializing some constant gatt service uuids
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
   const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
 
+  // Initializing some constant gatt characteristic uuids
   const Cntrl_char = "fb005c81-02e7-f387-1cad-8acd2d8df0c8";
   const Data_char = "fb005c82-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
 
+  // Initializing the nessecary start-stream-requests
   const ECG_Array = new Uint8Array([0x02, 0x00, 0x00, 0x01, 0x82, 0x00, 0x01, 0x01, 0x0E, 0x00]);
   const ACC_Array = new Uint8Array([0x02, 0x02, 0x02, 0x01, 0x08, 0x00, 0x00, 0x01, 0xC8, 0x00, 0x01, 0x01, 0x10, 0x00]);
 
+
+  // Declaring some variables for bpm, alert box and a state variable to save current bpm
   let bpm_normal;
   let bpm_high;
   let bpm_low;
   let alert_box;
-  let [bpm_now, setBpm] = useState();
+  
+  // Initializing data to send to chart
   let [ecg_now, setEcg] = useState();
 
   let [style, setStyle] = useState(styles.body);
@@ -49,17 +56,22 @@ function H10(props) {
 
   let [dataUnit, setDataUnit] = useState(styles.dataUnit);
 
-
+  // Variables for highest and lowest bpm of current session
   let lowest_bpm;
   let highest_bpm;  
 
+  // UseEffect hook for initializing some html elements and starting the measurements on polar sensor
+  // runs only on the first render by declaring an empty array dependency as second parameter
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     bpm_normal = document.getElementById("bpm_normal");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     bpm_high = document.getElementById("bpm_high");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     bpm_low = document.getElementById("bpm_low");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     alert_box = document.getElementById("alertbox");
     startMeasurement();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
@@ -105,6 +117,9 @@ function H10(props) {
     console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
   }
 
+
+  // Function for handeling the PMD-Data-Value change event
+  // checks which type of dataframe is recives (eg. ECG or ACC)
   const handlePmdDataValueChanged = (event) => {
     if (event.target.value.getUint8(0) === 0) {
       console.log("\n\nNew values");
@@ -119,6 +134,7 @@ function H10(props) {
         //setTimeout(setEcg(sample), 150);
         //setEcg(sample);
         sample_array.push(sample);
+
       }
       setEcg(sample_array);
       console.log("finisched");
@@ -155,34 +171,33 @@ function H10(props) {
     }
   }
 
-
+  // Handling the event of heartrate characteristic value changing
+  // firstly setting state variable bpm_now with setBpm to current the current event.target.value
+  // then updating the bpm_normal element innertext to show current bpm value and doing some checking with the values of lowest and 
+  // highest bpm values
+  // lastly showing alert box if bpm goes over 100
   const handleHRValueChanged = (event) => {
     console.log(event.target.value.getUint8(1));
     bpm_normal.innerText = event.target.value.getUint8(1);
-    setBpm(event.target.value.getUint8(1));
-    
+   
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
-
-        bpm_low.innerText = event.target.value.getUint8(1);
-      
+      bpm_low.innerText = event.target.value.getUint8(1);
     } 
     if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
       highest_bpm = event.target.value.getUint8(1);
-
-        bpm_high.innerText = event.target.value.getUint8(1);
-      
+      bpm_high.innerText = event.target.value.getUint8(1);
     }
-
-    //add alertbox
-    //TODO: make it more fancy!!!
-      if (event.target.value.getUint8(1) > 50){
-        alert_box.style.display = "flex";
-      } else {
-        alert_box.style.display = "none";
-      }
+    if (event.target.value.getUint8(1) > 100){
+      alert_box.style.display = "flex";
+    } else {
+      alert_box.style.display = "none";
+    }
   }
 
+
+// Starts the data streams from polar device by first getting the "device" from props which is passed down from App.js
+// then searching for the needed services from "device.gatt" meaning the device server
 const startMeasurement = () => {
   props.device.gatt.getPrimaryServices()
   .then(services => { 
