@@ -15,6 +15,7 @@ function VeritySense(props) {
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
 
+  const navigate = useNavigate();
 
   // Declaring some variables for bpm, alert box and a state variable to save current bpm
   let bpm_normal;

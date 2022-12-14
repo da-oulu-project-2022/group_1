@@ -11,18 +11,6 @@ import { useNavigate } from 'react-router-dom';
 /* import { Chart } from "react-google-charts";
  */
 function H10(props) {
-  const [supportsBluetooth, setSupportsBluetooth] = useState(false);
-  const [batteryLevel, setBatteryLevel] = useState(null);
-  const [acceleration, setAcceleration] = useState(null);
-  /* const [ecg, setEcg] = useState(null); */
-  const [device, setDevice] = useState(null);
-  const [server, setServer] = useState(null);
-  const [services, setServices] = useState(null);
-
-  const navigate = useNavigate();
-
-
-function H10(props) {
   // Initializing some constant gatt service uuids
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
@@ -34,10 +22,11 @@ function H10(props) {
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
 
+  const navigate = useNavigate();
+
   // Initializing the nessecary start-stream-requests
   const ECG_Array = new Uint8Array([0x02, 0x00, 0x00, 0x01, 0x82, 0x00, 0x01, 0x01, 0x0E, 0x00]);
   const ACC_Array = new Uint8Array([0x02, 0x02, 0x02, 0x01, 0x08, 0x00, 0x00, 0x01, 0xC8, 0x00, 0x01, 0x01, 0x10, 0x00]);
-
 
   // Declaring some variables for bpm, alert box and a state variable to save current bpm
   let bpm_normal;
@@ -81,7 +70,7 @@ function H10(props) {
 
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
- }
+}
 
 
   function pasrseToInt24(byte_array){
@@ -179,7 +168,7 @@ function H10(props) {
   const handleHRValueChanged = (event) => {
     console.log(event.target.value.getUint8(1));
     bpm_normal.innerText = event.target.value.getUint8(1);
-   
+  
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
       bpm_low.innerText = event.target.value.getUint8(1);
@@ -196,74 +185,74 @@ function H10(props) {
   }
 
 
-// Starts the data streams from polar device by first getting the "device" from props which is passed down from App.js
-// then searching for the needed services from "device.gatt" meaning the device server
-const startMeasurement = () => {
-  props.device.gatt.getPrimaryServices()
-  .then(services => { 
-    services.forEach(element => {
-      if (element.uuid === PMD_Service) {
-        element.getCharacteristic(Data_char).then(dataChar => {
-          dataChar.startNotifications();
-          dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
-        }).then(_ => {
-          element.getCharacteristic(Cntrl_char)
-          .then(controlChar => {
-            console.log(controlChar.properties);
-            controlChar.writeValueWithResponse(ECG_Array)
-/*             .then(_ => {
+  // Starts the data streams from polar device by first getting the "device" from props which is passed down from App.js
+  // then searching for the needed services from "device.gatt" meaning the device server
+  const startMeasurement = () => {
+    props.device.gatt.getPrimaryServices()
+    .then(services => { 
+      services.forEach(element => {
+        if (element.uuid === PMD_Service) {
+          element.getCharacteristic(Data_char).then(dataChar => {
+            dataChar.startNotifications();
+            dataChar.addEventListener("characteristicvaluechanged", handlePmdDataValueChanged);
+          }).then(_ => {
+            element.getCharacteristic(Cntrl_char)
+            .then(controlChar => {
               console.log(controlChar.properties);
-              controlChar.writeValueWithResponse(ACC_Array);
-            }); */
+              controlChar.writeValueWithResponse(ECG_Array)
+  /*             .then(_ => {
+                console.log(controlChar.properties);
+                controlChar.writeValueWithResponse(ACC_Array);
+              }); */
+            })
           })
-        })
 
-      } if (element.uuid === Heart_rate_Service) {
-          element.getCharacteristic(Heart_rate_Char)
-          .then(heartRateChar => {
-            console.log(heartRateChar);
-            heartRateChar.startNotifications();
-            heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
-          })
-      } if (element.uuid === Battery_Service) {
-          element.getCharacteristic(Battery_Char)
-          .then(char => {
-            console.log(char.properties);
-            char.readValue()
-            char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
-          })
-      }
+        } if (element.uuid === Heart_rate_Service) {
+            element.getCharacteristic(Heart_rate_Char)
+            .then(heartRateChar => {
+              console.log(heartRateChar);
+              heartRateChar.startNotifications();
+              heartRateChar.addEventListener("characteristicvaluechanged", handleHRValueChanged);
+            })
+        } if (element.uuid === Battery_Service) {
+            element.getCharacteristic(Battery_Char)
+            .then(char => {
+              console.log(char.properties);
+              char.readValue()
+              char.addEventListener("characteristicvaluechanged", handleBatteryValueChanged);
+            })
+        }
+      })
     })
-  })
-}
-
-const handleStyleChange = () => {
-  if (theme === 'light') {
-    setStyle(styles.bodyDark);
-    setDataUnit(styles.dataUnitDark);
-    setDataContainerStyle(styles.dataContainerDark);
-    setButtonContainerStyle(styles.buttonContainerDark);
-    setTheme('dark');
-  } else {
-    setStyle(styles.body);
-    setDataUnit(styles.dataUnit);
-    setDataContainerStyle(styles.dataContainer);
-    setButtonContainerStyle(styles.buttonContainer);
-    setTheme('light');
   }
-}
 
-const disconnectDevice = () => {
-  if (device.gatt.connected) {
-    device.gatt.disconnect();
-    alert("Bluetooth device disconnected");
-    navigate('/');
+  const handleStyleChange = () => {
+    if (theme === 'light') {
+      setStyle(styles.bodyDark);
+      setDataUnit(styles.dataUnitDark);
+      setDataContainerStyle(styles.dataContainerDark);
+      setButtonContainerStyle(styles.buttonContainerDark);
+      setTheme('dark');
+    } else {
+      setStyle(styles.body);
+      setDataUnit(styles.dataUnit);
+      setDataContainerStyle(styles.dataContainer);
+      setButtonContainerStyle(styles.buttonContainer);
+      setTheme('light');
+    }
   }
-}
+
+  const disconnectDevice = () => {
+    if (props.device.gatt.connected) {
+      props.device.gatt.disconnect();
+      alert("Bluetooth device disconnected");
+      navigate('/');
+    }
+  }
 
 
   return (
-    
+  
     <div>
       
       <div className={style}>
@@ -291,7 +280,7 @@ const disconnectDevice = () => {
               <p className={ dataUnit }>Highest BPM</p>
             </div>
           </section> 
-         
+          
           <section className={ styles.graphContainer }>
             <div className={styles.alertBox} id="alertbox">
               <p className={styles.alertIcon}><GoAlert/></p>
@@ -319,6 +308,7 @@ const disconnectDevice = () => {
     </div>
   );
 }
+
 
 export default H10;
 
