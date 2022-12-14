@@ -33,6 +33,7 @@ function VeritySense(props) {
   let [style, setStyle] = useState(styles.body);
   let [theme, setTheme] = useState('light');
   let [containerStyle, setContainerStyle] = useState(styles.dataContainer);
+  let [buttonContainer, setButtonContainer] = useState(styles.buttonContainer);
 
   let [dataUnit, setDataUnit] = useState(styles.dataUnit);
 
@@ -164,16 +165,18 @@ function VeritySense(props) {
 
   // Handling the onClick event of change theme button, updates state objects: style, dataUnit and theme
   // with set function of each of these objects which triggers re-rendering of the page.
-  const handleStyleChange = () => {
+  const handleThemeChange = () => {
     if (theme === 'light') {
       setStyle(styles.bodyDark);
       setDataUnit(styles.dataUnitDark);
       setContainerStyle(styles.dataContainerDark);
+      setButtonContainer(styles.buttonContainerDark);
       setTheme('dark');
     } else {
       setStyle(styles.body);
       setDataUnit(styles.dataUnit);
       setContainerStyle(styles.dataContainer);
+      setButtonContainer(styles.buttonContainer);
       setTheme('light');
     }
   }
@@ -198,7 +201,7 @@ function VeritySense(props) {
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
           <section className={containerStyle}>
-          <button onClick={disconnectDevice}>Disconnect Device</button>
+          
             <div>
               <p className={styles.dataText} id="bpm_low" >0</p>
               <p className={dataUnit}>Lowest BPM</p>
@@ -214,14 +217,23 @@ function VeritySense(props) {
           </section> 
           
           <section className={ styles.graphContainer }>
+          
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
               <p className={ styles.graphName }>BPM</p>
               <div className={ styles.graph }>
               <IotChart data={bpm_now}/>
               </div>
+
               <p>{ppi_now}</p>
           </section>
-          <button style={{height: '100px', marginLeft: '300px', marginBottom: '440px', width: '100px', opacity: '50%', font:'Franklin Gothic Medium'}} onClick={handleStyleChange}> Change theme </button>
+
+          <section className={buttonContainer}>
+          <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+          <button className={styles.button} onClick={handleThemeChange}> Change theme </button>
+
+
+          </section>
+          
         </div>
         <footer >
           
