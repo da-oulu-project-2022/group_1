@@ -201,7 +201,7 @@ function VeritySense(props) {
           <BatteryDetails data={batteryLevel}/>
         </header>
         <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
+          {/* <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p> */}
           <section className={containerStyle}>
           <button onClick={disconnectDevice}>Disconnect Device</button>
             <div>
