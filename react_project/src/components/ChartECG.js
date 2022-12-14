@@ -28,7 +28,7 @@ export const IotChart = (props) => {
   const data = useRef({
     datasets: [
       {
-        label: "Dataset 1",
+        label: "ECG",
         data: [0],
 
         fill: false,

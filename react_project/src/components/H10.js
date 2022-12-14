@@ -68,7 +68,7 @@ function H10(props) {
 
   // Parsing the first 3 bytes of the argument array into an integervalue with little endianess
   // used for ECG handling
-  function pasrseToInt24(byte_array){
+  function parseToInt24(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
     if (value0.length == 1){ value0 = 0 + value0}
@@ -85,7 +85,7 @@ function H10(props) {
 
   // Parsing the first 2 bytes of the argument array into an intergervalue with little endianess
   // used for ACC handling
-  function pasrseToInt16(byte_array){
+  function parseToInt16(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
     if (value0.length == 1){ value0 = 0 + value0}
@@ -114,7 +114,7 @@ function H10(props) {
       let sample;
       let sample_array = new Array;
       for(let i = 10; i <  event.target.value.byteLength; i=i+3){
-        sample = pasrseToInt24(event.target.value.buffer.slice(i, i+3));
+        sample = parseToInt24(event.target.value.buffer.slice(i, i+3));
         sample_array.push(sample);
 
       }
@@ -128,9 +128,9 @@ function H10(props) {
       console.log("\n\nNew values");
       console.log(event.target.value);
 
-      let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
-      let ref_y = event.target.value.getInt8(13) * 256 + event.target.value.getInt8(12);
-      let ref_z = event.target.value.getInt8(15) * 256 + event.target.value.getInt8(14);
+      let ref_x = parseToInt16(event.target.value.buffer.slice(10, 12));
+      let ref_y = parseToInt16(event.target.value.buffer.slice(12, 14));
+      let ref_z = parseToInt16(event.target.value.buffer.slice(14, 16));
       console.log("x " + ref_x + " y " + ref_y + " z " + ref_z );
 
       let sample_x = ref_x + event.target.value.getInt8(18);
