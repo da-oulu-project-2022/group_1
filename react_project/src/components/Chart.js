@@ -1,9 +1,8 @@
 
 import {React, useRef, useEffect} from "react";
 //live chart with dummy data
-import '@arction/lcjs'
-import '@arction/xydata'
-import {handleEcgValueChanged} from './HomePage'
+
+
 import { Line } from "react-chartjs-2";
 import styles from './modules/Chart.module.css'
 import Chart from "chart.js/auto";

@@ -4,6 +4,7 @@ import styles from './modules/VeritySense.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useEffect, useRef, useState } from 'react';   
 import { GoAlert } from "react-icons/go";
+import { useNavigate } from 'react-router-dom';
 
 function VeritySense(props) {
   // Initializing some constant gatt service uuids
@@ -19,6 +20,8 @@ function VeritySense(props) {
 
   const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
   const PPI_Array = new Uint8Array([0x02, 0x03]);
+
+  const navigate = useNavigate();
 
   let bpm_normal;
   let bpm_high;
@@ -114,7 +117,7 @@ function VeritySense(props) {
       bpm_high.innerText = event.target.value.getUint8(1);
         
     }
-      if (event.target.value.getUint8(1) > 100){
+      if (event.target.value.getUint8(1) > 200){
         alert_box.style.display = "flex";
       } else {
         alert_box.style.display = "none";
@@ -175,6 +178,14 @@ function VeritySense(props) {
     }
   }
 
+  const disconnectDevice = () => {
+    if (props.device.gatt.connected) {
+      props.device.gatt.disconnect();
+      alert("Bluetooth device disconnected");
+      navigate('/');
+    }
+  }
+
   return (
     
     <html>
@@ -187,6 +198,7 @@ function VeritySense(props) {
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
           <section className={containerStyle}>
+          <button onClick={disconnectDevice}>Disconnect Device</button>
             <div>
               <p className={styles.dataText} id="bpm_low" >0</p>
               <p className={dataUnit}>Lowest BPM</p>
@@ -202,13 +214,14 @@ function VeritySense(props) {
           </section> 
           
           <section className={ styles.graphContainer }>
+          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
               <p className={ styles.graphName }>BPM</p>
               <div className={ styles.graph }>
               <IotChart data={bpm_now}/>
               </div>
               <p>{ppi_now}</p>
           </section>
-          <button style={{height: '100px', marginLeft: '440px', marginBottom: '440px', width: '100px'}} onClick={handleStyleChange}> Change theme </button>
+          <button style={{height: '100px', marginLeft: '300px', marginBottom: '440px', width: '100px', opacity: '50%', font:'Franklin Gothic Medium'}} onClick={handleStyleChange}> Change theme </button>
         </div>
         <footer >
           
