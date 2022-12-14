@@ -269,8 +269,8 @@ const disconnectDevice = () => {
          
           <section className={ styles.graphContainer }>
             <div className={styles.alertBox} id="alertbox">
-              <p><GoAlert/></p>
-              <p>Heart rate too high!</p>
+              <p className={styles.alertIcon}><GoAlert/></p>
+              <p className={styles.alertText}>Heart rate too high!</p>
               </div>
             <div className={ styles.graph }>
             <IotChart data={ecg_now}/>
