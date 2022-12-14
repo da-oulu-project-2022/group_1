@@ -2,10 +2,25 @@
 import './modules/Connect.module.css';
 import Clock from './Clock.js';
 import { GoAlert } from "react-icons/go";
-import BarChart, { IotChart } from './Chart';
+import BarChart, { IotChart } from './ChartECG';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useState, useEffect } from 'react'; 
+
+import { useNavigate } from 'react-router-dom';
+/* import { Chart } from "react-google-charts";
+ */
+function H10(props) {
+  const [supportsBluetooth, setSupportsBluetooth] = useState(false);
+  const [batteryLevel, setBatteryLevel] = useState(null);
+  const [acceleration, setAcceleration] = useState(null);
+  /* const [ecg, setEcg] = useState(null); */
+  const [device, setDevice] = useState(null);
+  const [server, setServer] = useState(null);
+  const [services, setServices] = useState(null);
+
+  const navigate = useNavigate();
+
 
 function H10(props) {
   // Initializing some constant gatt service uuids
@@ -21,7 +36,7 @@ function H10(props) {
 
   // Initializing the nessecary start-stream-requests
   const ECG_Array = new Uint8Array([0x02, 0x00, 0x00, 0x01, 0x82, 0x00, 0x01, 0x01, 0x0E, 0x00]);
-  const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
+  const ACC_Array = new Uint8Array([0x02, 0x02, 0x02, 0x01, 0x08, 0x00, 0x00, 0x01, 0xC8, 0x00, 0x01, 0x01, 0x10, 0x00]);
 
 
   // Declaring some variables for bpm, alert box and a state variable to save current bpm
@@ -32,6 +47,14 @@ function H10(props) {
   
   // Initializing data to send to chart
   let [ecg_now, setEcg] = useState();
+
+  let [style, setStyle] = useState(styles.body);
+  let [theme, setTheme] = useState('light');
+  let [dataContainerStyle, setDataContainerStyle] = useState(styles.dataContainer);
+  let [buttonContainerStyle, setButtonContainerStyle] = useState(styles.buttonContainer);
+  
+
+  let [dataUnit, setDataUnit] = useState(styles.dataUnit);
 
   // Variables for highest and lowest bpm of current session
   let lowest_bpm;
@@ -55,6 +78,10 @@ function H10(props) {
    * Update the value shown on the web page when a notification is
    * received.
    */
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+ }
 
 
   function pasrseToInt24(byte_array){
@@ -98,10 +125,21 @@ function H10(props) {
       console.log("\n\nNew values");
       console.log(event.target.value);
       let sample;
+      let sample_array = new Array;
+      console.log("start");
       for(let i = 10; i <  event.target.value.byteLength; i=i+3){
         sample = pasrseToInt24(event.target.value.buffer.slice(i, i+3));
-        setEcg(sample);
+        //sample_array.push(sample);
+        //await sleep(1);
+        //setTimeout(setEcg(sample), 150);
+        //setEcg(sample);
+        sample_array.push(sample);
+
       }
+      setEcg(sample_array);
+      console.log("finisched");
+      //setEcg(sample_array);
+      
     }
     else if (event.target.value.getUint8(0) === 2) {
       console.log("\n\nNew values");
@@ -173,10 +211,10 @@ const startMeasurement = () => {
           .then(controlChar => {
             console.log(controlChar.properties);
             controlChar.writeValueWithResponse(ECG_Array)
-            .then(_ => {
+/*             .then(_ => {
               console.log(controlChar.properties);
               controlChar.writeValueWithResponse(ACC_Array);
-            });
+            }); */
           })
         })
 
@@ -199,46 +237,86 @@ const startMeasurement = () => {
   })
 }
 
+const handleStyleChange = () => {
+  if (theme === 'light') {
+    setStyle(styles.bodyDark);
+    setDataUnit(styles.dataUnitDark);
+    setDataContainerStyle(styles.dataContainerDark);
+    setButtonContainerStyle(styles.buttonContainerDark);
+    setTheme('dark');
+  } else {
+    setStyle(styles.body);
+    setDataUnit(styles.dataUnit);
+    setDataContainerStyle(styles.dataContainer);
+    setButtonContainerStyle(styles.buttonContainer);
+    setTheme('light');
+  }
+}
+
+const disconnectDevice = () => {
+  if (device.gatt.connected) {
+    device.gatt.disconnect();
+    alert("Bluetooth device disconnected");
+    navigate('/');
+  }
+}
+
 
   return (
     
-    <html>
-      <head></head>
-      <body>
+    <div>
+      
+      <div className={style}>
+      
         <header>
+        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
           <Clock styles={clockStyles.clock2}/>   
         </header>
+        
         <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-          <section className={styles.dataContainer}>
+          
+          <section className={dataContainerStyle}>
+          
             {/* <button onClick={connectDevice}>coonnect</button> */}
             <div>
               <p className={ styles.dataText } id="bpm_low" >n.a.</p>
-              <p className={ styles.dataUnit }>Lowest BPM</p>
+              <p className={ dataUnit }>Lowest BPM</p>
             </div>
             <div>
               <p className={ styles.dataText } id="bpm_normal">n.a.</p>
-              <p className={ styles.dataUnit }>BPM</p>
+              <p className={ dataUnit }>BPM</p>
             </div>
             <div>
               <p className={ styles.dataText } id="bpm_high" >n.a.</p>
-              <p className={ styles.dataUnit }>Highest BPM</p>
+              <p className={ dataUnit }>Highest BPM</p>
             </div>
           </section> 
-          
+         
           <section className={ styles.graphContainer }>
-              <div className={ styles.graph }>
-              <IotChart data={ecg_now}/>
+            <div className={styles.alertBox} id="alertbox">
+              <p className={styles.alertIcon}><GoAlert/></p>
+              <p className={styles.alertText}>Heart rate too high!</p>
               </div>
-              <p className={ styles.graphName2 }>ECG</p>
+            <div className={ styles.graph }>
+            <IotChart data={ecg_now}/>
+            </div>
+            <p className={ styles.graphName }>ECG</p>
           </section>
+
+          <section className={buttonContainerStyle}>
+            <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+            <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
+            
+          </section>
+          
         </div>
         <footer >
-          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          
           
         </footer>
-      </body>
-    </html>
+      
+      </div>
+    </div>
   );
 }
 

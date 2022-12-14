@@ -4,6 +4,7 @@ import styles from './modules/VeritySense.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useEffect, useState } from 'react';   
 import { GoAlert } from "react-icons/go";
+import { useNavigate } from 'react-router-dom';
 
 function VeritySense(props) {
   // Initializing some constant gatt service uuids
@@ -13,6 +14,7 @@ function VeritySense(props) {
   // Initializing some constant gatt characteristic uuids
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
+
 
   // Declaring some variables for bpm, alert box and a state variable to save current bpm
   let bpm_normal;
@@ -26,7 +28,10 @@ function VeritySense(props) {
   // Some state variables used in change theme feature
   let [style, setStyle] = useState(styles.body);
   let [theme, setTheme] = useState('light');
-  let [containerStyle, setContainerStyle] = useState(styles.dataContainer);
+
+  let [dataContainerStyle, setContainerStyle] = useState(styles.dataContainer);
+  let [buttonContainerStyle, setButtonContainer] = useState(styles.buttonContainer);
+
   let [dataUnit, setDataUnit] = useState(styles.dataUnit);
 
   // Variables for highest and lowest bpm of current session
@@ -71,11 +76,13 @@ function VeritySense(props) {
       highest_bpm = event.target.value.getUint8(1);
       bpm_high.innerText = event.target.value.getUint8(1);
     }
+
     if (event.target.value.getUint8(1) > 100){
       alert_box.style.display = "flex";
     } else {
       alert_box.style.display = "none";
     }
+
   }
 
 
@@ -106,17 +113,27 @@ function VeritySense(props) {
 
   // Handling the onClick event of change theme button, updates state objects: style, dataUnit and theme
   // with set function of each of these objects which triggers re-rendering of the page.
-  const handleStyleChange = () => {
+  const handleThemeChange = () => {
     if (theme === 'light') {
       setStyle(styles.bodyDark);
       setDataUnit(styles.dataUnitDark);
       setContainerStyle(styles.dataContainerDark);
+      setButtonContainer(styles.buttonContainerDark);
       setTheme('dark');
     } else {
       setStyle(styles.body);
       setDataUnit(styles.dataUnit);
       setContainerStyle(styles.dataContainer);
+      setButtonContainer(styles.buttonContainer);
       setTheme('light');
+    }
+  }
+
+  const disconnectDevice = () => {
+    if (props.device.gatt.connected) {
+      props.device.gatt.disconnect();
+      alert("Bluetooth device disconnected");
+      navigate('/');
     }
   }
 
@@ -131,7 +148,8 @@ function VeritySense(props) {
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-          <section className={containerStyle}>
+          <section className={dataContainerStyle}>
+          
             <div>
               <p className={styles.dataText} id="bpm_low" >0</p>
               <p className={dataUnit}>Lowest BPM</p>
@@ -147,12 +165,25 @@ function VeritySense(props) {
           </section> 
           
           <section className={ styles.graphContainer }>
-              <p className={ styles.graphName }>BPM</p>
+          
+          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
+              
               <div className={ styles.graph }>
               <IotChart data={bpm_now}/>
               </div>
+
+              <p className={ styles.graphName }>BPM</p>
+              
+
           </section>
-          <button style={{height: '100px', marginLeft: '440px', marginBottom: '440px', width: '100px'}} onClick={handleStyleChange}> Change theme </button>
+
+          <section className={buttonContainerStyle}>
+          <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+          <button className={styles.button} onClick={handleThemeChange}> Change theme </button>
+
+
+          </section>
+          
         </div>
         <footer >
           
