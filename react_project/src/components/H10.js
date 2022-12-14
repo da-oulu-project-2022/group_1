@@ -6,6 +6,7 @@ import BarChart, { IotChart } from './ChartECG';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useState, useEffect } from 'react'; 
+import { useNavigate } from 'react-router-dom';
 /* import { Chart } from "react-google-charts";
  */
 function H10(props) {
@@ -16,6 +17,8 @@ function H10(props) {
   const [device, setDevice] = useState(null);
   const [server, setServer] = useState(null);
   const [services, setServices] = useState(null);
+
+  const navigate = useNavigate();
 
 
 
@@ -37,6 +40,15 @@ function H10(props) {
   let alert_box;
   let [bpm_now, setBpm] = useState();
   let [ecg_now, setEcg] = useState();
+
+  let [style, setStyle] = useState(styles.body);
+  let [theme, setTheme] = useState('light');
+  let [dataContainerStyle, setDataContainerStyle] = useState(styles.dataContainer);
+  let [buttonContainerStyle, setButtonContainerStyle] = useState(styles.buttonContainer);
+  
+
+  let [dataUnit, setDataUnit] = useState(styles.dataUnit);
+
 
   let lowest_bpm;
   let highest_bpm;  
@@ -164,7 +176,7 @@ function H10(props) {
 
     //add alertbox
     //TODO: make it more fancy!!!
-      if (event.target.value.getUint8(1) > 100){
+      if (event.target.value.getUint8(1) > 50){
         alert_box.style.display = "flex";
       } else {
         alert_box.style.display = "none";
@@ -210,46 +222,86 @@ const startMeasurement = () => {
   })
 }
 
+const handleStyleChange = () => {
+  if (theme === 'light') {
+    setStyle(styles.bodyDark);
+    setDataUnit(styles.dataUnitDark);
+    setDataContainerStyle(styles.dataContainerDark);
+    setButtonContainerStyle(styles.buttonContainerDark);
+    setTheme('dark');
+  } else {
+    setStyle(styles.body);
+    setDataUnit(styles.dataUnit);
+    setDataContainerStyle(styles.dataContainer);
+    setButtonContainerStyle(styles.buttonContainer);
+    setTheme('light');
+  }
+}
+
+const disconnectDevice = () => {
+  if (device.gatt.connected) {
+    device.gatt.disconnect();
+    alert("Bluetooth device disconnected");
+    navigate('/');
+  }
+}
+
 
   return (
     
-    <html>
-      <head></head>
-      <body>
+    <div>
+      
+      <div className={style}>
+      
         <header>
+        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
           <Clock styles={clockStyles.clock2}/>   
         </header>
+        
         <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-          <section className={styles.dataContainer}>
+          
+          <section className={dataContainerStyle}>
+          
             {/* <button onClick={connectDevice}>coonnect</button> */}
             <div>
               <p className={ styles.dataText } id="bpm_low" >n.a.</p>
-              <p className={ styles.dataUnit }>Lowest BPM</p>
+              <p className={ dataUnit }>Lowest BPM</p>
             </div>
             <div>
               <p className={ styles.dataText } id="bpm_normal">n.a.</p>
-              <p className={ styles.dataUnit }>BPM</p>
+              <p className={ dataUnit }>BPM</p>
             </div>
             <div>
               <p className={ styles.dataText } id="bpm_high" >n.a.</p>
-              <p className={ styles.dataUnit }>Highest BPM</p>
+              <p className={ dataUnit }>Highest BPM</p>
             </div>
           </section> 
-          
+         
           <section className={ styles.graphContainer }>
-              <div className={ styles.graph }>
-              <IotChart data={ecg_now}/>
+            <div className={styles.alertBox} id="alertbox">
+              <p className={styles.alertIcon}><GoAlert/></p>
+              <p className={styles.alertText}>Heart rate too high!</p>
               </div>
-              <p className={ styles.graphName2 }>ECG</p>
+            <div className={ styles.graph }>
+            <IotChart data={ecg_now}/>
+            </div>
+            <p className={ styles.graphName }>ECG</p>
           </section>
+
+          <section className={buttonContainerStyle}>
+            <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+            <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
+            
+          </section>
+          
         </div>
         <footer >
-          <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+          
           
         </footer>
-      </body>
-    </html>
+      
+      </div>
+    </div>
   );
 }
 
