@@ -8,7 +8,7 @@ import 'chartjs-adapter-luxon';
 import { StreamingPlugin, RealTimeScale } from "chartjs-plugin-streaming";
 Chart.register(StreamingPlugin, RealTimeScale);
 
-    let bpm_array = new Array;
+let bpm_array = new Array;
 
 let i = 0;
 
@@ -23,8 +23,6 @@ export const IotChart = (props) => {
     if(bpm.current != undefined){
         bpm_array = bpm_array.concat(bpm.current);
     }
-
-    console.log(bpm_array);
   })
 
   const data = useRef({
@@ -55,19 +53,20 @@ export const IotChart = (props) => {
           onRefresh: function() {
             if (props.data === undefined) {
                 data.current.datasets[0].data.push({
-                    x: Date.now(),
-                    y: 0,
+                  x: Date.now(),
+                  y: 0,
                 });
             }
             else {
+
+              // If Dataarray gets to long, reset everything
               if(bpm.length > 50000){
                 bpm_array.length = 0;
                 i = 0;
               } 
-              //for(let i = 0; i < bpm.current.length; i++){
               data.current.datasets[0].data.push({
-                  x: Date.now(),
-                  y: bpm_array.at(i),
+                x: Date.now(),
+                y: bpm_array.at(i),
               }); 
               i++;
             }
