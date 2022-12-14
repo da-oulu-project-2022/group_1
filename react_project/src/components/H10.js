@@ -8,9 +8,11 @@ import clockStyles from './modules/Clock.module.css';
 import React, { useState, useEffect } from 'react'; 
 
 import { useNavigate } from 'react-router-dom';
-/* import { Chart } from "react-google-charts";
- */
+
 function H10(props) {
+  // Initialize treshhold to trigger alertbox;
+  const alert_treshhold = 100;
+
   // Initializing some constant gatt service uuids
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
@@ -63,17 +65,10 @@ function H10(props) {
     startMeasurement();
   }, []);
 
-  /**
-   * Update the value shown on the web page when a notification is
-   * received.
-   */
 
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-
-  function pasrseToInt24(byte_array){
+  // Parsing the first 3 bytes of the argument array into an integervalue with little endianess
+  // used for ECG handling
+  function parseToInt24(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
     if (value0.length == 1){ value0 = 0 + value0}
@@ -88,7 +83,9 @@ function H10(props) {
     return value;
   }
 
-  function pasrseToInt16(byte_array){
+  // Parsing the first 2 bytes of the argument array into an intergervalue with little endianess
+  // used for ACC handling
+  function parseToInt16(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
     if (value0.length == 1){ value0 = 0 + value0}
@@ -101,42 +98,39 @@ function H10(props) {
     return value;
   }
 
+
+  // Handle Batterylevelchange event
   const handleBatteryValueChanged = (event) => {
     //setBatteryLevel(event.target.value.getUint8(0) + '%');
     console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
   }
 
-
+  
   // Function for handeling the PMD-Data-Value change event
   // checks which type of dataframe is recives (eg. ECG or ACC)
   const handlePmdDataValueChanged = (event) => {
+    // 0 means ECG
     if (event.target.value.getUint8(0) === 0) {
-      console.log("\n\nNew values");
-      console.log(event.target.value);
       let sample;
       let sample_array = new Array;
-      console.log("start");
       for(let i = 10; i <  event.target.value.byteLength; i=i+3){
-        sample = pasrseToInt24(event.target.value.buffer.slice(i, i+3));
-        //sample_array.push(sample);
-        //await sleep(1);
-        //setTimeout(setEcg(sample), 150);
-        //setEcg(sample);
+        sample = parseToInt24(event.target.value.buffer.slice(i, i+3));
         sample_array.push(sample);
 
       }
+      // Sent all samples of one dataframe to the chart
       setEcg(sample_array);
-      console.log("finisched");
-      //setEcg(sample_array);
+
       
     }
+    // 2 means ACC
     else if (event.target.value.getUint8(0) === 2) {
       console.log("\n\nNew values");
       console.log(event.target.value);
 
-      let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
-      let ref_y = event.target.value.getInt8(13) * 256 + event.target.value.getInt8(12);
-      let ref_z = event.target.value.getInt8(15) * 256 + event.target.value.getInt8(14);
+      let ref_x = parseToInt16(event.target.value.buffer.slice(10, 12));
+      let ref_y = parseToInt16(event.target.value.buffer.slice(12, 14));
+      let ref_z = parseToInt16(event.target.value.buffer.slice(14, 16));
       console.log("x " + ref_x + " y " + ref_y + " z " + ref_z );
 
       let sample_x = ref_x + event.target.value.getInt8(18);
@@ -166,9 +160,9 @@ function H10(props) {
   // highest bpm values
   // lastly showing alert box if bpm goes over 100
   const handleHRValueChanged = (event) => {
-    console.log(event.target.value.getUint8(1));
-    bpm_normal.innerText = event.target.value.getUint8(1);
   
+    // Change data-display 
+    bpm_normal.innerText = event.target.value.getUint8(1);
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
       bpm_low.innerText = event.target.value.getUint8(1);
@@ -177,7 +171,9 @@ function H10(props) {
       highest_bpm = event.target.value.getUint8(1);
       bpm_high.innerText = event.target.value.getUint8(1);
     }
-    if (event.target.value.getUint8(1) > 100){
+
+    // Handle alertbox apperiance
+    if (event.target.value.getUint8(1) > alert_treshhold){
       alert_box.style.display = "flex";
     } else {
       alert_box.style.display = "none";
@@ -226,6 +222,8 @@ function H10(props) {
     })
   }
 
+  // Handling the onClick event of change theme button, updates state objects: style, dataUnit and theme
+  // with set function of each of these objects which triggers re-rendering of the page.
   const handleStyleChange = () => {
     if (theme === 'light') {
       setStyle(styles.bodyDark);
@@ -242,6 +240,7 @@ function H10(props) {
     }
   }
 
+  // Disconnect bluetooth-device and reroute to landingpage
   const disconnectDevice = () => {
     if (props.device.gatt.connected) {
       props.device.gatt.disconnect();
@@ -252,59 +251,52 @@ function H10(props) {
 
 
   return (
-  
-    <div>
+    <div className={style}>
+    
+      <header>
+      <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+        <Clock styles={clockStyles.clock2}/>   
+      </header>
       
-      <div className={style}>
-      
-        <header>
-        <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
-          <Clock styles={clockStyles.clock2}/>   
-        </header>
+      <div className={styles.content}>
         
-        <div className={styles.content}>
-          
-          <section className={dataContainerStyle}>
-          
-            {/* <button onClick={connectDevice}>coonnect</button> */}
-            <div>
-              <p className={ styles.dataText } id="bpm_low" >n.a.</p>
-              <p className={ dataUnit }>Lowest BPM</p>
-            </div>
-            <div>
-              <p className={ styles.dataText } id="bpm_normal">n.a.</p>
-              <p className={ dataUnit }>BPM</p>
-            </div>
-            <div>
-              <p className={ styles.dataText } id="bpm_high" >n.a.</p>
-              <p className={ dataUnit }>Highest BPM</p>
-            </div>
-          </section> 
-          
-          <section className={ styles.graphContainer }>
-            <div className={styles.alertBox} id="alertbox">
-              <p className={styles.alertIcon}><GoAlert/></p>
-              <p className={styles.alertText}>Heart rate too high!</p>
-              </div>
-            <div className={ styles.graph }>
-            <IotChart data={ecg_now}/>
-            </div>
-            <p className={ styles.graphName }>ECG</p>
-          </section>
+        <section className={dataContainerStyle}>
+        
+          {/* <button onClick={connectDevice}>coonnect</button> */}
+          <div>
+            <p className={ styles.dataText } id="bpm_low" >n.a.</p>
+            <p className={ dataUnit }>Lowest BPM</p>
+          </div>
+          <div>
+            <p className={ styles.dataText } id="bpm_normal">n.a.</p>
+            <p className={ dataUnit }>BPM</p>
+          </div>
+          <div>
+            <p className={ styles.dataText } id="bpm_high" >n.a.</p>
+            <p className={ dataUnit }>Highest BPM</p>
+          </div>
+        </section> 
+        
+        <section className={ styles.graphContainer }>
+          <div className={styles.alertBox} id="alertbox">
+            <p className={styles.alertIcon}><GoAlert/></p>
+            <p className={styles.alertText}>Heart rate too high!</p>
+          </div>
+          <div className={ styles.graph }>
+          <IotChart data={ecg_now}/>
+          </div>
+          <p className={ styles.graphName }>ECG</p>
+        </section>
 
-          <section className={buttonContainerStyle}>
-            <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
-            <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
-            
-          </section>
-          
-        </div>
-        <footer >
-          
-          
-        </footer>
-      
+        <section className={buttonContainerStyle}>
+          <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+          <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
+          @battery goes here
+        </section>
+        
       </div>
+      <footer >
+      </footer>
     </div>
   );
 }

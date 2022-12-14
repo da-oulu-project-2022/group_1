@@ -7,6 +7,9 @@ import { GoAlert } from "react-icons/go";
 import { useNavigate } from 'react-router-dom';
 
 function VeritySense(props) {
+  // Initialize treshhold to trigger alertbox;
+  const alert_treshhold = 100;
+
   // Initializing some constant gatt service uuids
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
   const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
@@ -67,7 +70,10 @@ function VeritySense(props) {
   // highest bpm values
   // lastly showing alert box if bpm goes over 100
   const handleHRValueChanged = (event) => {
+    // set current bpm in chart
     setBpm(event.target.value.getUint8(1));
+
+    // Change data-display
     bpm_normal.innerText = event.target.value.getUint8(1);
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
@@ -78,7 +84,8 @@ function VeritySense(props) {
       bpm_high.innerText = event.target.value.getUint8(1);
     }
 
-    if (event.target.value.getUint8(1) > 100){
+    // Handle alertbox apperiance
+    if (event.target.value.getUint8(1) > alert_treshhold){
       alert_box.style.display = "flex";
     } else {
       alert_box.style.display = "none";
@@ -130,6 +137,7 @@ function VeritySense(props) {
     }
   }
 
+  // Disconnect bluetooth-device and reroute to landingpage
   const disconnectDevice = () => {
     if (props.device.gatt.connected) {
       props.device.gatt.disconnect();
@@ -140,58 +148,53 @@ function VeritySense(props) {
 
   return (
     
-    <html>
-      <head></head>
-      <div className={style}>
-        <header>
+    <div className={style}>
+      <header>
         <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
-          <Clock styles={clockStyles.clock2}/>   
-        </header>
-        <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-          <section className={dataContainerStyle}>
-          
-            <div>
-              <p className={styles.dataText} id="bpm_low" >0</p>
-              <p className={dataUnit}>Lowest BPM</p>
+        <Clock styles={clockStyles.clock2}/>   
+      </header>
+      <div className={styles.content}>
+        <div className={styles.alertBox} id="alertbox">
+            <p className={styles.alertIcon}><GoAlert/></p>
+            <p className={styles.alertText}>Heart rate too high!</p>
+        </div>
+        <section className={dataContainerStyle}>
+        
+          <div>
+            <p className={styles.dataText} id="bpm_low" >0</p>
+            <p className={dataUnit}>Lowest BPM</p>
+          </div>
+          <div>
+            <p className={styles.dataText} id="bpm_normal">0</p>
+            <p className={dataUnit}>BPM</p>
+          </div>
+          <div>
+            <p className={styles.dataText} id="bpm_high" >0</p>
+            <p className={dataUnit}>Highest BPM</p>
+          </div>
+        </section> 
+        
+        <section className={ styles.graphContainer }>
+        
+        <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
+            
+            <div className={ styles.graph }>
+            <IotChart data={bpm_now}/>
             </div>
-            <div>
-              <p className={styles.dataText} id="bpm_normal">0</p>
-              <p className={dataUnit}>BPM</p>
-            </div>
-            <div>
-              <p className={styles.dataText} id="bpm_high" >0</p>
-              <p className={dataUnit}>Highest BPM</p>
-            </div>
-          </section> 
-          
-          <section className={ styles.graphContainer }>
-          
-          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-              
-              <div className={ styles.graph }>
-              <IotChart data={bpm_now}/>
-              </div>
 
-              <p className={ styles.graphName }>BPM</p>
-              
+            <p className={ styles.graphName }>BPM</p>
+            
 
-          </section>
-
-          <section className={buttonContainerStyle}>
+        </section>
+        <section className={buttonContainerStyle}>
           <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
           <button className={styles.button} onClick={handleThemeChange}> Change theme </button>
-
-
-          </section>
-          
-        </div>
-        <footer >
-          
-          
-        </footer>
+          @battery goes here
+        </section>
       </div>
-    </html>
+      <footer >
+      </footer>
+    </div>
   );
 }
 

@@ -22,7 +22,7 @@ export const IotChart = (props) => {
 
       
       {
-        label: "Dataset 1",
+        label: "BPM",
         data: [0],
 
         fill: false,
@@ -58,8 +58,8 @@ export const IotChart = (props) => {
                 });
             }
           },
-          delay: 0,
-          refresh: 0,
+          delay: 300,
+          refresh: 300,
         },
       },
     }
