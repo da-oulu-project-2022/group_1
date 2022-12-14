@@ -53,7 +53,6 @@ function VeritySense(props) {
   //Update the value shown on the web page when a notification is received.
 
   const handleBatteryValueChanged = (event) => {
-    //setBatteryLevel(event.target.value.getUint8(0) + '%');
     let currentBatteryLevel = event.target.value.getUint8(0)
     console.log("Batterylevel: " + currentBatteryLevel + '%');
     setBatteryLevel(currentBatteryLevel);

@@ -11,7 +11,6 @@ import { GoAlert } from "react-icons/go";
 
 function H10(props) {
   const [supportsBluetooth, setSupportsBluetooth] = useState(false);
-  const [batteryLevel, setBatteryLevel] = useState(null);
   const [acceleration, setAcceleration] = useState(null);
   /* const [ecg, setEcg] = useState(null); */
   const [device, setDevice] = useState(null);
@@ -38,6 +37,8 @@ function H10(props) {
   let alert_box;
   let [bpm_now, setBpm] = useState();
   let [ecg_now, setEcg] = useState();
+  let [batteryLevel, setBatteryLevel] = useState();
+  
 
   let lowest_bpm;
   let highest_bpm;  
@@ -86,8 +87,9 @@ function H10(props) {
   }
 
   const handleBatteryValueChanged = (event) => {
-    //setBatteryLevel(event.target.value.getUint8(0) + '%');
-    return event.target.value.getUint8(0).str() + '%';
+    let currentBatteryLevel = event.target.value.getUint8(0)
+    console.log("Batterylevel: " + currentBatteryLevel + '%');
+    setBatteryLevel(currentBatteryLevel);
   }
 
   const handlePmdDataValueChanged = (event) => {
@@ -216,7 +218,7 @@ function H10(props) {
       <body>
         <header>
           <Clock styles={clockStyles.clock2} />
-          <BatteryDetails/>
+          <BatteryDetails data={batteryLevel}/>
         </header>
         <div className={styles.content}>
           <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
