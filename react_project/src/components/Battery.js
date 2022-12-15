@@ -13,26 +13,36 @@ export default class BatteryDetails extends Component {
 
     getBatteryLevel = () => {
       if (this.props.data < 15) {
-        return <div className={ styles.veryLow }> Battery: { this.props.data + "%"} </div>
-      } else if (this.props.data > 15) {
-        return <div className={ styles.low }> Battery: { this.props.data + "%"}  </div>
-      } else if (this.props.data > 45) {
-        return <div className={ styles.halfFull }> Battery: { this.props.data + "%"} </div>
-      } else if (this.props.data > 75) {
-        return <div className={ styles.high }> Battery: { this.props.data + "%"} </div>
+        return <div><img className={ styles.veryLow }></img></div>
+      } else if (this.props.data < 45) {
+        return <div><img className={ styles.low }></img></div>
+      } else if (this.props.data < 75) {
+        return <div><img className={ styles.halfFull }></img></div>
+      } else if (this.props.data < 90) {
+        return <div><img className={ styles.high }></img></div>
       } else if (this.props.data > 90) {
-        return <div className={ styles.full }> Battery: { this.props.data + "%"} </div>
+        return <div><img className={ styles.full }></img></div>
       }
     };
 
     
-  
-    render() {
-      return ( 
-        <div>
-          { this.getBatteryLevel() }
-        </div>
-        
-      );
+  getBatteryText = () => {
+    if(this.props.theme == 'light'){
+      return <p className={ styles.text }>Battery: { this.props.data + "%"} </p>
+    }
+    else {
+      return <p className={ styles.textDark }>Battery: { this.props.data + "%"} </p>
     }
   }
+  
+  render() {
+    
+    return ( 
+      <div>
+        { this.getBatteryLevel() }
+        { this.getBatteryText() }
+      </div>
+    )
+  }
+}
+  

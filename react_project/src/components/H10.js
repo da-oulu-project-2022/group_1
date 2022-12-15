@@ -46,6 +46,7 @@ function H10(props) {
   let [theme, setTheme] = useState('light');
   let [dataContainerStyle, setDataContainerStyle] = useState(styles.dataContainer);
   let [buttonContainerStyle, setButtonContainerStyle] = useState(styles.buttonContainer);
+  let [batteryContainerStyle, setBatteryContainerStyle] = useState(styles.buttonContainer);
   
 
   let [dataUnit, setDataUnit] = useState(styles.dataUnit);
@@ -261,7 +262,7 @@ function H10(props) {
       <header>
       <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
         <Clock styles={clockStyles.clock2}/>   
-        <BatteryDetails data={batteryLevel}/>
+        
       </header>
       
       <div className={styles.content}>
@@ -295,9 +296,12 @@ function H10(props) {
         </section>
 
         <section className={buttonContainerStyle}>
-          <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
-          <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
-          @battery goes here
+          <img className={styles.device}></img>
+          <BatteryDetails data={batteryLevel} theme={theme}/>
+          <div className={styles.buttonGroup}>
+            <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+            <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
+          </div>
         </section>
         
       </div>

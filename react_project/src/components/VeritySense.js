@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 function VeritySense(props) {
   // Initialize treshhold to trigger alertbox;
-  const alert_treshhold = 100;
+  const alert_treshhold = 70;
 
   // Initializing some constant gatt service uuids
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
@@ -159,13 +159,9 @@ function VeritySense(props) {
       <header>
         <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
         <Clock styles={clockStyles.clock2}/>  
-        <BatteryDetails data={batteryLevel}/>
+        
       </header>
       <div className={styles.content}>
-        <div className={styles.alertBox} id="alertbox">
-            <p className={styles.alertIcon}><GoAlert/></p>
-            <p className={styles.alertText}>Heart rate too high!</p>
-        </div>
         <section className={dataContainerStyle}>
         
           <div>
@@ -184,20 +180,23 @@ function VeritySense(props) {
         
         <section className={ styles.graphContainer }>
         
-        <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-            
-            <div className={ styles.graph }>
-            <IotChart data={bpm_now}/>
-            </div>
+          <div className={styles.alertBox} id="alertbox">
+            <p className={styles.alertIcon}><GoAlert/></p>
+            <p className={styles.alertText}>Heart rate too high!</p>
+          </div>
+          <div className={ styles.graph }>
+          <IotChart data={bpm_now}/>
+          </div>
 
-            <p className={ styles.graphName }>BPM</p>
-            
-
+          <p className={ styles.graphName }>BPM</p>
         </section>
         <section className={buttonContainerStyle}>
-          <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
-          <button className={styles.button} onClick={handleThemeChange}> Change theme </button>
-          @battery goes here
+          <img className={styles.device}></img>
+          <BatteryDetails data={batteryLevel} theme={theme}/>
+          <div className={styles.buttonGroup}>
+            <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+            <button className={styles.button} onClick={handleThemeChange}> Change theme </button>
+          </div>
         </section>
       </div>
       <footer >
