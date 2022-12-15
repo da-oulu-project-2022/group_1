@@ -189,8 +189,6 @@ function VeritySense(props) {
           </div>
 
           <p className={ styles.graphName }>BPM</p>
-          
-
         </section>
         <section className={buttonContainerStyle}>
         <BatteryDetails data={batteryLevel} theme={theme}/>

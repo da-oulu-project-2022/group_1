@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 function H10(props) {
   // Initialize treshhold to trigger alertbox;
-  const alert_treshhold = 50;
+  const alert_treshhold = 100;
 
   // Initializing some constant gatt service uuids
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
