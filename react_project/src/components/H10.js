@@ -1,64 +1,77 @@
-import Clock from './Clock';
-import BarChart, { IotChart } from './Chart';
+
+import './modules/Connect.module.css';
+import Clock from './Clock.js';
+import { GoAlert } from "react-icons/go";
+import BarChart, { IotChart } from './ChartECG';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import BatteryDetails from './Battery'
-import { GoAlert } from "react-icons/go";  
-/* import { Chart } from "react-google-charts";
- */
+import React, { useState, useEffect } from 'react'; 
+
+import { useNavigate } from 'react-router-dom';
 
 function H10(props) {
-  const [supportsBluetooth, setSupportsBluetooth] = useState(false);
-  const [acceleration, setAcceleration] = useState(null);
-  /* const [ecg, setEcg] = useState(null); */
-  const [device, setDevice] = useState(null);
-  const [server, setServer] = useState(null);
-  const [services, setServices] = useState(null);
+  // Initialize treshhold to trigger alertbox;
+  const alert_treshhold = 100;
 
-  const navigate = useNavigate();
-
+  // Initializing some constant gatt service uuids
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Service = "0000180d-0000-1000-8000-00805f9b34fb";
   const Battery_Service = "0000180f-0000-1000-8000-00805f9b34fb";
 
+  // Initializing some constant gatt characteristic uuids
   const Cntrl_char = "fb005c81-02e7-f387-1cad-8acd2d8df0c8";
   const Data_char = "fb005c82-02e7-f387-1cad-8acd2d8df0c8";
   const Heart_rate_Char = "00002a37-0000-1000-8000-00805f9b34fb";
   const Battery_Char = "00002a19-0000-1000-8000-00805f9b34fb";
 
-  const ECG_Array = new Uint8Array([0x02, 0x00, 0x00, 0x01, 0x82, 0x00, 0x01, 0x01, 0x0E, 0x00]);
-  const ACC_Array = new Uint8Array([0x02, 0x02, 0x00, 0x01, 0x34, 0x00, 0x01, 0x01, 0x10, 0x00, 0x02, 0x01, 0x08, 0x00, 0x04, 0x01, 0x03]);
+  const navigate = useNavigate();
 
+  // Initializing the nessecary start-stream-requests
+  const ECG_Array = new Uint8Array([0x02, 0x00, 0x00, 0x01, 0x82, 0x00, 0x01, 0x01, 0x0E, 0x00]);
+  const ACC_Array = new Uint8Array([0x02, 0x02, 0x02, 0x01, 0x08, 0x00, 0x00, 0x01, 0xC8, 0x00, 0x01, 0x01, 0x10, 0x00]);
+
+  // Declaring some variables for bpm, alert box and a state variable to save current bpm
   let bpm_normal;
   let bpm_high;
   let bpm_low;
   let alert_box;
-  let [bpm_now, setBpm] = useState();
+  
+  // Initializing data to send to chart
   let [ecg_now, setEcg] = useState();
   let [batteryLevel, setBatteryLevel] = useState();
   
 
+  let [style, setStyle] = useState(styles.body);
+  let [theme, setTheme] = useState('light');
+  let [dataContainerStyle, setDataContainerStyle] = useState(styles.dataContainer);
+  let [buttonContainerStyle, setButtonContainerStyle] = useState(styles.buttonContainer);
+  
+
+  let [dataUnit, setDataUnit] = useState(styles.dataUnit);
+
+  // Variables for highest and lowest bpm of current session
   let lowest_bpm;
   let highest_bpm;  
 
+  // UseEffect hook for initializing some html elements and starting the measurements on polar sensor
+  // runs only on the first render by declaring an empty array dependency as second parameter
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     bpm_normal = document.getElementById("bpm_normal");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     bpm_high = document.getElementById("bpm_high");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     bpm_low = document.getElementById("bpm_low");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     alert_box = document.getElementById("alertbox");
     startMeasurement();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /**
-   * Update the value shown on the web page when a notification is
-   * received.
-   */
 
-
-  function pasrseToInt24(byte_array){
+  // Parsing the first 3 bytes of the argument array into an integervalue with little endianess
+  // used for ECG handling
+  function parseToInt24(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
     if (value0.length == 1) { value0 = 0 + value0 }
@@ -73,7 +86,9 @@ function H10(props) {
     return value;
   }
 
-  function pasrseToInt16(byte_array){
+  // Parsing the first 2 bytes of the argument array into an intergervalue with little endianess
+  // used for ACC handling
+  function parseToInt16(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
     if (value0.length == 1){ value0 = 0 + value0}
@@ -86,33 +101,40 @@ function H10(props) {
     return value;
   }
 
+
+  // Handle Batterylevelchange event
   const handleBatteryValueChanged = (event) => {
     let currentBatteryLevel = event.target.value.getUint8(0)
     console.log("Batterylevel: " + currentBatteryLevel + '%');
     setBatteryLevel(currentBatteryLevel);
   }
 
+  
+  // Function for handeling the PMD-Data-Value change event
+  // checks which type of dataframe is recives (eg. ECG or ACC)
   const handlePmdDataValueChanged = (event) => {
+    // 0 means ECG
     if (event.target.value.getUint8(0) === 0) {
-      console.log("\n\nNew values");
-      console.log(event.target.value);
       let sample;
+      let sample_array = new Array;
       for(let i = 10; i <  event.target.value.byteLength; i=i+3){
-        sample = pasrseToInt24(event.target.value.buffer.slice(i, i+3));
-        setEcg(sample);
-        if (i%30 == 1) {
-          
-          console.log(sample + " microvolt");
-        }
+        sample = parseToInt24(event.target.value.buffer.slice(i, i+3));
+        sample_array.push(sample);
+
       }
+      // Sent all samples of one dataframe to the chart
+      setEcg(sample_array);
+
+      
     }
+    // 2 means ACC
     else if (event.target.value.getUint8(0) === 2) {
       console.log("\n\nNew values");
       console.log(event.target.value);
 
-      let ref_x = event.target.value.getInt8(11) * 256 + event.target.value.getInt8(10);
-      let ref_y = event.target.value.getInt8(13) * 256 + event.target.value.getInt8(12);
-      let ref_z = event.target.value.getInt8(15) * 256 + event.target.value.getInt8(14);
+      let ref_x = parseToInt16(event.target.value.buffer.slice(10, 12));
+      let ref_y = parseToInt16(event.target.value.buffer.slice(12, 14));
+      let ref_z = parseToInt16(event.target.value.buffer.slice(14, 16));
       console.log("x " + ref_x + " y " + ref_y + " z " + ref_z );
 
       let sample_x = ref_x + event.target.value.getInt8(18);
@@ -136,34 +158,36 @@ function H10(props) {
     }
   }
 
-
+  // Handling the event of heartrate characteristic value changing
+  // firstly setting state variable bpm_now with setBpm to current the current event.target.value
+  // then updating the bpm_normal element innertext to show current bpm value and doing some checking with the values of lowest and 
+  // highest bpm values
+  // lastly showing alert box if bpm goes over 100
   const handleHRValueChanged = (event) => {
-    console.log(event.target.value.getUint8(1));
+  
+    // Change data-display 
     bpm_normal.innerText = event.target.value.getUint8(1);
-    setBpm(event.target.value.getUint8(1));
-    
     if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
-
-        bpm_low.innerText = event.target.value.getUint8(1);
-      
+      bpm_low.innerText = event.target.value.getUint8(1);
     } 
     if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
       highest_bpm = event.target.value.getUint8(1);
-
-        bpm_high.innerText = event.target.value.getUint8(1);
-      
+      bpm_high.innerText = event.target.value.getUint8(1);
     }
 
-    //add alertbox
-    //TODO: make it more fancy!!!
-      if (event.target.value.getUint8(1) > 100){
-        alert_box.style.display = "flex";
-      } else {
-        alert_box.style.display = "none";
-      }
+    // Handle alertbox apperiance
+    if (event.target.value.getUint8(1) > alert_treshhold){
+      alert_box.style.display = "flex";
+    } else {
+      alert_box.style.display = "none";
+    }
   }
 
+
+
+  // Starts the data streams from polar device by first getting the "device" from props which is passed down from App.js
+  // then searching for the needed services from "device.gatt" meaning the device server
   const startMeasurement = () => {
     props.device.gatt.getPrimaryServices()
     .then(services => { 
@@ -177,10 +201,10 @@ function H10(props) {
             .then(controlChar => {
               console.log(controlChar.properties);
               controlChar.writeValueWithResponse(ECG_Array)
-              .then(_ => {
+  /*             .then(_ => {
                 console.log(controlChar.properties);
                 controlChar.writeValueWithResponse(ACC_Array);
-              });
+              }); */
             })
           })
 
@@ -203,9 +227,28 @@ function H10(props) {
     })
   }
 
+  // Handling the onClick event of change theme button, updates state objects: style, dataUnit and theme
+  // with set function of each of these objects which triggers re-rendering of the page.
+  const handleStyleChange = () => {
+    if (theme === 'light') {
+      setStyle(styles.bodyDark);
+      setDataUnit(styles.dataUnitDark);
+      setDataContainerStyle(styles.dataContainerDark);
+      setButtonContainerStyle(styles.buttonContainerDark);
+      setTheme('dark');
+    } else {
+      setStyle(styles.body);
+      setDataUnit(styles.dataUnit);
+      setDataContainerStyle(styles.dataContainer);
+      setButtonContainerStyle(styles.buttonContainer);
+      setTheme('light');
+    }
+  }
+
+  // Disconnect bluetooth-device and reroute to landingpage
   const disconnectDevice = () => {
-    if (device.gatt.connected) {
-      device.gatt.disconnect();
+    if (props.device.gatt.connected) {
+      props.device.gatt.disconnect();
       alert("Bluetooth device disconnected");
       navigate('/');
     }
@@ -213,60 +256,57 @@ function H10(props) {
 
 
   return (
+    <div className={style}>
+    
+      <header>
+      <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
+        <Clock styles={clockStyles.clock2}/>   
+        <BatteryDetails data={batteryLevel}/>
+      </header>
+      
+      <div className={styles.content}>
+        
+        <section className={dataContainerStyle}>
+        
+          {/* <button onClick={connectDevice}>coonnect</button> */}
+          <div>
+            <p className={ styles.dataText } id="bpm_low" >n.a.</p>
+            <p className={ dataUnit }>Lowest BPM</p>
+          </div>
+          <div>
+            <p className={ styles.dataText } id="bpm_normal">n.a.</p>
+            <p className={ dataUnit }>BPM</p>
+          </div>
+          <div>
+            <p className={ styles.dataText } id="bpm_high" >n.a.</p>
+            <p className={ dataUnit }>Highest BPM</p>
+          </div>
+        </section> 
+        
+        <section className={ styles.graphContainer }>
+          <div className={styles.alertBox} id="alertbox">
+            <p className={styles.alertIcon}><GoAlert/></p>
+            <p className={styles.alertText}>Heart rate too high!</p>
+          </div>
+          <div className={ styles.graph }>
+          <IotChart data={ecg_now}/>
+          </div>
+          <p className={ styles.graphName }>ECG</p>
+        </section>
 
-    <html>
-      <body>
-        <header>
-          <Clock styles={clockStyles.clock2} />
-          <BatteryDetails data={batteryLevel}/>
-        </header>
-        <div className={styles.content}>
-          <p className={styles.alertBox} id="alertbox"><GoAlert/> Heart rate too high!</p>
-          <section className={styles.dataContainer}>
-            <button onClick={disconnectDevice}>Disconnect Device</button>
-            <div>
-              <p className={styles.dataText} id="bpm_low" >n.a.</p>
-              <p className={styles.dataUnit}>Lowest BPM</p>
-            </div>
-            <div>
-              <p className={styles.dataText} id="bpm_normal">n.a.</p>
-              <p className={styles.dataUnit}>BPM</p>
-            </div>
-            <div>
-              <p className={styles.dataText} id="bpm_high" >n.a.</p>
-              <p className={styles.dataUnit}>Highest BPM</p>
-            </div>
-          </section>
-
-          <section className={styles.graphContainer}>
-            <div className={styles.graph}>
-              <IotChart />
-            </div>
-            <div>
-              <p className={styles.dataText} id="bpm_normal">n.a.</p>
-              <p className={styles.dataUnit}>BPM</p>
-            </div>
-            <div>
-              <p className={styles.dataText} id="bpm_high" >n.a.</p>
-              <p className={styles.dataUnit}>Highest BPM</p>
-            </div>
-          </section> 
-          
-          <section className={ styles.graphContainer }>
-              <div className={ styles.graph }>
-              <IotChart data={ecg_now}/>
-              </div>
-              <p className={ styles.graphName2 }>ECG</p>
-          </section>
-        </div>
-        <footer >
-          <img style={{ height: 70, width: 300 }} src={require('../components/images/Simplefitlogo.png')} alt='' />
-
-        </footer>
-    </body>
-    </html >
+        <section className={buttonContainerStyle}>
+          <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+          <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
+          @battery goes here
+        </section>
+        
+      </div>
+      <footer >
+      </footer>
+    </div>
   );
 }
+
 
 export default H10;
 

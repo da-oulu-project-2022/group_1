@@ -8,21 +8,27 @@ import 'chartjs-adapter-luxon';
 import { StreamingPlugin, RealTimeScale } from "chartjs-plugin-streaming";
 Chart.register(StreamingPlugin, RealTimeScale);
 
+let bpm_array = new Array;
+
+let i = 0;
+
 //Chart base to visualize real-time BPM and ECG values.
 export const IotChart = (props) => {
 
   const bpm = useRef(props.data);
+  //console.log(props.data);
 
   useEffect(() => {
     bpm.current = props.data;
+    if(bpm.current != undefined){
+        bpm_array = bpm_array.concat(bpm.current);
+    }
   })
 
   const data = useRef({
     datasets: [
-
-      
       {
-        label: "BPM",
+        label: "ECG",
         data: [0],
 
         fill: false,
@@ -46,20 +52,27 @@ export const IotChart = (props) => {
         realtime: {
           onRefresh: function() {
             if (props.data === undefined) {
-              data.current.datasets[0].data.push({
-                x: Date.now(),
-                y: 0,
-              });
-            } else {
-                console.log(props.data);
                 data.current.datasets[0].data.push({
                   x: Date.now(),
-                  y: bpm.current,
+                  y: 0,
                 });
             }
+            else {
+
+              // If Dataarray gets to long, reset everything
+              if(bpm.length > 50000){
+                bpm_array.length = 0;
+                i = 0;
+              } 
+              data.current.datasets[0].data.push({
+                x: Date.now(),
+                y: bpm_array.at(i),
+              }); 
+              i++;
+            }
           },
-          delay: 300,
-          refresh: 300,
+          delay: 0,
+          refresh: 0,
         },
       },
     }

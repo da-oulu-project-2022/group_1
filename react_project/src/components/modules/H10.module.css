@@ -15,6 +15,12 @@ body {
   background-image: linear-gradient(to bottom, #ffffff, #b5bac3); 
 }
 
+.bodyDark {
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(to bottom, #383636, #24292f); 
+}
+
 header {
   background: url('../images/homePageBackgroundToptest.png');
   background-size: 100vw 15vh;
@@ -64,23 +70,14 @@ img {
   border-right: 4px solid black;
 }
 
-.alertBox{
- /* position: fixed;
-  display: none;
-  background-color: rgba(128, 128, 128, 0.8);
-  width: 50%;
-  height: 50%; 
-  text-align: center;*/
-  position: fixed;
-  display: none;
-  background-image: radial-gradient(  #F07470, #DC1C13);
-  box-shadow: 0px 20px 80px -25px #000000 ;
-  width: 50%;
-  height: 50%; 
-  text-align:center;
-  border-radius: 5px;
+.dataContainerDark {
+  width: 25vw;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-right: 4px solid rgb(255, 255, 255);
 }
-
 
 .battery {
   width: 10%;
@@ -114,31 +111,120 @@ img {
   text-align: center;
 }
 
-
-.blackBar {
-  width: 5px;
-  height: inherit;
-  background-color: black;
+.dataUnitDark {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #ffffff;
 }
 
+
+
 .graphContainer {
-  width: 65vw;  
+  width: 50vw;  
   height: inherit;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
+  
+  margin: 0vh 3vw;
 }
 
 
 .graph {
   width: inherit;  
+  height: fit-content;
 
 }
 
 .graphName {
   color: red;
+  width: inherit;
   background-color: white;
   font-size: 2rem ;
   text-align: center;
+}
+
+.buttonContainer {
+  width: 25vw;
+  border-left: 4px solid black;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+ 
+}
+
+.buttonContainerDark {
+  width: 25vw;
+  border-left: 4px solid white;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+ 
+}
+
+/* CSS */
+.button {
+  background: #de1818;
+  width: 80%;
+  padding: 10px;
+  border-radius: 8px;
+  border-color: #de1818;
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  text-align: center;
+
+  cursor: pointer;
+  font-weight: 700;
+  transition: all .2s ease-in-out;
+}
+
+
+.button-44:active,
+.button-44:focus {
+  border-bottom-style: none;
+  border-color: #dadada;
+  box-shadow: rgba(0, 0, 0, .3) 0 3px 3px inset;
+  outline: 0;
+}
+
+.button-44:hover {
+  border-bottom-style: none;
+  border-color: #dadada;
+}
+
+
+.alertBox{
+  position: absolute;
+  display: none;
+  background-image: radial-gradient(  #F07470, #DC1C13);
+  box-shadow: 0px 20px 80px -25px #000000 ;
+  width: 40vw;
+  height: 12vh; 
+  flex-direction: row;
+  justify-content:center;
+  align-items: center;
+  border-radius: 5px;
+  opacity: 70%;
+  margin-bottom: 50vh;
+}
+
+.alertText{
+  font-size: 3em;
+  text-align: center;
+  box-sizing: border-box;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+.alertIcon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5em;
+  margin: 0.3em;
 }
