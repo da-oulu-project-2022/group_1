@@ -19,18 +19,24 @@ function App() {
     if (connection) {
       setConnection(connection);
     }
-    
+  }
+
+  const isDisconnected = (connection) => {
+    console.log(connection)
+    if (connection) {
+      setConnection(connection);
+    }
   }
 
   return (
     <>
       <Routes>
-        <Route path="/" element= { <Connect func={ pullData } checkConnection={ isConnected }/> } />
+        <Route path="/*" element= { <Connect func={ pullData } checkConnection={ isDisconnected }/> } />
         {
-       //   connection && //RETURN THIS 
+          connection &&
           <>
-            <Route path="/VeritySense" element={<VeritySense device={device} />} />
-            <Route path="/H10" element={<H10 device={device} />} />
+            <Route path="/VeritySense" element={<VeritySense device={device} checkConnection={ isConnected }/>} />
+            <Route path="/H10" element={<H10 device={device} checkConnection={ isConnected }/>} />
           </>
         }
       </Routes>

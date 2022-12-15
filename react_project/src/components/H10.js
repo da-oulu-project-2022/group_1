@@ -5,6 +5,7 @@ import { GoAlert } from "react-icons/go";
 import BarChart, { IotChart } from './ChartECG';
 import styles from './modules/H10.module.css';
 import clockStyles from './modules/Clock.module.css';
+import BatteryDetails from './Battery'
 import React, { useState, useEffect } from 'react'; 
 
 import { useNavigate } from 'react-router-dom';
@@ -38,6 +39,8 @@ function H10(props) {
   
   // Initializing data to send to chart
   let [ecg_now, setEcg] = useState();
+  let [batteryLevel, setBatteryLevel] = useState();
+  
 
   let [style, setStyle] = useState(styles.body);
   let [theme, setTheme] = useState('light');
@@ -71,14 +74,14 @@ function H10(props) {
   function parseToInt24(byte_array){
     let m_array = new Uint8Array(byte_array)
     let value0 = m_array[0].toString(16)
-    if (value0.length == 1){ value0 = 0 + value0}
+    if (value0.length == 1) { value0 = 0 + value0 }
     let value1 = m_array[1].toString(16)
-    if (value1.length == 1){ value1 = 0 + value1}
+    if (value1.length == 1) { value1 = 0 + value1 }
     let value2 = m_array[2].toString(16)
-    if (value2.length == 1){ value2 = 0 + value2}
+    if (value2.length == 1) { value2 = 0 + value2 }
     let value = value2 + value1 + value0;
     value = parseInt(value, 16);
-    
+
     if (value > 8388607) { value = value - 16777216 };
     return value;
   }
@@ -101,8 +104,9 @@ function H10(props) {
 
   // Handle Batterylevelchange event
   const handleBatteryValueChanged = (event) => {
-    //setBatteryLevel(event.target.value.getUint8(0) + '%');
-    console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
+    let currentBatteryLevel = event.target.value.getUint8(0)
+    console.log("Batterylevel: " + currentBatteryLevel + '%');
+    setBatteryLevel(currentBatteryLevel);
   }
 
   
@@ -181,6 +185,7 @@ function H10(props) {
   }
 
 
+
   // Starts the data streams from polar device by first getting the "device" from props which is passed down from App.js
   // then searching for the needed services from "device.gatt" meaning the device server
   const startMeasurement = () => {
@@ -256,6 +261,7 @@ function H10(props) {
       <header>
       <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
         <Clock styles={clockStyles.clock2}/>   
+        <BatteryDetails data={batteryLevel}/>
       </header>
       
       <div className={styles.content}>

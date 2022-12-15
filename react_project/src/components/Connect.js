@@ -1,25 +1,22 @@
 import styles from './modules/Connect.module.css'
+import BatteryDetails from './Battery'
 import Clock from './Clock'
 import clock from './modules/Clock.module.css';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 
-export function isConnected() { // This is to be used in preventing "unauthorized" access
-  return true
-}
 
 export function Connect(props) {
 
   const navigate = useNavigate();
-  const [device, setDevice] = useState();
-  const [isConnected, setConnection] = useState(); // This is to be used in preventing "unauthorized" access
+
   const supportedDevices = [
     "Polar H10",
     "Polar Sense"
   ]
 
   const connectionEstablished = (connectedDeviceName) => {
-    console.log("Connected device name: ${connectedDeviceName}");
+    console.log(`Connected device name: ${connectedDeviceName}`);
     if (connectedDeviceName.includes(supportedDevices[0])) {
       navigate('/H10');
     } else if (connectedDeviceName.includes(supportedDevices[1])){
@@ -64,7 +61,9 @@ export function Connect(props) {
 
     return(
       <div>
-        <head></head>
+        <head>
+          <BatteryDetails/>
+        </head>
         <body>
           <header>
           <img  src={require('../components/images/Simplefitlogo.png')} alt=''/>
@@ -80,8 +79,9 @@ export function Connect(props) {
           <footer >
             
           </footer>
-        </body>
-      </div>
+          </body>
+        </div>
+      
     ) 
 }
 

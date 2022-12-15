@@ -3,6 +3,7 @@ import { IotChart } from './Chart';
 import styles from './modules/VeritySense.module.css';
 import clockStyles from './modules/Clock.module.css';
 import React, { useEffect, useState } from 'react';   
+import BatteryDetails from "./Battery"
 import { GoAlert } from "react-icons/go";
 import { useNavigate } from 'react-router-dom';
 
@@ -28,6 +29,8 @@ function VeritySense(props) {
 
   // Initializing data to send to chart
   let [bpm_now, setBpm] = useState();
+
+  let [batteryLevel, setBatteryLevel] = useState();
 
   // Some state variables used in change theme feature
   let [style, setStyle] = useState(styles.body);
@@ -59,9 +62,11 @@ function VeritySense(props) {
 
   // Function for handeling batterylevelchange events
   const handleBatteryValueChanged = (event) => {
-    //setBatteryLevel(event.target.value.getUint8(0) + '%');
-    console.log("Batterylevel: " + event.target.value.getUint8(0) + '%');
+    let currentBatteryLevel = event.target.value.getUint8(0)
+    console.log("Batterylevel: " + currentBatteryLevel + '%');
+    setBatteryLevel(currentBatteryLevel);
   }
+
 
 
   // Handling the event of heartrate characteristic value changing
@@ -75,11 +80,13 @@ function VeritySense(props) {
 
     // Change data-display
     bpm_normal.innerText = event.target.value.getUint8(1);
-    if (lowest_bpm == undefined || lowest_bpm > event.target.value.getUint8(1)){
+      
+    if (lowest_bpm === undefined || lowest_bpm > event.target.value.getUint8(1)){
       lowest_bpm = event.target.value.getUint8(1);
       bpm_low.innerText = event.target.value.getUint8(1);
     }
-    if (highest_bpm == undefined || highest_bpm < event.target.value.getUint8(1)){
+
+    if (highest_bpm === undefined || highest_bpm < event.target.value.getUint8(1)){
       highest_bpm = event.target.value.getUint8(1);
       bpm_high.innerText = event.target.value.getUint8(1);
     }
@@ -151,7 +158,8 @@ function VeritySense(props) {
     <div className={style}>
       <header>
         <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
-        <Clock styles={clockStyles.clock2}/>   
+        <Clock styles={clockStyles.clock2}/>  
+        <BatteryDetails data={batteryLevel}/>
       </header>
       <div className={styles.content}>
         <div className={styles.alertBox} id="alertbox">
