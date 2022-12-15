@@ -13,15 +13,15 @@ export default class BatteryDetails extends Component {
 
     getBatteryLevel = () => {
       if (this.props.data < 15) {
-        return <div className={ styles.veryLow }> Battery: { this.props.data + "%"} </div>
+        return <div><img className={ styles.veryLow }></img><p className={ styles.text }>Battery: { this.props.data + "%"} </p></div>
       } else if (this.props.data > 15) {
-        return <div className={ styles.low }> Battery: { this.props.data + "%"}  </div>
+        return <div><img className={ styles.low }></img><p className={ styles.text }>Battery: { this.props.data + "%"}  </p></div>
       } else if (this.props.data > 45) {
-        return <div className={ styles.halfFull }> Battery: { this.props.data + "%"} </div>
+        return <div><img className={ styles.halfFull }></img><p className={ styles.text }>Battery: { this.props.data + "%"} </p></div>
       } else if (this.props.data > 75) {
-        return <div className={ styles.high }> Battery: { this.props.data + "%"} </div>
+        return <div><img className={ styles.high }></img><p className={ styles.text }>Battery: { this.props.data + "%"} </p></div>
       } else if (this.props.data > 90) {
-        return <div className={ styles.full }> Battery: { this.props.data + "%"} </div>
+        return <div><img className={ styles.full }></img><p className={ styles.text }>Battery: { this.props.data + "%"} </p></div>
       }
     };
 

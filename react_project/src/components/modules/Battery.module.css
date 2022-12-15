@@ -1,83 +1,40 @@
 
 .veryLow {
-    background-color: red;
-    background: url('../images/batteryVeryLow.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    width: 10vw;
-    height: 10vw; 
-    text-align: center;
+    content: url('../images/batteryVeryLow.png');
+    width: 10em;
+    height: 4em;
+    margin: 0;
 }
 .low {
-    background-color: orange;
-    background: url('../images/batteryLow.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    width: 10vw;
-    height: 10vw; 
-    text-align: center;
-    
+    content: url('../images/batteryLow.png');
+    width: 10em;
+    height: 4em;
+    margin: 0;
 
 }
 .halfFull {
-    background-color: yellow;
-    background: url('../images/batteryHalfFull.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    width: 10vw;
-    height: 10vw; 
-    text-align: center;
+    
+    content: url('../images/batteryHalfFull.png');
+    width: 10em;
+    height: 4em;
+    margin: 0;
 }
 .high {
-    background-color: lightgreen;
-    background: url('../images/batteryHigh.png');
-    background-size: contain;
-    background-repeat: no-repeat;
 
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    width: 10vw;
-    height: 10vw; 
-    text-align: center;
+    content: url('../images/batteryHigh.png');
+    width: 10em;
+    height: 4em;
+    margin: 0;
 }
 .full{
-    background-color: lawngreen;
-    background: url('../images/batteryFull.png');
-    background-size: contain;
-    background-repeat: no-repeat;
+    content: url('../images/batteryFull.png');
+    width: 10em;
+    height: 4em;
+    margin: 0;  
+}
 
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    width: 10vw;
-    height: 10vw; 
+.text{
+    font-size: 1.5rem;
+    font-weight: 600;
     text-align: center;
 }

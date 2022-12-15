@@ -159,7 +159,7 @@ function VeritySense(props) {
       <header>
         <img style={{height: 70, width: 300}} src={require('../components/images/Simplefitlogo.png')} alt=''/>
         <Clock styles={clockStyles.clock2}/>  
-        <BatteryDetails data={batteryLevel}/>
+        
       </header>
       <div className={styles.content}>
         <div className={styles.alertBox} id="alertbox">
@@ -197,7 +197,7 @@ function VeritySense(props) {
         <section className={buttonContainerStyle}>
           <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
           <button className={styles.button} onClick={handleThemeChange}> Change theme </button>
-          @battery goes here
+          <BatteryDetails data={batteryLevel}/>
         </section>
       </div>
       <footer >

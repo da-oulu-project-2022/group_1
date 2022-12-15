@@ -61,27 +61,21 @@ export function Connect(props) {
 
     return(
       <div>
-        <head>
-          <BatteryDetails/>
-        </head>
-        <body>
-          <header>
-          <img  src={require('../components/images/Simplefitlogo.png')} alt=''/>
-          </header>
-          <div className={styles.content}>
-            <div className={ styles.container }>
-                <p className={ styles.welcome }>Welcome to SimpleFit</p>
-                <Clock styles ={clock.clock1} />
-                <button onClick={ onClickEvent } className={ styles.button }>Connect Device</button>
-            </div>
+        <BatteryDetails/>
+        <header>
+        <img  src={require('../components/images/Simplefitlogo.png')} alt=''/>
+        </header>
+        <div className={styles.content}>
+          <div className={ styles.container }>
+              <p className={ styles.welcome }>Welcome to SimpleFit</p>
+              <Clock styles ={clock.clock1} />
+              <button onClick={ onClickEvent } className={ styles.button }>Connect Device</button>
           </div>
-
-          <footer >
-            
-          </footer>
-          </body>
         </div>
-      
+        <footer >
+          
+        </footer>
+      </div>
     ) 
 }
 
