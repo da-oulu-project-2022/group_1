@@ -61,7 +61,7 @@ export function Connect(props) {
 
     return(
       <div>
-        <BatteryDetails/>
+        
         <header>
         <img  src={require('../components/images/Simplefitlogo.png')} alt=''/>
         </header>

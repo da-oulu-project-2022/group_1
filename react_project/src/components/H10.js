@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 function H10(props) {
   // Initialize treshhold to trigger alertbox;
-  const alert_treshhold = 100;
+  const alert_treshhold = 50;
 
   // Initializing some constant gatt service uuids
   const PMD_Service = "fb005c80-02e7-f387-1cad-8acd2d8df0c8";
@@ -296,9 +296,11 @@ function H10(props) {
         </section>
 
         <section className={buttonContainerStyle}>
-          <BatteryDetails data={batteryLevel}/>
-          <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
-          <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
+          <BatteryDetails data={batteryLevel} theme={theme}/>
+          <div className={styles.buttonGroup}>
+            <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
+            <button className={styles.button} onClick={handleStyleChange}> Change theme </button>
+          </div>
         </section>
         
       </div>

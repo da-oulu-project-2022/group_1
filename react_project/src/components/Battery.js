@@ -21,19 +21,28 @@ export default class BatteryDetails extends Component {
       } else if (this.props.data < 90) {
         return <div><img className={ styles.high }></img></div>
       } else if (this.props.data > 90) {
-        return <div><img className={ styles.full }></img>asdad</div>
+        return <div><img className={ styles.full }></img></div>
       }
     };
 
     
-  
-    render() {
-      return ( 
-        <div>
-          { this.getBatteryLevel() }
-          <p className={ styles.text }>Battery: { this.props.data + "%"} </p>
-        </div>
-        
-      );
+  getBatteryText = () => {
+    if(this.props.theme == 'light'){
+      return <p className={ styles.text }>Battery: { this.props.data + "%"} </p>
+    }
+    else {
+      return <p className={ styles.textDark }>Battery: { this.props.data + "%"} </p>
     }
   }
+  
+  render() {
+    
+    return ( 
+      <div>
+        { this.getBatteryLevel() }
+        { this.getBatteryText() }
+      </div>
+    )
+  }
+}
+  
