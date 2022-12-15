@@ -168,6 +168,13 @@ img {
  
 }
 
+.device {
+  content: url('../images/polarH10.png');
+  margin: 0;
+  width: 10em;
+  height: 5em;
+}
+
 .buttonGroup {
   display: flex;
   justify-content: center;
@@ -206,6 +213,9 @@ img {
   border-bottom-style: none;
   border-color: #dadada;
 }
+
+
+
 
 
 .alertBox{

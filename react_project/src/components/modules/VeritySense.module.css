@@ -162,6 +162,13 @@ img {
  
 }
 
+.device {
+  content: url('../images/polarVeritySense.png');
+  margin: 0;
+  width: 7.5em;
+  height: 7.5em;
+}
+
 .buttonGroup {
   display: flex;
   justify-content: center;

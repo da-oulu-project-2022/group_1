@@ -296,6 +296,7 @@ function H10(props) {
         </section>
 
         <section className={buttonContainerStyle}>
+          <img className={styles.device}></img>
           <BatteryDetails data={batteryLevel} theme={theme}/>
           <div className={styles.buttonGroup}>
             <button className={styles.button}onClick={disconnectDevice}>Disconnect Device</button>
